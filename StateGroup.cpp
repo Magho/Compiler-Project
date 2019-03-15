@@ -7,14 +7,14 @@ using namespace std;
 class StateGroup{
 public :
     vector<Node>* states;
-    Node potentialNode;
+    Node *potentialNode;
     int number =-1;
     StateGroup(int Num){
         number = Num;
-        potentialNode =*( new Node(Num,false,false,""));
+        potentialNode =( new Node(Num,false,false,""));
     }
 
-    Node getGroupNode(){
+    Node* getGroupNode(){
         return potentialNode;
     }
     bool addState(Node toAdd){
@@ -23,8 +23,8 @@ public :
                 return false;
             }
         }
-        potentialNode.start =potentialNode.start|| toAdd.start;
-        potentialNode.final =potentialNode.final||toAdd.final;
+        potentialNode->start =potentialNode->start|| toAdd.start;
+        potentialNode->final =potentialNode->final||toAdd.final;
         //TODO token combination
         states->push_back(toAdd);
         return true;
