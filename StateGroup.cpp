@@ -7,17 +7,25 @@ using namespace std;
 class StateGroup{
 public :
     vector<Node>* states;
+    Node potentialNode;
     int number =-1;
     StateGroup(int Num){
         number = Num;
+        potentialNode =*( new Node(Num,false,false,""));
     }
 
+    Node getGroupNode(){
+        return potentialNode;
+    }
     bool addState(Node toAdd){
         for (Node s : *states){
             if(s.Number== toAdd.Number){
                 return false;
             }
         }
+        potentialNode.start ||=toAdd.start;
+        potentialNode.final ||=toAdd.final;
+        //TODO token combination
         states->push_back(toAdd);
         return true;
     }
