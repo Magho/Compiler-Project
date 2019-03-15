@@ -14,7 +14,9 @@ class Node {
         vector<Transition> transitions;
     public:
         Node (int Number, bool start, bool final, string tokenName);
-        void addTransition (Node node_to, char transitionSymbol);
+        void addTransition (Node& node_to, char transitionSymbol);
         vector<Transition> getPossibleTransitions ();
         Node getNextNode (char transitionSymbol); // Move
+        bool isStart(Node node);
+        bool isFinal(Node node);
 };
