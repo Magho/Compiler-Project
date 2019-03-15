@@ -3,10 +3,6 @@
 #include "Transition.h"
 using namespace std;
 
-int main(){
-    return 0;
-}
-
 
 class StateGroup{
 public :
@@ -24,7 +20,7 @@ public :
         }
         states->push_back(toAdd);
         return true;
-        }
+    }
     bool operator ==(StateGroup s2){
         int num = s2.states->size();
         for(Node sElem : *states){
@@ -43,7 +39,7 @@ public :
             return false;
         }else{
             return false;
-            //Error a potential repeated element in group
+            //Error -- a potential repeated element in group
         }
     }
 

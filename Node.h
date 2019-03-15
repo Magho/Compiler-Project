@@ -6,13 +6,12 @@ using namespace std;
 class Transition;
 
 class Node {
-    private:
+    public:
         int Number;
         bool start;
         bool final;
         string tokenName;
         vector<Transition> transitions;
-    public:
         Node (int Number, bool start, bool final, string tokenName);
         void addTransition (Node& node_to, char transitionSymbol);
         vector<Transition> getPossibleTransitions ();
