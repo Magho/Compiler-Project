@@ -1,11 +1,15 @@
 #include<vector>
 #include<string>
-#include "Node.h"
+#include "Node.cpp"
 
 using namespace std;
 
 class Transition {
     public :
-        Node toNode;
+        Transition(Node* n,char c){
+            this.toNode = n;
+            this.transitionSymbol =c;
+        }
+        Node *toNode;
         char transitionSymbol;
 };

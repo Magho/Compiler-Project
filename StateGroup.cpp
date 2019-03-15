@@ -23,8 +23,8 @@ public :
                 return false;
             }
         }
-        potentialNode.start ||=toAdd.start;
-        potentialNode.final ||=toAdd.final;
+        potentialNode.start =potentialNode.start|| toAdd.start;
+        potentialNode.final =potentialNode.final||toAdd.final;
         //TODO token combination
         states->push_back(toAdd);
         return true;
