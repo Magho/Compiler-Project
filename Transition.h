@@ -1,11 +1,18 @@
 #include<vector>
 #include<string>
-#include "Node.h"
 
 using namespace std;
 
+class Node;
+
 class Transition {
-    public :
-        Node toNode;
-        char transitionSymbol;
+public :
+
+    Node* toNode; // pointer to the node -- we don't want a copy we need the node itself
+    char transitionSymbol;
+
+    Transition(Node* node, char symbol ) {
+        this->toNode = node;
+        this->transitionSymbol = symbol;
+    };
 };
