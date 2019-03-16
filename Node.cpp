@@ -9,20 +9,21 @@ Node::Node(int Number, bool start, bool final, string tokenName) {
 }
 
 void Node::addTransition(Node* node_to, char transitionSymbol) {
-    Transition trans (node_to, transitionSymbol);
+    // used dynamic allocation to avoid deleting this trans when going out of scope
+    Transition *trans  = new Transition (node_to, transitionSymbol);
     this->transitions.push_back(trans);
 }
 
-vector<Transition> Node::getPossibleTransitions() {
+vector<Transition*> Node::getPossibleTransitions() {
     return this->transitions;
 }
 
 vector<Node> Node::getNextNode(char transSymbol) {
     vector<Node> nextNodes;
     for (auto &transition : this->transitions) {
-        if (transition.transitionSymbol == transSymbol) {
+        if (transition->transitionSymbol == transSymbol) {
             // toNode is a pointer so used * to access its value
-            nextNodes.push_back(*transition.toNode);
+            nextNodes.push_back(*transition->toNode);
         }
     }
     return nextNodes;

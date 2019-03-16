@@ -10,11 +10,12 @@ private:
     bool start;
     bool final;
     string tokenName;
-    vector<Transition> transitions;
+    // vector of pointers to all transitions
+    vector<Transition*> transitions;
 public:
     Node (int Number, bool start, bool final, string tokenName);
     void addTransition (Node* node_to, char transitionSymbol);
-    vector<Transition> getPossibleTransitions ();
+    vector<Transition*> getPossibleTransitions ();// return vector of pointers
     vector<Node> getNextNode (char transSymbol); // Move
     bool isStart();
     bool isFinal();
