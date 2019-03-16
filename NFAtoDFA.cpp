@@ -2,20 +2,15 @@
 #include<vector>
 #include "StateGroup.cpp"
 using namespace std;
-#define EPSILON '~'
+#define EPSILON 163
 int main (){
 
 }
 class  NFAtoDFA{
 private :
+    Node * fai;
     vector<Node> *NFAStates;
     vector<StateGroup *> groupesTable;
-public :
-    NFAtoDFA(vector<Node> *states){
-        NFAStates = states;
-    }
-    ~NFAtoDFA(){
-    }
     bool isIn(vector<Node> * nodes,Node *n ){
         for(Node i : *nodes){
             if(i.Number == n->Number)return true;
@@ -57,6 +52,14 @@ public :
         return sts;
     }
 
+public :
+    NFAtoDFA(vector<Node> *states){
+        NFAStates = states;
+    }
+    ~NFAtoDFA(){
+
+    }
+
     void operate(){
 
         /*finding start state to start making DFA from its closure*/
@@ -79,28 +82,30 @@ public :
         fillingStk.push_back(st);
 
         /*constructing fai*/
-        Node * fai = new Node(0,false,false,"");
+        fai = new Node(0,false,false,"");
         for(char i=0;i<256;i++){
             Transition * t = new Transition();
             t->toNode = fai;
             t->transitionSymbol = i;
             fai->transitions.push_back(*t);
         }
+        StateGroup * faiG = new StateGroup(0);
+        faiG->addState(fai);
          /*looping until the stack is empty*/
         int ctr=0;
         while(!fillingStk.empty()){
             tempStates = fillingStk.back()->states;
-            for(char i =0;i<256;i++){                         // for each symbol in ascii table
+            for(char i =0;i<128;i++){                         // for each symbol in ascii table
                 vector<Node>* closure = findClosure(findToStates(tempStates,i));
                 if((*closure).size()==0){
                     Transition * t = new Transition();
                     t->toNode = fai;
                     t->transitionSymbol = i;
-                    fillingStk.back()->potentialNode->transitions.push_back(*t);
+                    fillingStk.back()->getGroupNode()->transitions.push_back(*t);
                     continue;
                 }
+                ctr++;
                 StateGroup *st = new StateGroup(ctr);      // creating a group of states
-                            ctr++;
                 st->states = closure;                        // adding the states to go at symbol i
 
                 bool exists=false;
@@ -109,18 +114,18 @@ public :
                         exists=true;
                         ctr--;
                         Transition * t = new Transition();
-                        t->toNode = sg->potentialNode;
+                        t->toNode = sg->getGroupNode();
                         t->transitionSymbol = i;
-                        fillingStk.back()->potentialNode->transitions.push_back(*t);
+                        fillingStk.back()->getGroupNode()->transitions.push_back(*t);
                         //put the damn info to the current node in fillingst.ba
                         break;
                     }
                 }
                 if(!exists){                                  // if it doesn't exist we push it else it will be neglected
                     Transition * t = new Transition();
-                    t->toNode = st->potentialNode;
+                    t->toNode = st->getGroupNode();
                     t->transitionSymbol = i;
-                    fillingStk.back()->potentialNode->transitions.push_back(*t);
+                    fillingStk.back()->getGroupNode()->transitions.push_back(*t);
                     groupesTable.push_back(st);
                     fillingStk.push_back(st);
                 }
@@ -128,13 +133,23 @@ public :
             fillingStk.pop_back();
 
         }
+
+        groupesTable.push_back(faiG);
         //at this point the closures must be filled with all the 256 ascii inputs
         //next step
         //2- test that part by printing results
-        //3- convert from groupes to nodes
+        //3- convert from groupes to nodes And add the dummy to the end
         //4- do minmization on nodes
 
-
+    }
+    vector<Node> getResult(){
+        vector<Node> *res = new vector<Node>();
+        while(!groupesTable.empty()){
+            res->push_back(*(groupesTable.back()->getGroupNode()));
+            groupesTable.pop_back();
+        }
+        res->push_back(*fai);
+        return *res;
     }
 
 };

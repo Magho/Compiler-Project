@@ -5,28 +5,32 @@ using namespace std;
 
 
 class StateGroup{
+private:
+        Node *potentialNode;
 public :
     vector<Node>* states;
-    Node *potentialNode;
     int number =-1;
     StateGroup(int Num){
         number = Num;
-        potentialNode =( new Node(Num,false,false,""));
+        potentialNode = new Node(Num,false,false,"");
     }
 
     Node* getGroupNode(){
+        for(Node toAdd : *states){
+            potentialNode->start =potentialNode->start|| toAdd.start;
+            potentialNode->final =potentialNode->final||toAdd.final;
+            //TODO token combination
+        }
         return potentialNode;
     }
-    bool addState(Node toAdd){
+    bool addState(Node * toAdd){
         for (Node s : *states){
-            if(s.Number== toAdd.Number){
+            if(s.Number== toAdd->Number){
                 return false;
             }
         }
-        potentialNode->start =potentialNode->start|| toAdd.start;
-        potentialNode->final =potentialNode->final||toAdd.final;
-        //TODO token combination
-        states->push_back(toAdd);
+
+        states->push_back(*toAdd);
         return true;
     }
     bool operator ==(StateGroup s2){
