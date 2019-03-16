@@ -1,14 +1,16 @@
 #include <utility>
 #include "Node.h"
 
-Node::Node(int Number, bool start, bool final, string tokenName) {
+Node::Node(int Number, bool start, bool final) {
     this->Number     =   Number    ;
     this->start      =   start     ;
     this->final      =   final     ;
-    this->tokenName  = std::move(tokenName);
 }
 
 void Node::addTransition(Node* node_to, char transitionSymbol) {
+    if (transitionSymbol != '~') {
+        node_to->lexeme = this->lexeme + transitionSymbol;
+    }
     // used dynamic allocation to avoid deleting this trans when going out of scope
     Transition *trans  = new Transition (node_to, transitionSymbol);
     this->transitions.push_back(trans);
@@ -37,9 +39,9 @@ bool Node::isFinal() {
     return this->final;
 }
 
-string Node::getTokenName() {
+string Node::getlexeme() {
     // if no token name return empty string
-    return this->tokenName;
+    return this->lexeme;
 }
 
 int Node::getNodeNumber() {
