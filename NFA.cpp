@@ -1,5 +1,4 @@
 #include <utility>
-
 #include <iostream>
 #include "NFA.h"
 
@@ -185,18 +184,26 @@ string NFA::getTokenName() {
 
 void NFA::printNFA() {
     for (int i = 0; i < this->startNodes.size(); ++i) {
-        printRecursive(startNodes[i]);
+        printRecursive(startNodes[i], 0);
     }
 }
 
-void NFA::printRecursive(Node* node) {
+void NFA::printRecursive(Node* node, int depth) {
     if (node->getPossibleTransitions().empty()){
         cout << node->getNodeNumber() << "#" << endl;
         return;
     }
     cout << node->getNodeNumber() << "--> ";
     vector<Transition*> trans = node->getPossibleTransitions();
+    int i = 0;
     for (auto &tran : trans) {
-        printRecursive(tran->toNode);
+        if (i != 0){
+            for (int j = 0; j < depth; j++) {
+                cout << "     ";
+            }
+            cout << "|" << "--> ";
+        }
+        printRecursive(tran->toNode, depth+1);
+        i++;
     }
 }

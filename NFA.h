@@ -11,7 +11,7 @@ private:
     vector<Node*> startNodes;// vector of pointers to all startNodes
     vector<Node*> finalNodes;// vector of pointers to all finalNodes
     vector<Node*> graph;// vector of pointers to all Nodes in the NFA
-    void printRecursive(Node* node);
+    void printRecursive(Node* node, int depth);
     void epsilonClosureRecursive(Node* node, vector<Node*>* result);
 
 public:

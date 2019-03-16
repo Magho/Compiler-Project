@@ -16,8 +16,6 @@ namespace {
     }
 }
 
-
-
 TEST_F(ClassDeclaration, NextNodeTest){
 
     Node node  (0, true, false); // create start node
@@ -138,4 +136,45 @@ TEST_F(ClassDeclaration, NFAOperationsTest){
     ASSERT_EQ(kleneeNfaEpsilonClosure.front()->getNodeNumber(),0);
     ASSERT_EQ(kleneeNfaEpsilonClosure.back()->getNodeNumber(),1);
 
+}
+
+TEST_F(ClassDeclaration, printNFATest){
+
+    Node node0(0,true, false);
+    Node node1(1,false, false);
+    Node node2(2,false, true);
+    Node node3(3,false, true);
+    Node node4(4,false, true);
+    Node node5(5,false, true);
+    Node node6(6,false, true);
+
+    node0.addTransition(&node1, 'a'); // send address of the node
+    node0.addTransition(&node4, 'a'); // send address of the node
+    node0.addTransition(&node5, 'a'); // send address of the node
+    node1.addTransition(&node2, 'a'); // send address of the node
+    node1.addTransition(&node3, 'a'); // send address of the node
+    node1.addTransition(&node6, 'a'); // send address of the node
+
+    vector<Node*> nfagraph;
+    nfagraph.push_back(&node0);
+    nfagraph.push_back(&node1);
+    nfagraph.push_back(&node2);
+    nfagraph.push_back(&node3);
+    nfagraph.push_back(&node4);
+    nfagraph.push_back(&node5);
+    nfagraph.push_back(&node6);
+
+    vector<Node*> nfaStartNodes;
+    nfaStartNodes.push_back(&node0);
+
+    vector<Node*> nfaFinalNodes;
+    nfaFinalNodes.push_back(&node2);
+    nfaFinalNodes.push_back(&node3);
+    nfaFinalNodes.push_back(&node4);
+    nfaFinalNodes.push_back(&node5);
+    nfaFinalNodes.push_back(&node6);
+
+    cout << endl;
+    NFA nfa (nfagraph, nfaStartNodes, nfaFinalNodes, "id");
+    nfa.printNFA();
 }

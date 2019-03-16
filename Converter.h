@@ -11,5 +11,3 @@ public:
     // it creates for each stack a NFA then combine them
     CombinedNFA regularExpressionToNFA (vector<stack<char>> reExpressions);
 };
-
-
