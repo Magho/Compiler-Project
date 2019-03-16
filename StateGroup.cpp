@@ -19,7 +19,7 @@ public :
         for(Node toAdd : *states){
             potentialNode->start =potentialNode->start|| toAdd.start;
             potentialNode->final =potentialNode->final||toAdd.final;
-            //TODO token combination
+            if(toAdd.tokenName!=""&&potentialNode->tokenName=="")potentialNode->tokenName += toAdd.tokenName;
         }
         return potentialNode;
     }
@@ -29,7 +29,6 @@ public :
                 return false;
             }
         }
-
         states->push_back(*toAdd);
         return true;
     }

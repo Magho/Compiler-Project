@@ -9,7 +9,7 @@ int main (){
 class  NFAtoDFA{
 private :
     Node * fai;
-    vector<Node> *NFAStates;
+    Node *NFAStart;
     vector<StateGroup *> groupesTable;
     bool isIn(vector<Node> * nodes,Node *n ){
         for(Node i : *nodes){
@@ -53,8 +53,8 @@ private :
     }
 
 public :
-    NFAtoDFA(vector<Node> *states){
-        NFAStates = states;
+    NFAtoDFA(Node * start){
+        NFAStart = start;
     }
     ~NFAtoDFA(){
 
@@ -63,13 +63,7 @@ public :
     void operate(){
 
         /*finding start state to start making DFA from its closure*/
-        Node * start;
-        for(Node s : *NFAStates){
-            if(s.start){
-                start = &s;
-                break;
-            }
-        }
+        Node * start = NFAStart;
 
         /*put the start state closure in the stack filling stk */
          vector<StateGroup*> fillingStk;
