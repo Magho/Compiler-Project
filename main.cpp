@@ -1,12 +1,12 @@
 #include <iostream>
 #include <fstream>
-#include "Simulator/Simulator.h"
+#include "Transition.h"
 
 using namespace std;
 
 int main() {
-    Node* node = new Node(0,false,false,"test");
 
-    Simulator simulator();
+    Node start (0,false,false,"test");
+
     return 0;
 }
