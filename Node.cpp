@@ -1,10 +1,14 @@
 #include <utility>
+#include <utility>
 #include "Node.h"
+#define EPSILON 163;
 
-Node::Node(int Number, bool start, bool final) {
-    this->Number     =   Number    ;
+Node::Node(int Number, bool start, bool final,int priority, string tokenName) {
+    this->nodeNumber     =   Number    ;
     this->start      =   start     ;
     this->final      =   final     ;
+    this->priority   =   priority  ;
+    this->tokenName  = std::move(tokenName);
 }
 
 void Node::addTransition(Node* node_to, char transitionSymbol) {
@@ -20,12 +24,12 @@ vector<Transition*> Node::getPossibleTransitions() {
     return this->transitions;
 }
 
-vector<Node> Node::getNextNode(char transSymbol) {
-    vector<Node> nextNodes;
+vector<Node*> Node::getNextNode(char transSymbol) {
+    vector<Node*> nextNodes;
     for (auto &transition : this->transitions) {
         if (transition->transitionSymbol == transSymbol) {
             // toNode is a pointer so used * to access its value
-            nextNodes.push_back(*transition->toNode);
+            nextNodes.push_back(transition->toNode);
         }
     }
     return nextNodes;
@@ -39,11 +43,27 @@ bool Node::isFinal() {
     return this->final;
 }
 
-string Node::getlexeme() {
+void Node::removeStart() {
+    this->start = false;
+}
+
+void Node::removeFinal() {
+    this->final = false;
+}
+
+string Node::getLexeme() {
     // if no token name return empty string
     return this->lexeme;
 }
 
 int Node::getNodeNumber() {
-    return this->Number;
+    return this->nodeNumber;
+}
+
+void Node::setNodeNumber(int nodenumber) {
+    this->nodeNumber = nodenumber;
+}
+
+int Node::getPriority() {
+    return this->priority;
 }
