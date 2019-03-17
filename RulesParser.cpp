@@ -25,6 +25,13 @@ void RulesParser::debugMap(unordered_map<string, vector<char>> map, string mapNa
     }
     cout << "End of " << mapName << "." << endl;
 }
+void RulesParser::debugVector(vector<string> v, string vectorName) {
+    cout << vectorName << ":" << endl;
+    for(auto i : v) {
+        cout << i << endl;
+    }
+    cout << "End of " << vectorName << "." << endl;
+}
 string RulesParser::trim(string &str)
 {
     int i = 0, j = 0;
@@ -214,6 +221,7 @@ void RulesParser::handleRegularDefinition(string definition) {
 
 void RulesParser::handleRegularExpression(string expression) {
     vector<string> twoHandSide = split(expression, ':');
+    orderOfLabels.push_back(twoHandSide[0]);
     handleRange(twoHandSide[1]);
     handleLabels(twoHandSide[1]);
     handleSpecialChar(twoHandSide[1]);
@@ -239,6 +247,7 @@ void RulesParser::handleKeywords(string set) {
             keywordIndex = i;
         } else if(set[i] == ' ' && keywordFound) {
             string keyword = set.substr(keywordIndex, i - keywordIndex);
+            orderOfLabels.push_back(keyword);
             keywords[keyword] = keyword;
             keywordFound = 0;
             keywordIndex = -1;
@@ -255,6 +264,7 @@ void RulesParser::handlePunctuation(string set) {
         if(set[i] == ']' && set[i - 1] != '\\') {
             if(symbolFound) {
                 string symbol = set.substr(symbolIndex, i - symbolIndex);
+                orderOfLabels.push_back(symbol);
                 punctuations[symbol] = symbol;
             }
             break;
@@ -267,6 +277,7 @@ void RulesParser::handlePunctuation(string set) {
             symbolIndex = i;
         } else if(set[i] == ' ' && symbolFound) {
             string symbol = set.substr(symbolIndex, i - symbolIndex);
+            orderOfLabels.push_back(symbol);
             punctuations[symbol] = symbol;
             symbolFound = 0;
             symbolIndex = -1;
@@ -322,6 +333,13 @@ void RulesParser::handleInsertOperator(vector<char> &operators, vector<char> &po
 void RulesParser::handleInsertOperand(vector<char> &postfix,string &expr, int i) {
     if(expr[i] == '\\') {
         expr.erase(i, 1);
+    }
+    if(expr[i] == '+') {
+        expr[i] = ADDITION;
+    } else if(expr[i] == '*') {
+        expr[i] = MULTIPLICATION;
+    } else if(expr[i] == '|') {
+        expr[i] = OR;
     }
     postfix.push_back(expr[i]);
 }
@@ -443,4 +461,6 @@ unordered_map<string, vector<char>> RulesParser::getRegularExpressionPostfixes(s
     }
     return regularExpressionPostfixes;
 }
-
+vector<string> RulesParser::getLabelsOrdered() {
+    return orderOfLabels;
+}
