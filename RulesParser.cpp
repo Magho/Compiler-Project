@@ -18,19 +18,41 @@ void RulesParser::debugMap(unordered_map<string, vector<char>> map, string mapNa
     cout << mapName << ":" << endl;
     for(auto i : map) {
         cout << "Label: " << i.first << ", Value: ";
-        for (auto j : i.second) {
+        for(auto j : i.second) {
             cout << j << " ";
         }
         cout << endl;
     }
     cout << "End of " << mapName << "." << endl;
 }
+void RulesParser::debugMap(unordered_map<string, stack<char>> map, string mapName) {
+    cout << mapName << ":" << endl;
+    for(auto i : map) {
+        cout << "Label: " << i.first << ", Value: ";
+        stack<char> x = i.second;
+        while(!x.empty()) {
+            cout << x.top() << " ";
+            x.pop();
+        }
+        cout << endl;
+    }
+    cout << "End of " << mapName << "." << endl;
+}
+
 void RulesParser::debugVector(vector<string> v, string vectorName) {
     cout << vectorName << ":" << endl;
     for(auto i : v) {
         cout << i << endl;
     }
     cout << "End of " << vectorName << "." << endl;
+}
+
+stack<char> RulesParser::convertVecToStack(vector<char> v) {
+    stack<char> x;
+    for (int i = v.size() - 1; i >= 0; i --) {
+        x.push(v[i]);
+    }
+    return x;
 }
 string RulesParser::trim(string &str)
 {
@@ -371,6 +393,7 @@ void RulesParser::handleExpressionMap() {
             operators.pop_back();
         }
         regularExpressionPostfixes[label] = postfix;
+        regexPostfix[label] = convertVecToStack(postfix);
         if(debug) {
             cout << "Operands of expr: " << exprValue << " are ";
             for (auto i : postfix) {
@@ -401,6 +424,7 @@ void RulesParser::handleKeywordMap() {
             operators.pop_back();
         }
         regularExpressionPostfixes[label] = postfix;
+        regexPostfix[label] = convertVecToStack(postfix);
         if(debug) {
             cout << "Operands of expr: " << exprValue << " are ";
             for (auto i : postfix) {
@@ -419,6 +443,7 @@ void RulesParser::handlePunctuationMap() {
         vector<char> postfix;
         postfix.push_back(punctuation.second[0]);
         regularExpressionPostfixes[label] = postfix;
+        regexPostfix[label] = convertVecToStack(postfix);
         if(debug) {
             cout << "Operands of expr: " << punctuation.second[0] << " are ";
             for (auto i : postfix) {
@@ -433,7 +458,7 @@ void RulesParser::fillRegularExpressionsPostfix() {
     handleKeywordMap();
     handlePunctuationMap();
 }
-unordered_map<string, vector<char>> RulesParser::getRegularExpressionPostfixes(string file) {
+unordered_map<string, stack<char>> RulesParser::getRegularExpressionPostfixes(string file) {
     ifstream rules_file(file);
     string line;
     while(getline(rules_file, line)) {
@@ -458,8 +483,9 @@ unordered_map<string, vector<char>> RulesParser::getRegularExpressionPostfixes(s
     fillRegularExpressionsPostfix();
     if(debug) {
         debugMap(regularExpressionPostfixes, "Regular Expression Postfixes");
+        debugMap(regexPostfix, "RegexPostfix");
     }
-    return regularExpressionPostfixes;
+    return regexPostfix;
 }
 vector<string> RulesParser::getLabelsOrdered() {
     return orderOfLabels;

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <unordered_map>
+#include <stack>
 using namespace std;
 #define EPSILON (char)163
 #define ADDITION (char)200
@@ -18,14 +19,18 @@ private:
     unordered_map<string, string> keywords;
     unordered_map<string, string> punctuations;
     unordered_map<string, vector<char>> regularExpressionPostfixes;
+    unordered_map<string, stack<char>> regexPostfix;
     vector<string> orderOfLabels;
 
     int getIndexOf(string str, char x);
     void debugMap(unordered_map<string, string> map, string mapName);
     void debugMap(unordered_map<string, vector<char>> map, string mapName);
     void debugVector(vector<string> v, string vectorName);
+    void debugMap(unordered_map<string, stack<char>> map, string mapName);
     string trim(string &str);
     vector<string> split(string str, char deli);
+    stack<char> convertVecToStack(vector<char> v);
+
 private:
     int isSpecialChar(char x);
     int isSpecialChar(string str, int i);
@@ -51,7 +56,7 @@ private:
     void handlePunctuationMap();
     void fillRegularExpressionsPostfix();
 public:
-    unordered_map<string, vector<char>> getRegularExpressionPostfixes(string file);
+    unordered_map<string, stack<char>> getRegularExpressionPostfixes(string file);
     vector<string> getLabelsOrdered();
 };
 
