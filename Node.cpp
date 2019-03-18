@@ -1,7 +1,7 @@
 #include <utility>
 #include <utility>
 #include "Node.h"
-#define EPSILON 163;
+#define EPSILON 163
 
 Node::Node(int Number, bool start, bool final,int priority, string tokenName) {
     this->nodeNumber     =   Number    ;
@@ -12,7 +12,7 @@ Node::Node(int Number, bool start, bool final,int priority, string tokenName) {
 }
 
 void Node::addTransition(Node* node_to, char transitionSymbol) {
-    if (transitionSymbol != '~') {
+    if (transitionSymbol != char(EPSILON)) {
         node_to->lexeme = this->lexeme + transitionSymbol;
     }
     // used dynamic allocation to avoid deleting this trans when going out of scope
@@ -43,6 +43,14 @@ bool Node::isFinal() {
     return this->final;
 }
 
+void Node::setStart() {
+    this->start = true;
+}
+
+void Node::setFinal() {
+    this->final = true;
+}
+
 void Node::removeStart() {
     this->start = false;
 }
@@ -66,4 +74,8 @@ void Node::setNodeNumber(int nodenumber) {
 
 int Node::getPriority() {
     return this->priority;
+}
+
+string Node::getTokenName() {
+    return this->tokenName;
 }

@@ -20,10 +20,13 @@ public:
     vector<Node*> getNextNode (char transSymbol);                                //Tested
     bool isStart();
     bool isFinal();
+    void setStart();
+    void setFinal();
     void removeStart();
     void removeFinal();
     string getLexeme();                                                          //Tested
     int getPriority();
     int getNodeNumber();                                                         //Tested
-    void setNodeNumber(int nodenumber);                                                         //Tested
+    void setNodeNumber(int nodenumber);                                          //Tested
+    string getTokenName();
 };

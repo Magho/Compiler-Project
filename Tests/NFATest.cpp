@@ -87,6 +87,9 @@ TEST_F(NFATest, GetKleneeClouserNfa1Test){
     ASSERT_EQ(kleneeNfaGraphNodes.size(), 4);
     ASSERT_EQ(kleneeNfaGraphNodes.front()->getNodeNumber(), 6);
     ASSERT_EQ(kleneeNfaGraphNodes.back()->getNodeNumber(), 9);
+
+    printf("\n");
+    kleneeNfa->printNFA();
 }
 
 TEST_F(NFATest, GetPositiveClouserNfa1Test){
@@ -102,8 +105,11 @@ TEST_F(NFATest, GetPositiveClouserNfa1Test){
 
     vector<Node*> positiveClosureNfaGraphNodes = positiveClosure->getGraphNodes();
     ASSERT_EQ(positiveClosureNfaGraphNodes.size(), 8);
-    ASSERT_EQ(positiveClosureNfaGraphNodes.front()->getNodeNumber(), 10);
+    ASSERT_EQ(positiveClosureNfaGraphNodes.front()->getNodeNumber(), 8);
     ASSERT_EQ(positiveClosureNfaGraphNodes.back()->getNodeNumber(), 13);
+
+    printf("\n");
+    positiveClosure->printNFA();
 }
 
 TEST_F(NFATest, GetConcatNfa1AndNfa2Test){
@@ -145,13 +151,3 @@ TEST_F(NFATest, GetOrNfa1AndNfa2Test){
     printf("\n");
     orNfa->printNFA();
 }
-
-
-//TEST_F(NFATest, GetOrNfa1AndNfa2Test){
-//    vector<Node*> nodeWithEpsilonTransition;
-//    nodeWithEpsilonTransition.push_back(node6);
-//    vector<Node*> returnedEpsilonClosure = nfa2->epsilonClosure(nodeWithEpsilonTransition);
-//    ASSERT_EQ(returnedEpsilonClosure.size(), 2);
-//    ASSERT_EQ(returnedEpsilonClosure[0]->getNodeNumber(), 6);
-//    ASSERT_EQ(returnedEpsilonClosure[1]->getNodeNumber(), 7);
-//}
