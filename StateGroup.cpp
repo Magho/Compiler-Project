@@ -7,6 +7,10 @@ using namespace std;
 class StateGroup{
 private:
         Node *potentialNode;
+        bool higherPriority(string s1,string s2){
+            if(s2=="")return true;
+        return false;
+        }
 public :
     vector<Node>* states;
     int number =-1;
@@ -19,7 +23,7 @@ public :
         for(Node toAdd : *states){
             potentialNode->start =potentialNode->start|| toAdd.start;
             potentialNode->final =potentialNode->final||toAdd.final;
-            if(toAdd.tokenName!=""&&potentialNode->tokenName=="")potentialNode->tokenName += toAdd.tokenName;
+            if(higherPriority(toAdd.tokenName,potentialNode->tokenName))potentialNode->tokenName = toAdd.tokenName;
         }
         return potentialNode;
     }

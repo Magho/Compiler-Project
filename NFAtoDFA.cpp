@@ -2,7 +2,14 @@
 #include<vector>
 #include "StateGroup.cpp"
 using namespace std;
-#define EPSILON 163
+#define EPSILON (char)163
+
+
+/*
+magho ::
+
+
+*/
 int main (){
 
 }
@@ -17,6 +24,8 @@ private :
         }
         return false;
     }
+
+
     /*find closure takes a state and finds the closure of that state and overloaded with set of states as parameters*/
     vector<Node>* findClosure(vector<Node >* states){
         vector<Node> * closure = new vector<Node>();
@@ -37,6 +46,7 @@ private :
 
     return  closure;
     }
+
 
     vector<Node>* findToStates(vector<Node>* states,char symbol){
         vector<Node> * sts = new vector<Node>();
@@ -64,7 +74,7 @@ public :
 
         /*finding start state to start making DFA from its closure*/
         Node * start = NFAStart;
-
+        cout<<"start node is "<<start->Number<<endl;
         /*put the start state closure in the stack filling stk */
          vector<StateGroup*> fillingStk;
          vector<Node>* tempStates = new vector<Node>();
@@ -85,13 +95,16 @@ public :
         }
         StateGroup * faiG = new StateGroup(0);
         faiG->addState(fai);
+
          /*looping until the stack is empty*/
         int ctr=0;
         while(!fillingStk.empty()){
+            cout<<"NFAtoDFA loop >> grp num :"<<fillingStk.back().number<<endl;
             tempStates = fillingStk.back()->states;
             for(char i =0;i<128;i++){                         // for each symbol in ascii table
                 vector<Node>* closure = findClosure(findToStates(tempStates,i));
                 if((*closure).size()==0){
+                    cout<<"at i/p :"<<i<<" going to fai"<<endl;
                     Transition * t = new Transition();
                     t->toNode = fai;
                     t->transitionSymbol = i;
@@ -105,6 +118,7 @@ public :
                 bool exists=false;
                 for(StateGroup* sg : groupesTable){          //making sure that this group doesn't exist in the table
                     if(*sg==*st){
+                                                cout<<"at i/p :"<<i<<" going to existing group num :"<<sg->number<<endl;
                         exists=true;
                         ctr--;
                         Transition * t = new Transition();
@@ -117,6 +131,7 @@ public :
                 }
                 if(!exists){                                  // if it doesn't exist we push it else it will be neglected
                     Transition * t = new Transition();
+                                                cout<<"at i/p :"<<i<<" going to new created grp group num :"<<st->number<<endl;
                     t->toNode = st->getGroupNode();
                     t->transitionSymbol = i;
                     fillingStk.back()->getGroupNode()->transitions.push_back(*t);
@@ -129,11 +144,6 @@ public :
         }
 
         groupesTable.push_back(faiG);
-        //at this point the closures must be filled with all the 256 ascii inputs
-        //next step
-        //2- test that part by printing results
-        //3- convert from groupes to nodes And add the dummy to the end
-        //4- do minmization on nodes
 
     }
     vector<Node> getResult(){
@@ -143,6 +153,22 @@ public :
             groupesTable.pop_back();
         }
         res->push_back(*fai);
+
+
+
+
+        for(Node n : *res){
+            cout<<(n.start ? "ST-":"---")<<n.Number<<":::";
+            for(char i=0;i<128;i++){
+                cout<< "( "<<i<<","<<n.transitions.at(i).toNode->Number<<") -";
+            }
+            cout<<endl;
+        }
+
+
+
+
+
         return *res;
     }
 
