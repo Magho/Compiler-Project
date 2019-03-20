@@ -2,23 +2,33 @@
 // Created by sajed on 15/03/19.
 //
 
+#include <iostream>
 #include "Simulator.h"
 
-Simulator::Simulator(vector<Node> DFATable) {
+Simulator::Simulator(vector<Node*> DFATable) {
     this->DFATable = DFATable;
 }
 
-void Simulator::getNextToken() {
+bool Simulator::getNextToken(string& nextToken) {
 
 }
 
-void Simulator::generateTokensFile() {
-    std::ifstream is("/home/sajed/CLionProjects/Compilers_Phase1/testInput.txt");     // open file
+void Simulator::resetInputFile(string inputFilePath) {
 
-    char c;
-    while (is.get(c)) {         // loop getting single characters
-        std::cout << c;
-    }
+}
 
-    is.close();                // close file
+bool Simulator::endOfFile(ifstream &inputFile) {
+
+}
+
+string Simulator::handleErrorTillSeparator(ifstream &inputFile) {
+
+}
+
+string Simulator::handleErrorRemoveChar(ifstream &inputFile) {
+
+}
+
+void Simulator::fixDFATableToIgnoreSpaces(vector<Node*> DFATable) {
+
 }
