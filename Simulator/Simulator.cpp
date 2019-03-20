@@ -7,6 +7,9 @@
 
 Simulator::Simulator(vector<Node*> DFATable) {
     this->DFATable = DFATable;
+    fixDFATableToIgnoreSpaces(this->DFATable);
+    this->currentNode = DFATable[0];
+    this->dummyNode = DFATable[DFATable.size() - 1];
 }
 
 bool Simulator::getNextToken(string& nextToken) {
