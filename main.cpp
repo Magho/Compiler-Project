@@ -1,124 +1,41 @@
 #include <iostream>
 #include<vector>
 #include<string>
-#include "NFA.h"
+#include "NFAtoDFA.h"
+#include "Minimization.h"
+#define  EPSLOn (char)163
+int main(){
+    Node *a = new Node(0,true,false,213,"");
+    Node *b = new Node(1,false,false,213,"");
+    Node *c = new Node(2,false,false,213,"");
+    Node *d = new Node(3,false,false,213,"");
+    Node *e = new Node(4,false,false,213,"");
+    Node *f = new Node(5,false,false,213,"");
+    Node *g = new Node(6,false, true,0,"id");
 
-using namespace std;
-int main() {
-
-    //*********************************************** Node testes ****************************************************//
-
-    Node node  (0, true, false); // create start node
-    Node nodeStart2  (3, true, false); // create start node
-    Node nodeEpsilonPass (4, false, false); // create intermediate node reached by epsilon pass
-    Node node1 (1, false, false) ; // create intermediate node
-    Node node2 (2, false, true); // create final node
-
-    node.addTransition(&node1, 'a'); // send address of the node
-    node1.addTransition(&node2, 'b');
-    nodeStart2.addTransition(&nodeEpsilonPass, '~');
-
-    vector<Node> nodes = node.getNextNode('a');
-//    cout << nodes.size() << endl; // expected output is 1
-//    cout << nodes[0].getNodeNumber()<< endl; // expected output is 1
-
-    vector<Node> nodes1 = node1.getNextNode('b');
-//    cout << nodes1.size() << endl; // expected 1
-//    cout << nodes1[0].getNodeNumber()<< endl; // expected 2
-
-    // ************************************************ NFA tests ****************************************************//
-
-    vector<Node*> graph;
-    graph.push_back(&node);
-    graph.push_back(&node1);
-    graph.push_back(&node2);
-
-    vector<Node*> startNodes;
-    startNodes.push_back(&node);
-    startNodes.push_back(&nodeStart2);
-
-    vector<Node*> finalNodes;
-    finalNodes.push_back(&node2);
-
-    vector<Node*> nodeWithEpsilonTransition;
-    nodeWithEpsilonTransition.push_back(&nodeStart2);
-
-    NFA nfa (graph, startNodes, finalNodes, "id");
-//    cout << nfa.getVertexCount() << endl; // expected 3
-
-    vector<Node*> returnedStartNodes = nfa.getStartNodes();
-//    cout << returnedStartNodes.size() << endl; // expected 1
-//    cout << returnedStartNodes.front()->getNodeNumber() << endl; // expected 0
-//    cout << returnedStartNodes.back()->getNodeNumber() << endl; // expected 0
-
-    vector<Node*> returnedFinalNodes = nfa.getFinalNodes();
-//    cout << returnedFinalNodes.size() << endl; // expected 1
-//    cout << returnedFinalNodes.front()->getNodeNumber() << endl; // expected 2
-//    cout << returnedFinalNodes.back()->getNodeNumber() << endl; // expected 2
-
-    vector<Node*> returnesdGraphNodes = nfa.getGraphNodes();
-//    cout << returnesdGraphNodes.size() << endl; // expected 3
-//    cout << returnesdGraphNodes.front()->getNodeNumber() << endl; // expected 0
-//    cout << returnesdGraphNodes.back()->getNodeNumber() << endl; // expected 2
-
-    vector<Node*> returnedEpsilonClosure = nfa.epsilonClosure(nodeWithEpsilonTransition);
-//    cout << returnedEpsilonClosure.size() << endl; // expected 2
-//    cout << returnedEpsilonClosure.front()->getNodeNumber() << endl; // expected 3
-//    cout << returnedEpsilonClosure.back()->getNodeNumber() << endl; // expected 4
-
-//    nfa.printNFA();
+    a->addTransition(b,EPSLOn);
+    a->addTransition(c,EPSLOn);
+    a->addTransition(e,EPSLOn);
+    b->addTransition(d,'0');
+    b->addTransition(d,'1');
+    b->addTransition(c,EPSLOn);
+    c->addTransition(d,'0');
+    c->addTransition(e,EPSLOn);
+    d->addTransition(e,'0');
+    d->addTransition(f,'1');
+    d->addTransition(g,EPSLOn);
+    e->addTransition(e,'0');
+    e->addTransition(b,EPSLOn);
+    f->addTransition(e,'1');
+    f->addTransition(g,EPSLOn);
+    NFAtoDFA *cnvrt = new NFAtoDFA(a);
+    cnvrt->operate();
+    vector<Node *> res = cnvrt->getResult();
+    Minimization *minimization = new Minimization(&res);
+    vector<Node*> v = minimization->getMinimizedTable();
 
 
-    Node nfa1StartNode(10, true, false);
-    Node nfa1FinalNode(11, false, true);
-    Node nfa2StartNode(12, true, false);
-    Node nfa2FinalNode(13, false, true);
 
-    nfa1StartNode.addTransition(&nfa1FinalNode, 'a'); // send address of the node
-    nfa2StartNode.addTransition(&nfa2FinalNode, 'a'); // send address of the node
-
-
-    vector<Node*> nfa1graph;
-    nfa1graph.push_back(&nfa1StartNode);
-    nfa1graph.push_back(&nfa1FinalNode);
-    vector<Node*> nfa2graph;
-    nfa2graph.push_back(&nfa2StartNode);
-    nfa2graph.push_back(&nfa2FinalNode);
-
-    vector<Node*> nfa1StartNodes;
-    nfa1StartNodes.push_back(&nfa1StartNode);
-    vector<Node*> nfa2StartNodes;
-    nfa2StartNodes.push_back(&nfa2StartNode);
-
-    vector<Node*> nfa1FinalNodes;
-    nfa1FinalNodes.push_back(&nfa1FinalNode);
-    vector<Node*> nfa2FinalNodes;
-    nfa2FinalNodes.push_back(&nfa2FinalNode);
-
-    NFA nfa1 (nfa1graph, nfa1StartNodes, nfa1FinalNodes, "id");
-    NFA nfa2 (nfa2graph, nfa2StartNodes, nfa2FinalNodes, "id");
-
-    NFA kleneeNfa = nfa1.klenee();
-
-    vector<Node*> kleneeNfaStartNodes = kleneeNfa.getStartNodes();
-//    cout << kleneeNfaStartNodes.size() << endl; // expected 1
-//    cout << kleneeNfaStartNodes.front()->getNodeNumber() << endl; // expected 0
-//    cout << kleneeNfaStartNodes.back()->getNodeNumber() << endl; // expected 0
-
-    vector<Node*> kleneeNfaFinalNodes = kleneeNfa.getFinalNodes();
-//    cout << kleneeNfaFinalNodes.size() << endl; // expected 1
-//    cout << kleneeNfaFinalNodes.front()->getNodeNumber() << endl; // expected 1
-//    cout << kleneeNfaFinalNodes.back()->getNodeNumber() << endl; // expected 1
-
-    vector<Node*> kleneeNfaGraphNodes = kleneeNfa.getGraphNodes();
-//    cout << kleneeNfaGraphNodes.size() << endl; // expected 4
-//    cout << kleneeNfaGraphNodes.front()->getNodeNumber() << endl; // expected 10
-//    cout << kleneeNfaGraphNodes.back()->getNodeNumber() << endl; // expected 1
-
-    vector<Node*> kleneeNfaEpsilonClosure = kleneeNfa.epsilonClosure(kleneeNfaStartNodes);
-//    cout << kleneeNfaEpsilonClosure.size() << endl; // expected 3
-//    cout << kleneeNfaEpsilonClosure.front()->getNodeNumber() << endl; // expected 0
-//    cout << kleneeNfaEpsilonClosure.back()->getNodeNumber() << endl; // expected 1
 
     return 0;
 }

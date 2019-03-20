@@ -1,4 +1,3 @@
-
 #include<vector>
 #include<string>
 #include "Transition.h"
@@ -6,8 +5,8 @@
 using namespace std;
 
 class Node {
-private:
-    int nodeNumber;
+public:
+    int nodeNumber =0;
     bool start;
     bool final;
     string lexeme = "";
