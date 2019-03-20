@@ -13,7 +13,71 @@ Simulator::Simulator(vector<Node*> DFATable) {
 }
 
 bool Simulator::getNextToken(string& nextToken) {
+    ifstream inputFile = ifstream(this->inputFilePath);     // open file
+    if (posOfCursor == -1) {
+        inputFile.seekg(0, ios::end);
+    } else {
+        inputFile.seekg(this->posOfCursor);
+    }
+    if (endOfFile(inputFile)) {
+        return false;
+    }
+    this->currentNode = this->DFATable[0];
+    this->posOflastInputToChangeStartState = 0;
+    this->maximalMunchAcceptedToken = "";
+    while (inputFile.get(this->c)) {         // loop getting single characters
+        Node* nextNode = this->currentNode->getPossibleTransitions()[c]->toNode;
+        if (nextNode->isFinal()) {
+            this->maximalMunchAcceptedToken = nextNode->getTokenName();
+            this->posOfAcceptedToken = inputFile.tellg();
+            this->panicMode = false;
+        }
+        if (currentNode->isStart() and !nextNode->isStart()) {
+            posOflastInputToChangeStartState = inputFile.tellg();
+        }
 
+        if (nextNode == dummyNode) {
+            if (!this->maximalMunchAcceptedToken.empty()) { // An accepted token found
+                this->posOfCursor = this->posOfAcceptedToken;
+                nextToken = this->maximalMunchAcceptedToken;
+                this->maximalMunchAcceptedToken = "";
+                inputFile.close();                // close file
+                return true;
+            } else {                                    // No tokens found
+                string errMsg = handleErrorRemoveChar(inputFile);
+                if (!errMsg.empty()) {
+                    this->posOfCursor = inputFile.tellg();
+                    nextToken = errMsg;
+                    inputFile.close();                // close file
+                    return true;
+                }
+            }
+        } else {
+            this->posOfCursor = inputFile.tellg();
+            this->currentNode = nextNode;
+        }
+        if (endOfFile(inputFile)) {
+            if (!this->maximalMunchAcceptedToken.empty()) { // An accepted token found
+                nextToken = this->maximalMunchAcceptedToken;
+                this->maximalMunchAcceptedToken = "";
+                this->posOfCursor = posOfAcceptedToken;
+                inputFile.close();                // close file
+                return true;
+            } else if (currentNode->isStart() or panicMode) {                                    // No tokens found
+                string errMsg = handleErrorRemoveChar(inputFile);
+                nextToken = errMsg;
+                this->posOfCursor = inputFile.tellg();
+                inputFile.close();                // close file
+                return false;
+            } else {
+                string errMsg = handleErrorRemoveChar(inputFile);
+                nextToken = errMsg;
+                this->posOfCursor = inputFile.tellg();
+                inputFile.close();                // close file
+                return true;
+            }
+        }
+    }
 }
 
 void Simulator::resetInputFile(string inputFilePath) {
