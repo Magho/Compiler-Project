@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "Transition.h"
+#include "Node.h"
 using namespace std;
 
 
@@ -12,7 +12,7 @@ private:
         return false;
         }
 public :
-    vector<Node>* states;
+    vector<Node *>* states;
     int number =-1;
     StateGroup(int Num){
         number = Num;
@@ -20,28 +20,28 @@ public :
     }
 
     Node* getGroupNode(){
-        for(Node toAdd : *states){
-            potentialNode->start =potentialNode->start|| toAdd.start;
-            potentialNode->final =potentialNode->final||toAdd.final;
-            if(higherPriority(toAdd.tokenName,potentialNode->tokenName))potentialNode->tokenName = toAdd.tokenName;
+        for(Node *toAdd : *states){
+            potentialNode->start =potentialNode->start|| toAdd->start;
+            potentialNode->final =potentialNode->final||toAdd->final;
+            if(higherPriority(toAdd->tokenName,potentialNode->tokenName))potentialNode->tokenName = toAdd->tokenName;
         }
         return potentialNode;
     }
     bool addState(Node * toAdd){
-        for (Node s : *states){
-            if(s.Number== toAdd->Number){
+        for (Node *s : *states){
+            if(s->Number== toAdd->Number){
                 return false;
             }
         }
-        states->push_back(*toAdd);
+        states->push_back(toAdd);
         return true;
     }
     bool operator ==(StateGroup s2){
         int num = s2.states->size();
-        for(Node sElem : *states){
+        for(Node *sElem : *states){
             int prevNum =num;
-            for(Node s2Elem : *s2.states){
-                if(sElem.Number==s2Elem.Number){
+            for(Node *s2Elem : *s2.states){
+                if(sElem->Number==s2Elem->Number){
                     num--;
                     break;
                 }

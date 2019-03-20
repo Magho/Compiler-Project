@@ -7,16 +7,16 @@ using namespace std;
 class Minimization{
 private:
     int groupsCntr=0;
-    vector<Node> * nodes;
+    vector<Node*> * nodes;
     vector<StateGroup *> *groups;
     void splitUponValidState(){
         StateGroup * valid = new StateGroup(groupsCntr);groupsCntr++;
         StateGroup * invalid = new StateGroup(groupsCntr);groupsCntr++;
-        for(Node n : *nodes){
-            if(n.final){
-                valid->addState(&n);
+        for(Node *n : *nodes){
+            if(n->final){
+                valid->addState(n);
             }else{
-                invalid->addState(&n);
+                invalid->addState(n);
             }
         }
         groups->push_back(valid);
@@ -41,14 +41,14 @@ private:
                 StateGroup * st = new StateGroup(ctr);
                 newGroups->push_back(st);
                 ctr++;
-                st->addState(&grp->states->back());
-                Node * currentNode =&grp->states->back();
+                st->addState(grp->states->back());
+                Node * currentNode =grp->states->back();
                 grp->states->pop_back();
                 for(int j=0;j< grp->states->size();j++){ //for each other nodes
                     //if state j = i  add it to group i and remove it from this and i--
-                    if(equalStates(currentNode,&grp->states->at(j))){
-                        st->addState(&grp->states->at(j));
-                        grp->states->at(j).Number = st->number;
+                    if(equalStates(currentNode,grp->states->at(j))){
+                        st->addState(grp->states->at(j));
+                        grp->states->at(j)->Number = st->number;
                         grp->states->erase(grp->states->begin()+j);
                         j--;
                     }
@@ -73,7 +73,7 @@ private:
         return *res;
     }
 public :
-    Minimization(vector<Node> *v){
+    Minimization(vector<Node*> *v){
         nodes = v;
     }
     vector<Node> getMinimizedTable(){
