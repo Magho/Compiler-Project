@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include<vector>
 #include<string>
@@ -45,6 +46,7 @@ int main(){
  * merging has deleted these from main.cpp in master as i made my file with the same name :)
  *
  #include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
 int main(int argc, char* argv[]) {
@@ -75,5 +77,4 @@ int main(int argc, char* argv[]) {
 //    printf("\n");
 //    converter.regularExpressionToNFA(map1,labels).printCombinedNFA();
 //    return 0;
-//}
- * */
+*/
