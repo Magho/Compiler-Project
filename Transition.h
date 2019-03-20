@@ -3,6 +3,7 @@
 
 using namespace std;
 
+
 class Node;
 
 class Transition {
@@ -16,3 +17,21 @@ public :
         this->transitionSymbol = symbol;
     };
 };
+
+
+
+/*
+
+#include<vector>
+#include<string>
+#include "Node.cpp"
+
+using namespace std;
+
+class Transition {
+    public :
+        Node *toNode;
+        char transitionSymbol;
+};
+
+*/

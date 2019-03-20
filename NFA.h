@@ -1,6 +1,7 @@
 #include <utility>
 #include<vector>
 #include<string>
+#include <map>
 #include "Node.h"
 
 using namespace std;
@@ -11,7 +12,7 @@ private:
     vector<Node*> startNodes;
     vector<Node*> finalNodes;
     vector<Node*> graph;
-    void printRecursive(Node* node, int depth);
+    void printRecursive(Node* node, int depth,map<int, bool>* map1);
 
 public:
     NFA (vector<Node*> graph, vector<Node*> startNodes, vector<Node*> finalNodes, string tokenName); //Tested
@@ -24,6 +25,6 @@ public:
     NFA* orOperator (NFA nfa,int priority, int* nodeNumber, string tokenName);                       //Tested
     string getTokenName ();
     int getVertexCount();
-    static void RenameNodes(int* nodeNumber, NFA* nfa);
+    NFA* CreateCopyOfNFA(int *nodeNumber);
     void printNFA ();
 };

@@ -5,8 +5,8 @@
 using namespace std;
 
 class Node {
-private:
-    int nodeNumber;
+public:
+    int nodeNumber =0;
     bool start;
     bool final;
     string lexeme = "";
@@ -21,11 +21,36 @@ public:
     vector<Node*> getNextNode (char transSymbol);                                //Tested
     bool isStart();
     bool isFinal();
+    void setStart();
+    void setFinal();
     void removeStart();
     void removeFinal();
     string getLexeme();                                                          //Tested
     string getTokenName();
     int getPriority();
     int getNodeNumber();                                                         //Tested
-    void setNodeNumber(int nodenumber);                                                         //Tested
+    void setNodeNumber(int nodenumber);                                          //Tested
+    string getTokenName();
 };
+/*#include<vector>
+#include<string>
+
+using namespace std;
+
+class Transition;
+
+class Node {
+    public:
+        int Number;
+        bool start;
+        bool final;
+        string tokenName;
+        vector<Transition> transitions;
+        Node (int Number, bool start, bool final, string tokenName);
+        void addTransition (Node& node_to, char transitionSymbol);
+        vector<Transition> getPossibleTransitions ();
+        Node getNextNode (char transitionSymbol); // Move
+        bool isStart(Node node);
+        bool isFinal(Node node);
+};
+*/

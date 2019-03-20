@@ -1,81 +1,45 @@
+
+
+
 #include <iostream>
-#include <fstream>
-#include <sstream>
-#include "Simulator/Simulator.h"
+#include<vector>
+#include<string>
+#include "NFAtoDFA.h"
+#include "Minimization.h"
 
-using namespace std;
 
-int main() {
+int main(){
+    Node *a = new Node(0,true,false,213,"");
+    Node *b = new Node(1,false,false,213,"");
+    Node *c = new Node(2,false,false,213,"");
+    Node *d = new Node(3,false,false,213,"");
+    Node *e = new Node(4,false,false,213,"");
+    Node *f = new Node(5,false,false,213,"");
+    Node *g = new Node(6,false, true,0,"id");
 
-    vector<Node*> DFATable;
+    a->addTransition(b,EPSILON);
+    a->addTransition(c,EPSILON);
+    a->addTransition(e,EPSILON);
+    b->addTransition(d,'0');
+    b->addTransition(d,'1');
+    b->addTransition(c,EPSILON);
+    c->addTransition(d,'0');
+    c->addTransition(e,EPSILON);
+    d->addTransition(e,'0');
+    d->addTransition(f,'1');
+    d->addTransition(g,EPSILON);
+    e->addTransition(e,'0');
+    e->addTransition(b,EPSILON);
+    f->addTransition(e,'1');
+    f->addTransition(g,EPSILON);
+    NFAtoDFA *cnvrt = new NFAtoDFA(a);
+    cnvrt->operate();
+    vector<Node *> res = cnvrt->getResult();
+    Minimization *minimization = new Minimization(&res);
+    vector<Node*> v = minimization->getMinimizedTable();
 
-    Node* node0 = new Node(0,true,false,0, "");
-    Node* node2 = new Node(2,false,true,0,"Id");
-    Node* node3 = new Node(3,false,true,0,"do");
-    Node* node7 = new Node(7,false,false,0,"");
-    Node* node8 = new Node(8,false,false,0,"");
-    Node* node9 = new Node(9,false,false,0,"");
-    Node* node10 = new Node(10,false,true,0,"double");
-    Node* node12 = new Node(12,false,true,0,"Id");
-    Node* nodeD = new Node(99,false,false,0,"");
 
-    char alphabet[128];
-    for (int i = 0; i < 128; ++i) {
-        alphabet[i] = i;
-    }
 
-    //Initialize nodes
-    for (int j = 0; j < 128; ++j) {
-        node0->addTransition(node12,alphabet[j]);
-        node2->addTransition(nodeD,alphabet[j]);
-        node3->addTransition(nodeD,alphabet[j]);
-        node7->addTransition(nodeD,alphabet[j]);
-        node8->addTransition(nodeD,alphabet[j]);
-        node9->addTransition(nodeD,alphabet[j]);
-        node10->addTransition(nodeD,alphabet[j]);
-        node12->addTransition(node12,alphabet[j]);
-        nodeD->addTransition(nodeD,alphabet[j]);
-    }
-    node0->editTransition(node2,'d');
-    node0->editTransition(nodeD,';');
-    node2->editTransition(node3,'o');
-    node3->editTransition(node7,'u');
-    node7->editTransition(node8,'b');
-    node8->editTransition(node9,'l');
-    node9->editTransition(node10,'e');
 
-    DFATable.push_back(node0);
-    DFATable.push_back(node2);
-    DFATable.push_back(node3);
-    DFATable.push_back(node7);
-    DFATable.push_back(node8);
-    DFATable.push_back(node9);
-    DFATable.push_back(node10);
-    DFATable.push_back(node12);
-    DFATable.push_back(nodeD);
-
-    Simulator* simulator = new Simulator(DFATable);
-    simulator->resetInputFile("/home/sajed/CLionProjects/Compilers_Phase1/testInput.txt");
-    string nextToken = "";
-//    while (simulator->getNextToken(nextToken)) {
-//        cout << nextToken << endl;
-//    }
-    simulator->generateTokensFileAndSymbolTable();
-//    simulator->getNextToken(nextToken);
-//    cout << nextToken << endl;
-//    simulator->getNextToken(nextToken);
-//    cout << nextToken << endl;
-//    simulator->getNextToken(nextToken);
-//    cout << nextToken << endl;
-//    simulator->getNextToken(nextToken);
-//    cout << nextToken << endl;
-//    simulator->getNextToken(nextToken);
-//    cout << nextToken << endl;
-//    simulator->getNextToken(nextToken);
-//    cout << nextToken << endl;
-//    simulator->getNextToken(nextToken);
-//    cout << nextToken << endl;
-//    simulator->getNextToken(nextToken);
-//    cout << nextToken << endl;
     return 0;
 }
