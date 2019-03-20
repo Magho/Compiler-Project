@@ -30,5 +30,14 @@ string Simulator::handleErrorRemoveChar(ifstream &inputFile) {
 }
 
 void Simulator::fixDFATableToIgnoreSpaces(vector<Node*> DFATable) {
-
+    Node* dummyNode = this->DFATable[DFATable.size() - 1];
+    Node* startNode = this->DFATable[0];
+    this->DFATable[0]->editTransition(startNode, ' ');
+    this->DFATable[0]->editTransition(startNode, '\t');
+    this->DFATable[0]->editTransition(startNode, '\n');
+    for (int i = 1; i < DFATable.size(); i++) {
+        this->DFATable[i]->editTransition(dummyNode, ' ');
+        this->DFATable[i]->editTransition(dummyNode, '\t');
+        this->DFATable[i]->editTransition(dummyNode, '\n');
+    }
 }
