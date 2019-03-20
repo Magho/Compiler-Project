@@ -26,7 +26,11 @@ void Simulator::resetInputFile(string inputFilePath) {
 }
 
 bool Simulator::endOfFile(ifstream &inputFile) {
-
+    if (inputFile.peek() == EOF) {
+        if (inputFile.eof())
+            return true;
+    }
+    return false;
 }
 
 string Simulator::handleErrorTillSeparator(ifstream &inputFile) {
