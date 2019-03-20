@@ -7,41 +7,49 @@ using namespace std;
 class StateGroup{
 private:
         Node *potentialNode;
-        bool higherPriority(string s1,string s2){
-            if(s2=="")return true;
-        return false;
-        }
+
 public :
     vector<Node *>* states;
     int number =-1;
     StateGroup(int Num){
+        states = new vector<Node*>();
         number = Num;
-        potentialNode = new Node(Num,false,false,"");
+        potentialNode = new Node(Num,false,false,INT_MAX,"");
     }
 
     Node* getGroupNode(){
+        int highest_priority = INT_MAX;
         for(Node *toAdd : *states){
             potentialNode->start =potentialNode->start|| toAdd->start;
             potentialNode->final =potentialNode->final||toAdd->final;
-            if(higherPriority(toAdd->tokenName,potentialNode->tokenName))potentialNode->tokenName = toAdd->tokenName;
+            if(toAdd->priority< highest_priority){
+                    highest_priority = toAdd->priority;
+                    potentialNode->priority = toAdd->priority;
+                    potentialNode->tokenName = toAdd->tokenName;
+            }
         }
         return potentialNode;
     }
     bool addState(Node * toAdd){
         for (Node *s : *states){
-            if(s->Number== toAdd->Number){
+
+            if(s->nodeNumber== toAdd->nodeNumber){
+
                 return false;
             }
         }
+
         states->push_back(toAdd);
+
         return true;
     }
+
     bool operator ==(StateGroup s2){
         int num = s2.states->size();
         for(Node *sElem : *states){
             int prevNum =num;
             for(Node *s2Elem : *s2.states){
-                if(sElem->Number==s2Elem->Number){
+                if(sElem->nodeNumber==s2Elem->nodeNumber){
                     num--;
                     break;
                 }
