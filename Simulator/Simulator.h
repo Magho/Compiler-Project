@@ -5,17 +5,32 @@
 #define COMPILERS_PHASE1_SIMULATOR_H
 
 #include <vector>
-#include "../Transition.h"
+#include <fstream>
+#include "../Node.h"
 
 using namespace std;
 
 class Simulator {
-public:
-    vector<Node> DFATable;
+private:
+    vector<Node*> DFATable;
+    Node* currentNode;
+    Node* dummyNode;
+    string inputFilePath = "";
+    char c; // currentCharAtFileScanner
+    string maximalMunchAcceptedToken = "";
+    long posOfAcceptedToken;
+    long posOfCursor;
+    long posOflastInputToChangeStartState;
+    bool panicMode;
 
-    Simulator(vector<Node> DFATable);
-    void getNextToken();
-    void generateTokensFile();
+    void fixDFATableToIgnoreSpaces(vector<Node*> DFATable);
+    string handleErrorTillSeparator(ifstream &inputFile);
+    string handleErrorRemoveChar(ifstream &inputFile);
+    bool endOfFile(ifstream &inputFile);
+public:
+    Simulator(vector<Node*> DFATable);
+    bool getNextToken(string& nextToken);
+    void resetInputFile(string inputFilePath);
 };
 
 
