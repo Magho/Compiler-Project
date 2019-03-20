@@ -19,6 +19,15 @@ void Node::addTransition(Node* node_to, char transitionSymbol) {
     this->transitions.push_back(trans);
 }
 
+void Node::editTransition(Node* node_to, char transitionSymbol) {
+    for (auto &transition : this->transitions) {
+        if (transition->transitionSymbol == transitionSymbol) {
+            // toNode is a pointer so used * to access its value
+            transition->toNode = node_to;
+        }
+    }
+}
+
 vector<Transition*> Node::getPossibleTransitions() {
     return this->transitions;
 }
@@ -61,6 +70,11 @@ void Node::removeFinal() {
 string Node::getLexeme() {
     // if no token name return empty string
     return this->lexeme;
+}
+
+string Node::getTokenName() {
+    // if no token name return empty string
+    return this->tokenName;
 }
 
 int Node::getNodeNumber() {
