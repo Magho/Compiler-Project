@@ -10,13 +10,13 @@ int main() {
     vector<Node*> DFATable;
 
     Node* node0 = new Node(0,true,false,0, "");
-    Node* node2 = new Node(2,false,false,0,"Id");
+    Node* node2 = new Node(2,false,true,0,"Id");
     Node* node3 = new Node(3,false,true,0,"do");
     Node* node7 = new Node(7,false,false,0,"");
     Node* node8 = new Node(8,false,false,0,"");
     Node* node9 = new Node(9,false,false,0,"");
     Node* node10 = new Node(10,false,true,0,"double");
-//    Node* node12 = new Node(12,false,true,0,"Id");
+    Node* node12 = new Node(12,false,true,0,"Id");
     Node* nodeD = new Node(99,false,false,0,"");
 
     char alphabet[128];
@@ -26,14 +26,14 @@ int main() {
 
     //Initialize nodes
     for (int j = 0; j < 128; ++j) {
-        node0->addTransition(nodeD,alphabet[j]);
+        node0->addTransition(node12,alphabet[j]);
         node2->addTransition(nodeD,alphabet[j]);
         node3->addTransition(nodeD,alphabet[j]);
         node7->addTransition(nodeD,alphabet[j]);
         node8->addTransition(nodeD,alphabet[j]);
         node9->addTransition(nodeD,alphabet[j]);
         node10->addTransition(nodeD,alphabet[j]);
-//        node12->addTransition(nodeD,alphabet[j]);
+        node12->addTransition(node12,alphabet[j]);
         nodeD->addTransition(nodeD,alphabet[j]);
     }
     node0->editTransition(node2,'d');
@@ -51,7 +51,7 @@ int main() {
     DFATable.push_back(node8);
     DFATable.push_back(node9);
     DFATable.push_back(node10);
-//    DFATable.push_back(node12);
+    DFATable.push_back(node12);
     DFATable.push_back(nodeD);
 
     Simulator* simulator = new Simulator(DFATable);
@@ -60,7 +60,7 @@ int main() {
 //    while (simulator->getNextToken(nextToken)) {
 //        cout << nextToken << endl;
 //    }
-    simulator->generateTokensFile();
+    simulator->generateTokensFileAndSymbolTable();
 //    simulator->getNextToken(nextToken);
 //    cout << nextToken << endl;
 //    simulator->getNextToken(nextToken);

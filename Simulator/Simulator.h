@@ -18,6 +18,7 @@ private:
     string inputFilePath = "";
     char c; // currentCharAtFileScanner
     string maximalMunchAcceptedToken = "";
+    string maximalMunchAcceptedLexeme = "";
     long posOfAcceptedToken;
     long posOfCursor;
     long posOflastInputToChangeStartState;
@@ -31,7 +32,7 @@ public:
     Simulator(vector<Node*> DFATable);
     bool getNextToken(string& nextToken);
     void resetInputFile(string inputFilePath);
-    void generateTokensFile();
+    void generateTokensFileAndSymbolTable();
 };
 
 

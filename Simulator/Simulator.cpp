@@ -25,6 +25,7 @@ bool Simulator::getNextToken(string& nextToken) {
     this->currentNode = this->DFATable[0];
     this->posOflastInputToChangeStartState = 0;
     this->maximalMunchAcceptedToken = "";
+    this->maximalMunchAcceptedLexeme = "";
     while (inputFile.get(this->c)) {         // loop getting single characters
         Node* nextNode = this->currentNode->getPossibleTransitions()[c]->toNode;
         if (nextNode->isFinal()) {
@@ -53,6 +54,7 @@ bool Simulator::getNextToken(string& nextToken) {
                 }
             }
         } else {
+            this->maximalMunchAcceptedLexeme += c;
             this->posOfCursor = inputFile.tellg();
             this->currentNode = nextNode;
         }
@@ -107,6 +109,7 @@ string Simulator::handleErrorRemoveChar(ifstream &inputFile) {
     inputFile.seekg(posOflastInputToChangeStartState++);
     this->panicMode = true;
     this->currentNode = this->DFATable[0];
+    this->maximalMunchAcceptedLexeme = "";
     return errMsg;
 }
 
@@ -123,12 +126,18 @@ void Simulator::fixDFATableToIgnoreSpaces(vector<Node*> DFATable) {
     }
 }
 
-void Simulator::generateTokensFile() {
+void Simulator::generateTokensFileAndSymbolTable() {
     string nextToken = "";
     ofstream outputFile;
     outputFile.open ("/home/sajed/CLionProjects/Compilers_Phase1/Tokens.txt");
+    ofstream symbolTable;
+    symbolTable.open ("/home/sajed/CLionProjects/Compilers_Phase1/SymbolTable.txt");
     while (this->getNextToken(nextToken)) {
         outputFile << nextToken << endl;
+        if (nextToken.compare("Id") == 0) {
+            symbolTable << this->maximalMunchAcceptedLexeme << endl;
+        }
     }
+    symbolTable.close();
     outputFile.close();
 }
