@@ -1,7 +1,7 @@
 //
 // Created by sajed on 15/03/19.
 //
-
+#include <fstream>
 #include <iostream>
 #include "Simulator.h"
 
