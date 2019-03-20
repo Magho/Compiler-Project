@@ -122,3 +122,13 @@ void Simulator::fixDFATableToIgnoreSpaces(vector<Node*> DFATable) {
         this->DFATable[i]->editTransition(dummyNode, '\n');
     }
 }
+
+void Simulator::generateTokensFile() {
+    string nextToken = "";
+    ofstream outputFile;
+    outputFile.open ("/home/sajed/CLionProjects/Compilers_Phase1/Tokens.txt");
+    while (this->getNextToken(nextToken)) {
+        outputFile << nextToken << endl;
+    }
+    outputFile.close();
+}

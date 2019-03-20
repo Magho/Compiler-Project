@@ -57,10 +57,10 @@ int main() {
     Simulator* simulator = new Simulator(DFATable);
     simulator->resetInputFile("/home/sajed/CLionProjects/Compilers_Phase1/testInput.txt");
     string nextToken = "";
-    while (simulator->getNextToken(nextToken)) {
-        cout << "call: ";
-        cout << nextToken << endl;
-    }
+//    while (simulator->getNextToken(nextToken)) {
+//        cout << nextToken << endl;
+//    }
+    simulator->generateTokensFile();
 //    simulator->getNextToken(nextToken);
 //    cout << nextToken << endl;
 //    simulator->getNextToken(nextToken);

@@ -31,6 +31,7 @@ public:
     Simulator(vector<Node*> DFATable);
     bool getNextToken(string& nextToken);
     void resetInputFile(string inputFilePath);
+    void generateTokensFile();
 };
 
 
