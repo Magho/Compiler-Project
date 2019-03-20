@@ -30,11 +30,16 @@ bool Simulator::endOfFile(ifstream &inputFile) {
 }
 
 string Simulator::handleErrorTillSeparator(ifstream &inputFile) {
-
+    while (this->c != ' ' and this->c != '\t' and this->c != '\n' and inputFile.get(this->c));
+    return "Undefined token";
 }
 
 string Simulator::handleErrorRemoveChar(ifstream &inputFile) {
-
+    string errMsg = this->panicMode? "" : "Undefined token";
+    inputFile.seekg(posOflastInputToChangeStartState++);
+    this->panicMode = true;
+    this->currentNode = this->DFATable[0];
+    return errMsg;
 }
 
 void Simulator::fixDFATableToIgnoreSpaces(vector<Node*> DFATable) {
