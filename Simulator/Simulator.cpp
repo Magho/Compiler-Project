@@ -17,7 +17,12 @@ bool Simulator::getNextToken(string& nextToken) {
 }
 
 void Simulator::resetInputFile(string inputFilePath) {
-
+    this->inputFilePath = inputFilePath;
+    this->maximalMunchAcceptedToken = "";
+    this->posOfAcceptedToken = 0;
+    this->posOfCursor = 0;
+    this->posOflastInputToChangeStartState = 0;
+    this->panicMode = false;
 }
 
 bool Simulator::endOfFile(ifstream &inputFile) {
