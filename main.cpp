@@ -14,7 +14,6 @@ int main(){
     vector<string> labels = rulesParser->getLabelsOrdered();
     Converter conv;
     CombinedNFA combinednfa = conv.regularExpressionToNFA(map,labels);
-    combinednfa.printCombinedNFA();
     NFAtoDFA *cnvrt = new NFAtoDFA(combinednfa.startNode);
     cnvrt->operate();
     vector<Node *> res = cnvrt->getResult();

@@ -129,9 +129,9 @@ void Simulator::fixDFATableToIgnoreSpaces(vector<Node*> DFATable) {
 void Simulator::generateTokensFileAndSymbolTable() {
     string nextToken = "";
     ofstream outputFile;
-    outputFile.open ("/home/sajed/CLionProjects/Compilers_Phase1/Tokens.txt");
+    outputFile.open ("/home/magho/workspaceC++/compilerProg/Tokens.txt");
     ofstream symbolTable;
-    symbolTable.open ("/home/sajed/CLionProjects/Compilers_Phase1/SymbolTable.txt");
+    symbolTable.open ("/home/magho/workspaceC++/compilerProg/SymbolTable.txt");
     while (this->getNextToken(nextToken)) {
         outputFile << nextToken << endl;
         if (nextToken.compare("Id") == 0) {

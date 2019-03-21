@@ -83,7 +83,8 @@ cout<<endl;
     for(Node *n : *res){
         cout<<(n->start ? "ST-":"---")<<(n->final ? "f-  ":"--  ")<< n->nodeNumber<<":::";
         for(int  i=0;i<128;i++){
-            cout<<n->transitions.at(i)->toNode->nodeNumber<<"-";
+          if(n->transitions.at(i)->toNode->nodeNumber!=1)
+            cout<<"( "<<(char)i<<","<<n->transitions.at(i)->toNode->nodeNumber<<")";
         }
         cout<<endl;
     }
