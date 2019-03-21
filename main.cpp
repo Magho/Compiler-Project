@@ -1,45 +1,29 @@
-
-
-
 #include <iostream>
 #include<vector>
 #include<string>
 #include "NFAtoDFA.h"
 #include "Minimization.h"
+#include "RulesParser.h"
+#include "Converter.h"
+#include "Simulator/Simulator.h"
 
-
+using namespace std;
 int main(){
-    Node *a = new Node(0,true,false,213,"");
-    Node *b = new Node(1,false,false,213,"");
-    Node *c = new Node(2,false,false,213,"");
-    Node *d = new Node(3,false,false,213,"");
-    Node *e = new Node(4,false,false,213,"");
-    Node *f = new Node(5,false,false,213,"");
-    Node *g = new Node(6,false, true,0,"id");
-
-    a->addTransition(b,EPSILON);
-    a->addTransition(c,EPSILON);
-    a->addTransition(e,EPSILON);
-    b->addTransition(d,'0');
-    b->addTransition(d,'1');
-    b->addTransition(c,EPSILON);
-    c->addTransition(d,'0');
-    c->addTransition(e,EPSILON);
-    d->addTransition(e,'0');
-    d->addTransition(f,'1');
-    d->addTransition(g,EPSILON);
-    e->addTransition(e,'0');
-    e->addTransition(b,EPSILON);
-    f->addTransition(e,'1');
-    f->addTransition(g,EPSILON);
-    NFAtoDFA *cnvrt = new NFAtoDFA(a);
+    RulesParser *rulesParser= new RulesParser();
+    unordered_map <string, stack<char>> map = rulesParser->getRegularExpressionPostfixes("input.txt");
+    vector<string> labels = rulesParser->getLabelsOrdered();
+    Converter conv;
+    CombinedNFA combinednfa = conv.regularExpressionToNFA(map,labels);
+    combinednfa.printCombinedNFA();
+    NFAtoDFA *cnvrt = new NFAtoDFA(combinednfa.startNode);
     cnvrt->operate();
     vector<Node *> res = cnvrt->getResult();
     Minimization *minimization = new Minimization(&res);
     vector<Node*> v = minimization->getMinimizedTable();
 
-
-
-
+    Simulator* simulator = new Simulator(v);
+    simulator->resetInputFile("/home/magho/workspaceC++/compilerProg/testInput.txt");
+    string nextToken = "";
+    simulator->generateTokensFileAndSymbolTable();
     return 0;
 }

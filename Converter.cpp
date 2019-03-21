@@ -1,7 +1,7 @@
 #include "Converter.h"
 #define EPSILON 163
 
-CombinedNFA Converter::regularExpressionToNFA(map<string, stack<char>> reExpressions, vector<string> labels) {
+CombinedNFA Converter::regularExpressionToNFA(unordered_map <string, stack<char>> reExpressions, vector<string> labels) {
 
     vector<NFA*> NFAs;
     int priority = 0;

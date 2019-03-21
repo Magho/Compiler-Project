@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include "StateGroup.h"
+#include<bits/stdc++.h>
+
 #define EPSILON (char)163
 
 using  namespace std;

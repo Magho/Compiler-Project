@@ -8,7 +8,6 @@ using namespace std;
 
 class CombinedNFA {
 private:
-    Node* startNode;
     vector<NFA*> NFAs;// vector of pointers to all finalNodes
    void printRecursive(Node* node, int depth, map<int, bool>* map1);
 public:
@@ -16,6 +15,7 @@ public:
         this->startNode = startNode;
         this->NFAs = std::move(NFAs);
     }
+    Node* startNode;
     void printCombinedNFA();
 
 };

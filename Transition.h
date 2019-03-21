@@ -1,3 +1,5 @@
+#ifndef Transition_H
+#define Transition_H
 #include<vector>
 #include<string>
 
@@ -17,21 +19,4 @@ public :
         this->transitionSymbol = symbol;
     };
 };
-
-
-
-/*
-
-#include<vector>
-#include<string>
-#include "Node.cpp"
-
-using namespace std;
-
-class Transition {
-    public :
-        Node *toNode;
-        char transitionSymbol;
-};
-
-*/
+#endif

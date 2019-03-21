@@ -1,6 +1,7 @@
 #ifndef STATEGROUP_H
 #define STATEGROUP_H
 #include <iostream>
+#include<bits/stdc++.h>
 #include <vector>
 #include "Node.h"
 

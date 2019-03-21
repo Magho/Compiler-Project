@@ -1,9 +1,10 @@
 #include <utility>
 #include<vector>
 #include<string>
-#include <map>
+#include <unordered_map>
 #include <stack>
 #include "CombinedNFA.h"
+
 
 #define ADDITION (char)200
 #define MULTIPLICATION (char)201
@@ -15,5 +16,5 @@ private:
     void handleSpecialChar(char &ch);
 public:
     // it creates for each stack a NFA then combine them
-    CombinedNFA regularExpressionToNFA (map<string, stack<char>> reExpressions, vector<string> labels);
+    CombinedNFA regularExpressionToNFA (unordered_map <string, stack<char>> reExpressions, vector<string> labels);
 };

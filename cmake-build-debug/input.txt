@@ -1,0 +1,7 @@
+do
+double
+id: [a-z|A-Z]
+
+id: a-z | A-Z:
+assign: \=
+{ do double while }

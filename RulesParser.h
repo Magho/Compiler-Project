@@ -1,4 +1,3 @@
-
 #ifndef COMPILERPROJECT_RULESPARSER_H
 #define COMPILERPROJECT_RULESPARSER_H
 #include <iostream>

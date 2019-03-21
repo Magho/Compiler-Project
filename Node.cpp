@@ -88,38 +88,3 @@ void Node::setNodeNumber(int nodenumber) {
 int Node::getPriority() {
     return this->priority;
 }
-
-string Node::getTokenName() {
-    return this->tokenName;
-}
-
-
-/*#include "Node.h"
-
-Node::Node(int Number, bool start, bool final, string tokenName) {
-    this->Number     =   Number    ;
-    this->start      =   start     ;
-    this->final      =   final     ;
-    this->tokenName  =   tokenName ;
-}
-
-void Node::addTransition(Node& node_to, char transitionSymbol) {
-
-}
-
-vector<Transition> Node::getPossibleTransitions() {
-
-}
-
-Node Node::getNextNode(char transitionSymbol) {
-
-}
-
-bool Node::isStart(Node node) {
-
-}
-
-bool Node::isFinal(Node node) {
-
-}
-*/
