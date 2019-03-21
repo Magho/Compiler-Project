@@ -21,42 +21,41 @@ void CombinedNFA::printRecursive(Node* node, int depth, map<int, bool>* map1) {
     map<int, bool>::iterator itr;
     for (itr = map1->begin(); itr != map1->end(); ++itr) {
         if (node->getNodeNumber() == itr->first) {
-            if(itr->second) {
+            if (itr->second) {
                 checkedBefore = true;
-            } else{
+            } else {
                 itr->second = true;
             }
         }
     }
-    if (checkedBefore){
-        if (node->getNodeNumber() < 10){
-            cout << node->getNodeNumber()  << " " << endl;
+    if (checkedBefore) {
+        if (node->getNodeNumber() < 10) {
+            cout << node->getNodeNumber() << " " << endl;
         } else {
             cout << node->getNodeNumber() << endl;
         }
         return;
-    }
-    else if (node->getPossibleTransitions().empty()){
+    } else if (node->getPossibleTransitions().empty()) {
         cout << node->getNodeNumber() << "#" << endl;
         return;
     }
 
-    vector<Transition*> trans = node->getPossibleTransitions();
+    vector<Transition *> trans = node->getPossibleTransitions();
     int i = 0;
     for (auto &tran : trans) {
-        if (i != 0){
+        if (i != 0) {
             for (int j = 0; j < depth; j++) {
                 cout << "         ";
             }
             cout << "| " << "--" << tran->transitionSymbol << "--> ";
         } else {
-            if (node->getNodeNumber() < 10){
+            if (node->getNodeNumber() < 10) {
                 cout << node->getNodeNumber() << " " << "--" << tran->transitionSymbol << "--> ";
             } else {
                 cout << node->getNodeNumber() << "--" << tran->transitionSymbol << "--> ";
             }
         }
-        printRecursive(tran->toNode, depth+1, map1);
+        printRecursive(tran->toNode, depth + 1, map1);
         i++;
     }
 }

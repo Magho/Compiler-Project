@@ -1,5 +1,4 @@
 #include <utility>
-#include <utility>
 #include "Node.h"
 #define EPSILON 163
 
@@ -18,6 +17,15 @@ void Node::addTransition(Node* node_to, char transitionSymbol) {
     // used dynamic allocation to avoid deleting this trans when going out of scope
     Transition *trans  = new Transition (node_to, transitionSymbol);
     this->transitions.push_back(trans);
+}
+
+void Node::editTransition(Node* node_to, char transitionSymbol) {
+    for (auto &transition : this->transitions) {
+        if (transition->transitionSymbol == transitionSymbol) {
+            // toNode is a pointer so used * to access its value
+            transition->toNode = node_to;
+        }
+    }
 }
 
 vector<Transition*> Node::getPossibleTransitions() {
@@ -64,6 +72,11 @@ string Node::getLexeme() {
     return this->lexeme;
 }
 
+string Node::getTokenName() {
+    // if no token name return empty string
+    return this->tokenName;
+}
+
 int Node::getNodeNumber() {
     return this->nodeNumber;
 }
@@ -79,3 +92,34 @@ int Node::getPriority() {
 string Node::getTokenName() {
     return this->tokenName;
 }
+
+
+/*#include "Node.h"
+
+Node::Node(int Number, bool start, bool final, string tokenName) {
+    this->Number     =   Number    ;
+    this->start      =   start     ;
+    this->final      =   final     ;
+    this->tokenName  =   tokenName ;
+}
+
+void Node::addTransition(Node& node_to, char transitionSymbol) {
+
+}
+
+vector<Transition> Node::getPossibleTransitions() {
+
+}
+
+Node Node::getNextNode(char transitionSymbol) {
+
+}
+
+bool Node::isStart(Node node) {
+
+}
+
+bool Node::isFinal(Node node) {
+
+}
+*/
