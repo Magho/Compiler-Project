@@ -20,7 +20,19 @@ CombinedNFA Converter::regularExpressionToNFA(map<string, stack<char>> reExpress
 
     return CombinedNFA(start, NFAs);
 }
-
+void Converter::handleSpecialChar(char &ch) {
+    switch (ch) {
+        case ADDITION:
+            ch = '+';
+            break;
+        case MULTIPLICATION:
+            ch = '*';
+            break;
+        case OR:
+            ch = '|';
+            break;
+    }
+}
 NFA* Converter::reToNFA(stack<char> reExpression, int priority, vector<string> labels) {
 
     stack<NFA*> NFAStack;
@@ -64,6 +76,7 @@ NFA* Converter::reToNFA(stack<char> reExpression, int priority, vector<string> l
             Node* NFA1node = new Node (++this->nodeNumber, false, false, priority, labels[priority]);
             Node* NFA1StartNode = new Node (++this->nodeNumber, true, false, priority, labels[priority]);
             Node* NFA1FinalNode = new Node (++this->nodeNumber, false, true, priority, labels[priority]);
+            handleSpecialChar(temp);
             NFA1StartNode->addTransition(NFA1node,temp);
             NFA1node->addTransition(NFA1FinalNode,char(EPSILON));
             vector<Node*> NFA1graph;
