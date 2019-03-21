@@ -269,7 +269,7 @@ void RulesParser::handleKeywords(string set) {
             keywordIndex = i;
         } else if(set[i] == ' ' && keywordFound) {
             string keyword = set.substr(keywordIndex, i - keywordIndex);
-            orderOfLabels.push_back(keyword);
+            orderOfLabels.insert(orderOfLabels.begin(), keyword);
             keywords[keyword] = keyword;
             keywordFound = 0;
             keywordIndex = -1;
