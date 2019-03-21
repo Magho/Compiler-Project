@@ -21,7 +21,7 @@ int main(){
     vector<Node*> v = minimization->getMinimizedTable();
 
     Simulator* simulator = new Simulator(v);
-    simulator->resetInputFile("/home/magho/workspaceC++/compilerProg/testInput.txt");
+    simulator->resetInputFile("/home/sajed/CLionProjects/Compilers_Phase1/testInput.txt");
     string nextToken = "";
     simulator->generateTokensFileAndSymbolTable();
     return 0;

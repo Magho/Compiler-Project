@@ -3,25 +3,59 @@
 using namespace std;
 
 
-void Minimization::splitUponValidState(){
-    StateGroup * valid = new StateGroup(groupsCntr);groupsCntr++;
-    StateGroup * invalid = new StateGroup(groupsCntr);groupsCntr++;
+//void Minimization::splitUponValidState(){
+//    StateGroup * valid = new StateGroup(groupsCntr);groupsCntr++;
+//    StateGroup * invalid = new StateGroup(groupsCntr);groupsCntr++;
+//
+//    for(Node *n : *nodes){
+//        if(n->final){
+// //           cout<< "valid : "<<n->nodeNumber<<endl;
+//            valid->addState(n);
+//        }else{
+//  //          cout<< "invalid : "<<n->nodeNumber<<endl;
+//            invalid->addState(n);
+//        }
+//    }
+//    /*initializing them to keep track of fai to put it at the end as aa convention*/
+//    fai = nodes->back();
+//    faiG = invalid;
+//    groups->push_back(valid);
+//    groups->push_back(invalid);
+//}
 
+void Minimization::splitUponValidState(){
+    StateGroup * invalid = new StateGroup(groupsCntr);groupsCntr++;
+    vector<StateGroup *> * valid = new vector<StateGroup *>();
     for(Node *n : *nodes){
         if(n->final){
- //           cout<< "valid : "<<n->nodeNumber<<endl;
-            valid->addState(n);
+            //           cout<< "valid : "<<n->nodeNumber<<endl;
+            bool found= false;
+            for(StateGroup * st : *valid){
+                if(st->getGroupNode()->tokenName==n->tokenName) {
+                    st->addState(n);
+                    found=true;
+                    break;
+                }
+            }
+            if(!found){
+                StateGroup * validI = new StateGroup(groupsCntr);groupsCntr++;
+                validI->addState(n);
+                valid->push_back(validI);
+            }
         }else{
-  //          cout<< "invalid : "<<n->nodeNumber<<endl;
+            //          cout<< "invalid : "<<n->nodeNumber<<endl;
             invalid->addState(n);
         }
     }
     /*initializing them to keep track of fai to put it at the end as aa convention*/
     fai = nodes->back();
     faiG = invalid;
-    groups->push_back(valid);
+    for(StateGroup * s : *valid) {
+        groups->push_back(s);
+    }
     groups->push_back(invalid);
 }
+
 bool Minimization::equalStates(Node *a , Node *b){
   //  cout<<"\ncomparing equality for all inputs btw "<<a->nodeNumber <<" and " <<b->nodeNumber<<endl;
     for(int i =0;i<128;i++){
@@ -70,21 +104,52 @@ bool Minimization::splitToGroups(){
 
 }
 
+//vector<Node*> Minimization::parseGroupsToNodes(){
+//    vector<Node*> *res = new vector<Node*>();
+//    while(!groups->empty()){
+//        if(groups->back()!= faiG) {
+//            res->push_back((groups->back()->getGroupNode()));
+//        }
+//        groups->pop_back();
+//    }
+//    res->push_back(faiG->getGroupNode());
+//cout<<endl;
+//    for(Node *n : *res){
+//        cout<<(n->start ? "ST-":"---")<<(n->final ? "f-  ":"--  ")<< n->nodeNumber<<":::";
+//        for(int  i=0;i<128;i++){
+//          if(n->transitions.at(i)->toNode->nodeNumber!=1)
+//            cout<<"( "<<(char)i<<","<<n->transitions.at(i)->toNode->nodeNumber<<")";
+//        }
+//        cout<<endl;
+//    }
+//
+//    return *res;
+//}
+
 vector<Node*> Minimization::parseGroupsToNodes(){
     vector<Node*> *res = new vector<Node*>();
+    StateGroup * strt ;
+    for(StateGroup * st :*groups){
+        if(st->getGroupNode()->start){
+            strt=st;
+            res->push_back(st->getGroupNode());
+        }
+    }
     while(!groups->empty()){
-        if(groups->back()!= faiG) {
+
+        if(groups->back()!= faiG && strt !=groups->back()) {
             res->push_back((groups->back()->getGroupNode()));
         }
         groups->pop_back();
     }
+
     res->push_back(faiG->getGroupNode());
-cout<<endl;
+    cout<<endl;
     for(Node *n : *res){
-        cout<<(n->start ? "ST-":"---")<<(n->final ? "f-  ":"--  ")<< n->nodeNumber<<":::";
+        cout<<(n->start ? "ST-":"---")<<(n->final ? "f-  ":"--  ") << n->tokenName << n->nodeNumber<<":::";
         for(int  i=0;i<128;i++){
-          if(n->transitions.at(i)->toNode->nodeNumber!=1)
-            cout<<"( "<<(char)i<<","<<n->transitions.at(i)->toNode->nodeNumber<<")";
+            if(n->transitions.at(i)->toNode->nodeNumber!=1)
+                cout<<"( "<<(char)i<<","<<n->transitions.at(i)->toNode->nodeNumber <<  ")";
         }
         cout<<endl;
     }

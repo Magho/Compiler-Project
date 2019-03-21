@@ -1,1 +1,24 @@
-Undefined token
+int
+id
+,
+id
+,
+id
+,
+id
+;
+while
+(
+id
+relop
+num
+)
+{
+id
+assign
+id
+addop
+num
+;
+}
+,

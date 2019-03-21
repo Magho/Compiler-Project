@@ -1,4 +1,5 @@
 #include "Converter.h"
+#include "iostream"
 #define EPSILON 163
 
 CombinedNFA Converter::regularExpressionToNFA(unordered_map <string, stack<char>> reExpressions, vector<string> labels) {
@@ -6,15 +7,29 @@ CombinedNFA Converter::regularExpressionToNFA(unordered_map <string, stack<char>
     vector<NFA*> NFAs;
     int priority = 0;
     for (auto &label : labels) {
-        NFAs.push_back(reToNFA(reExpressions[label], priority, labels));
+        NFAs.push_back(reToNFA(reExpressions[label], priority++, labels));
     }
 
+
+//    // start Node has no priority so -1 and NULL tokenName
+//    Node* start = new Node (0, true, false, -1, "");
+//    for (auto &NFA : NFAs) {
+//        vector<Node*> NFAsStartNodes = NFA->getStartNodes();
+//        for (int j = 0; j < NFAsStartNodes.size(); ++j) {
+//            start->addTransition(NFA->getStartNodes()[j], char(EPSILON));
+//        }
+//    }
+
+
+    cout << "sajed";
     // start Node has no priority so -1 and NULL tokenName
     Node* start = new Node (0, true, false, -1, "");
     for (auto &NFA : NFAs) {
         vector<Node*> NFAsStartNodes = NFA->getStartNodes();
         for (int j = 0; j < NFAsStartNodes.size(); ++j) {
-            start->addTransition(NFA->getStartNodes()[j], char(EPSILON));
+            start->addTransition(NFAsStartNodes[j], char(EPSILON));
+            cout << NFAsStartNodes[j]->getPriority() ;
+            cout << NFAsStartNodes[j]->getTokenName() << endl;
         }
     }
 

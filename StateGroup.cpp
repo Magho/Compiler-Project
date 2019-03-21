@@ -11,11 +11,11 @@ StateGroup::StateGroup(int Num){
 }
 
 Node* StateGroup::getGroupNode(){
-    int highest_priority = INT_MAX;
+    int highest_priority = 1000000;
     for(Node *toAdd : *states){
         potentialNode->start =potentialNode->start|| toAdd->start;
         potentialNode->final =potentialNode->final||toAdd->final;
-        if(toAdd->priority< highest_priority){
+        if(toAdd->priority< highest_priority && toAdd->final){
             highest_priority = toAdd->priority;
             potentialNode->priority = toAdd->priority;
             potentialNode->tokenName = toAdd->tokenName;
