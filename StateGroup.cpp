@@ -17,6 +17,7 @@ Node* StateGroup::getGroupNode(){
         potentialNode->final =potentialNode->final||toAdd->final;
         if(toAdd->priority< highest_priority && toAdd->final){
             highest_priority = toAdd->priority;
+            potentialNode->lexeme = toAdd->lexeme;
             potentialNode->priority = toAdd->priority;
             potentialNode->tokenName = toAdd->tokenName;
         }
