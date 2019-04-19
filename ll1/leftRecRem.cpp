@@ -58,12 +58,22 @@ bool leftRecursionRemover::directRemoveLR(int index){
         return true;
 }
 bool  leftRecursionRemover::preformLL1(bool debug){
+    if(debug){
+        cout<<"hello and welcome to the bounce part \n let's clean  this CFG from left recursion...\n";
+    }
     bool notLL1=false;
     int originalSize=rules.size(); // am doing so bcuz i'll add el rules elgdida with pushback op O(1) and i do not want to loop into the new prods FOR NOW
     for(int i=0;i<originalSize;i++){
+        if(debug){
+            cout<<"loop no"<<i<<" in rules-------------------------------------------\n";
+        }
             for(int k=rules.at(i)->rhs->size()-1;k>=0;k--){
+
                 Production *p = rules.at(i)->rhs->at(k);
                 ProductionElement  *e  =p->getProductionVals()->at(0);
+                if(debug){
+                    cout<<"looking at production no "<<k<< " which is "<<p->printProduction();
+                }
                 if(e->isNonTerminal()) {
                     for (int j = 0; j < i; j++) {
                         if(rules.at(j)->lhs == e->getSymbolValue()){
