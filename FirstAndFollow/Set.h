@@ -8,7 +8,7 @@
 
 #include <map>
 #include <vector>
-#include "CFG.h"
+#include "../CFG/CFG.h"
 
 class Set {
     public:
