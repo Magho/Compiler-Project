@@ -3,6 +3,18 @@
 //
 
 #include "CFG.h"
+
+/*
+ * added by abdo ..
+ * to preform ll1 directly on the rules
+ * don't worry about encapsulation , rules will be fine lol
+ * */
+unordered_map<string, vector<Production*>*> * CFG::getCFGRules(){
+    return &rules;
+}
+
+
+
 ProductionElement* CFG::createNewTerminal(string symbolValue) {
     if(doesExist(symbolValue, 1)) {
         return getProductionElement(symbolValue, 1);
