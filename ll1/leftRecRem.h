@@ -24,7 +24,10 @@ class leftRecursionRemover{
 private:
     vector<ruleHelper*> rules;
     CFG *c ;
-public:
+    void directRemoveLR(int index);
+    bool isLeftRec(int index);
+
+        public:
     /*
      * the constructor accepts cfg to get rules and modify its rules
      * */
