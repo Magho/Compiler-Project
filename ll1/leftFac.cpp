@@ -1,4 +1,70 @@
 //
 // Created by ABDO on 4/19/2019.
 //
+#include "leftFac.h"
+leftFac::leftFac(CFG *cfg,    vector<ruleHelper*> *ruless){
+    rules = ruless;
+    c= cfg;
+}
+bool leftFac::preformLF(bool debug){
+    for(int i=0;i<rules->size();i++){
+        for(int j=0;j<rules->at(i)->rhs->size();j++){
+            bool entered= true;
+            while (entered){
+                entered=false;
+            int maxFac=0;
+            vector<int> *prodsWithMaxFac=new vector<int>();
+            for(int l=j+1;l<rules->at(i)->rhs->size();l++){
+                int num =0;
+                while(num<rules->at(i)->rhs->at(j)->getProductionVals()->size()&&num<rules->at(i)->rhs->at(l)->getProductionVals()->size()
+                       && rules->at(i)->rhs->at(j)->getProductionVals()->at(num)->getSymbolValue()
+                        ==rules->at(i)->rhs->at(l)->getProductionVals()->at(num)->getSymbolValue()){
+                    num++;
+                }
+                if(num>maxFac){
+                    maxFac=num;
+                    prodsWithMaxFac=new vector<int>();
+                    prodsWithMaxFac->push_back(l);
+                }else if(num==maxFac){
+                    prodsWithMaxFac->push_back(l);
+                }
 
+            }
+
+            if(maxFac!=0) {
+                entered=true;
+                string newName = rules->at(i)->lhs;
+                while (c->doesExist(newName, 0)) {
+                    newName = newName + "'";
+                }
+                ProductionElement *e = c->createNewNonTerminal(newName);
+                for (int x = 0; x < prodsWithMaxFac->size(); x++) {
+                    Production *p = new Production();
+                    Production *t = rules->at(i)->rhs->at(x);
+                    for (int z = maxFac; z < t->getProductionVals()->size(); z++) {
+                        p->appendNewProductionElement(t->getProductionVals()->at(z));
+                    }
+                    if (maxFac == t->getProductionVals()->size()) {
+                        p->appendNewProductionElement(c->getProductionElement("\\L"));
+                        c->assignProductionToNonTerminal(p, newName);
+                    } else {
+                        c->assignProductionToNonTerminal(p, newName);
+                    }
+                }
+                for (int x = 0; x < prodsWithMaxFac->size(); x++) {
+                    rules->at(i)->rhs->erase(rules->at(i)->rhs->begin() + prodsWithMaxFac->at(x) - x);
+                }
+
+
+            }
+                }
+        }
+    }
+
+
+
+}
+
+/*
+ * p->appendNewProductionElement(elem);
+                    p->appendNewProductionElement(e);*/
