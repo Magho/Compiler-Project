@@ -37,6 +37,8 @@ public:
     ProductionElement* getProductionElement(string symbolValue);
     ProductionElement* getProductionElement(string symbolValue, int isTerminal);
     void assignProductionToNonTerminal(Production* p, string nt,int pos);
+    void assignProductionToNonTerminal(Production* p, string nt);
+
     void debug();
 };
 

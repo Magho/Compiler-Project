@@ -136,7 +136,18 @@ void CFG::assignProductionToNonTerminal(Production* p, string nt,int pos) {
     vector<Production*>* productions = rules[nt];
     productions->insert(productions->begin()+pos,p);
 }
-
+void CFG::assignProductionToNonTerminal(Production* p, string nt) {
+    if(DEBUG) {
+        cout << "Assigning Production to " << nt << ": ";
+        p->debugProduction();
+    }
+    if(!doesExist(nt, 0)) {
+        cout << "ERROR: " << nt << " doesn't exist!!" << endl;
+        return;
+    }
+    vector<Production*>* productions = rules[nt];
+    productions->push_back(p);
+}
 void CFG::debug() {
     if(DEBUG) {
         cout << "Debugging CFG..." << endl;
