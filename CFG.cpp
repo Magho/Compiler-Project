@@ -1,7 +1,8 @@
 //
 // Created by ecc on 19/04/2019.
 //
-
+#include <iostream>
+#include <string>
 #include "CFG.h"
 
 /*
@@ -123,7 +124,7 @@ ProductionElement* CFG::getProductionElement(string symbolValue,int isTerminal) 
     }
     return NULL;
 }
-void CFG::assignProductionToNonTerminal(Production* p, string nt) {
+void CFG::assignProductionToNonTerminal(Production* p, string nt,int pos) {
     if(DEBUG) {
         cout << "Assigning Production to " << nt << ": ";
         p->debugProduction();
@@ -133,7 +134,7 @@ void CFG::assignProductionToNonTerminal(Production* p, string nt) {
         return;
     }
     vector<Production*>* productions = rules[nt];
-    productions->push_back(p);
+    productions->insert(productions->begin()+pos,p);
 }
 
 void CFG::debug() {

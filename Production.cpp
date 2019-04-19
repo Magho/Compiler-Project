@@ -7,7 +7,7 @@
 void Production::printProduction() {
 
     for(ProductionElement *e : productionValue){
-        std::cout<<e->getSymbolValue()<<"{"<<e->isTerminal() ? "T} ":"N} ";
+        std::cout<<e->getSymbolValue()<<"{"<<(e->isTerminal() ? "T} ":"N} ");
     }
     std::cout<<endl;
 

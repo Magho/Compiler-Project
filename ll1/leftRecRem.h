@@ -15,7 +15,10 @@ public:
         lhs=s;
         rhs=p;
     }
-
+    void printRule(){
+        cout<< lhs <<"---------> ";
+        for(Production * p :*rhs) p->printProduction();
+    }
     string lhs;
     vector<Production*> * rhs;
 };
@@ -24,7 +27,7 @@ class leftRecursionRemover{
 private:
     vector<ruleHelper*> rules;
     CFG *c ;
-    bool directRemoveLR(int index);
+    bool directRemoveLR(int index,bool debug);
     bool isLeftRec(int index);
 
         public:
@@ -36,7 +39,7 @@ private:
      * returns false if the CFG is already ll1
      * if debug is true the function will print the steps
      * */
-    bool  preformLL1(bool debug);
+    bool  preformLRR(bool debug);
 
 };
 #endif //COMPILER_PROJECT_LEFTRECREM_H

@@ -5,6 +5,7 @@
 #ifndef COMPILER_PROJECT_LL1WRAPPER_H
 #define COMPILER_PROJECT_LL1WRAPPER_H
 
+#include "leftRecRem.h"
 
 
 

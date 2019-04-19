@@ -2,6 +2,10 @@
 // Created by ecc on 19/04/2019.
 //
 
+
+#include <iostream>
+#include <string>
+
 #include "ProductionElement.h"
 ProductionElement::ProductionElement(int isTerminal, string symbolValue) {
     terminal = isTerminal;

@@ -23,7 +23,7 @@
  */
 class CFG {
 private:
-    int DEBUG = 1;
+    int DEBUG = 0;
     unordered_map<string, vector<Production*>*> rules;
     vector<ProductionElement*> terminals;
     vector<ProductionElement*> nonTerminals;
@@ -36,7 +36,7 @@ public:
     int doesExist(string symbolValue, int isTerminal);
     ProductionElement* getProductionElement(string symbolValue);
     ProductionElement* getProductionElement(string symbolValue, int isTerminal);
-    void assignProductionToNonTerminal(Production* p, string nt);
+    void assignProductionToNonTerminal(Production* p, string nt,int pos);
     void debug();
 };
 
