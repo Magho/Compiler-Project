@@ -14,6 +14,7 @@ private:
     int DEBUG = 1;
     vector<ProductionElement*> productionValue;
 public:
+    vector<ProductionElement*> *getProductionVals();
     void appendNewProductionElement(ProductionElement* newProductionElement);
     vector<ProductionElement*> getProductionValue();
     void debugProduction();

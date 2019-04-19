@@ -3,6 +3,11 @@
 //
 
 #include "Production.h"
+vector<ProductionElement*> *Production::getProductionVals(){
+    return  &productionValue;
+
+
+}
 void Production::appendNewProductionElement(ProductionElement* newProductionElement) {
     productionValue.push_back(newProductionElement);
 }

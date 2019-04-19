@@ -16,10 +16,35 @@ leftRecursionRemover::leftRecursionRemover(CFG *cfg){
 }
 
 
-
+/*
+ - Arrange non-terminals in some order: A1
+ ... An
+- for i from 1 to n do {
+- for j from 1 to i-1 do {
+replace each production
+Ai  Aj
+
+ by
+Ai  1
+ | ... | k
+
+where Aj  1
+ | ... | k
+ }
+- eliminate immediate left-recursions among Ai
+ productions
+}
+ * */
 
 bool  leftRecursionRemover::preformLL1(bool debug){
+    for(int i=0;i<rules.size();i++){
+            for(int k=0;k<rules.at(i)->rhs->size();k++){
+                if(rules.at(i)->rhs->at(k))
+                for(int j=0;j<i;j++){
 
+                }
+        }
+    }
 
     return false;
 }
