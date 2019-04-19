@@ -173,8 +173,6 @@ bool  leftRecursionRemover::preformLRR(bool debug){
                                     cout << " this prod is added  TO the rule\n";
                                     newP->printProduction();
                                 }
-                                cout<<i<<"i "<<k<<"k "<<j<<"j "<<x<<"x--------------------------------------------\n";
-                                rules.at(i)->rhs->push_back(newP);
                             }
                             break;
                         }
