@@ -23,17 +23,21 @@ bool leftRecursionRemover::isLeftRec(int index){
         }
     return false;
 }
-void leftRecursionRemover::directRemoveLR(int index){
+bool leftRecursionRemover::directRemoveLR(int index){
         string newPotentialName =rules.at(index)->lhs+'`';
         vector<Production*> prods ;
         if(!isLeftRec(index)){
-            return;
+            return false;
         }
         ProductionElement * newElem =c->createNewNonTerminal(newPotentialName);
         for(int i=0;i<rules.at(index)->rhs->size();i++){
             if(rules.at(index)->rhs->at(i)->getProductionVals()->at(0)->getSymbolValue()==rules.at(index)->lhs){
                 Production *p = new Production();
                 int size = rules.at(index)->rhs->at(i)->getProductionVals()->size();
+                if(size==1){
+                    cout<<"error .. A->A can't be turned to ll (1)";
+                    return;
+                }
                 for(int k=1;k<size;k++){
                     p->appendNewProductionElement(rules.at(index)->rhs->at(i)->getProductionVals()->at(k));
                 }
@@ -51,8 +55,10 @@ void leftRecursionRemover::directRemoveLR(int index){
         prods.push_back(epsProd);
         ruleHelper * newRule = new ruleHelper(newPotentialName,&prods);
         rules.push_back(newRule);
+        return true;
 }
 bool  leftRecursionRemover::preformLL1(bool debug){
+    bool notLL1=false;
     int originalSize=rules.size(); // am doing so bcuz i'll add el rules elgdida with pushback op O(1) and i do not want to loop into the new prods FOR NOW
     for(int i=0;i<originalSize;i++){
             for(int k=rules.at(i)->rhs->size()-1;k>=0;k--){
@@ -63,29 +69,25 @@ bool  leftRecursionRemover::preformLL1(bool debug){
                         if(rules.at(j)->lhs == e->getSymbolValue()){
                             //remove e from prod, distribute the rest of prod to rules.at j as new prods for each , add these prods to rules at i and remove org prod
                             rules.at(i)->rhs->erase(rules.at(i)->rhs->begin()+k); // remove current prod
-                            p->getProductionVals()->erase( p->getProductionVals()->begin() ); // remove first elem
-                            for(int x =0;x<rules.at(j)->rhs->size();x++){
+                            p->getProductionVals()->erase( p->getProductionVals()->begin() ); // remove first elem from the prod
+                            for(int x =0;x<rules.at(j)->rhs->size();x++){         //for each elem in rhs of j
                                 Production *newP = new Production();
-                                for(int z=0;z<rules.at(j)->rhs->at(x)->getProductionVals()->size();z++) {
+                                c->assignProductionToNonTerminal(newP,rules.at(i)->lhs );
+                                for(int z=0;z<rules.at(j)->rhs->at(x)->getProductionVals()->size();z++) {   //add j's elems
                                     newP->appendNewProductionElement(rules.at(j)->rhs->at(x)->getProductionVals()->at(z));
                                 }
-                                for(int z=0;z<p->getProductionVals()->size();z++) {
+                                for(int z=0;z<p->getProductionVals()->size();z++) {                         //then add the removed prod elems
                                     newP->appendNewProductionElement(p->getProductionVals()->at(z));
                                 }
-                                rules.at(i)->rhs->push_back(newP);
+                                rules.at(i)->rhs->push_back(newP);                                          // then add A'
                             }
                         }
                     }
                 }
             }
-            directRemoveLR(i);
+            notLL1 = notLL1||directRemoveLR(i);
     }
 
-    return false;
+    return notLL1;
 }
 
-unordered_map<string, vector<Production*>*> *leftRecursionRemover::getCFG(){
-
-
-    return nullptr;
-}

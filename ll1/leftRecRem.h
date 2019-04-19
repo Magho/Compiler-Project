@@ -24,7 +24,7 @@ class leftRecursionRemover{
 private:
     vector<ruleHelper*> rules;
     CFG *c ;
-    void directRemoveLR(int index);
+    bool directRemoveLR(int index);
     bool isLeftRec(int index);
 
         public:
@@ -37,12 +37,6 @@ private:
      * if debug is true the function will print the steps
      * */
     bool  preformLL1(bool debug);
-    /*
-     * converts the vector of rules to bassam's unnecessary unordered map
-     * and returns it in case oreformll1 returned true
-     * (if it had returned false this returns the given CFG in constructor )
-     * */
-    unordered_map<string, vector<Production*>*> * getCFG();
 
 };
 #endif //COMPILER_PROJECT_LEFTRECREM_H
