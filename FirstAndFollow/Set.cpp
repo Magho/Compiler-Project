@@ -17,13 +17,18 @@ void Set::finishMyFirstSet(bool isFollow) {
                 if (!isFollow) {
                     this->SetTerminalsProductions.insert(
                             pair<string ,Production*>(terminal.first,
-                                    setNonTerminal->second->SetTerminalsProductions[terminal.first]));
+                                    this->SetNonTerminalsProductions[setNonTerminal->first]));
                 }
             }
             for (auto nonTerminal : setNonTerminal->second->SetNonTerminals){
                 // if exist before just rewrite it
                 if(nonTerminal.first != this->name) {
                     this->SetNonTerminals.insert(pair<string ,Set*> (nonTerminal.first, nonTerminal.second));
+                    if (!isFollow) {
+                        this->SetNonTerminalsProductions.insert(
+                                pair<string ,Production*>(nonTerminal.first,
+                                                          this->SetNonTerminalsProductions[setNonTerminal->first]));
+                    }
                 }
             }
             // erase the first set we has just checked
@@ -37,5 +42,23 @@ void Set::finishMyFirstSet(bool isFollow) {
                 this->SetTerminals.erase(terminal++);
             }
         }
+    }
+}
+
+void Set::printSetTerminals() {
+    for(auto terminal : SetTerminals){
+        cout << terminal.first << ", ";
+    }
+}
+void Set::printSetNonTerminals() {
+    for(auto terminal : SetNonTerminals){
+        cout << terminal.first << ", ";
+    }
+}
+
+void Set::printSetTerminalsProductions() {
+    for(auto terminal : SetTerminalsProductions){
+        cout << terminal.first << " : ";
+        terminal.second->debugProductionCFG();
     }
 }

@@ -22,6 +22,7 @@ void FirstAndFollowLogic::calcFirstSet() {
                     // add its production
                     firstSets.at(rule.first)->SetTerminalsProductions.insert(
                     pair<string, Production*>(productionElem->getSymbolValue(),production));
+                    break;
                 } else  {
                     // if non terminal add its first set to mine
                     // don't insert yourself
@@ -29,6 +30,9 @@ void FirstAndFollowLogic::calcFirstSet() {
                         firstSets.at(rule.first)->SetNonTerminals.insert(
                                 pair<string, Set*>(productionElem->getSymbolValue(),
                                                    firstSets.at(productionElem->getSymbolValue())));
+                        // add its production
+                        firstSets.at(rule.first)->SetNonTerminalsProductions.insert(
+                                pair<string, Production*>(productionElem->getSymbolValue(),production));
                     }
                     if (!productionElem->hasEpsilon()){
                         // if not has epsilon break;
@@ -38,7 +42,7 @@ void FirstAndFollowLogic::calcFirstSet() {
                     if (counter == production->productionValue.size()){
                         ProductionElement *productionElement = new ProductionElement (0, "~");
                         firstSets.at(rule.first)->SetTerminals.insert(
-                                pair<string, ProductionElement*>(productionElem->getSymbolValue(),productionElement));
+                                pair<string, ProductionElement*>(productionElement->getSymbolValue(),productionElement));
                         // no production for epsilon in case came from other non terminals
                     }
                 }
@@ -49,6 +53,18 @@ void FirstAndFollowLogic::calcFirstSet() {
     // make each first set finish it self --> convert each first set it has to terminals
     for(auto firstSet : firstSets){
         firstSet.second->finishMyFirstSet(false);
+        cout << endl;
+        cout << "terminal set ";
+        cout << firstSet.first << " : ";
+        firstSet.second->printSetTerminals();
+        cout << endl;
+        cout << "terminal productions ";
+        cout << firstSet.first << " : ";
+        firstSet.second->printSetTerminalsProductions();
+        cout << "non terminal set ";
+        cout << firstSet.first << " : ";
+        firstSet.second->printSetNonTerminals();
+        cout << endl;
     }
 }
 

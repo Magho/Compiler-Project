@@ -17,6 +17,7 @@ public:
     string getSymbolValue();
     // TODO Magho
     bool isTerminal();
+    bool gotEpsilon;
     bool hasEpsilon();//just if non terminal//TODO
     //
     void debug();

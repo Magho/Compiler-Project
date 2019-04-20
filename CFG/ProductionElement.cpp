@@ -26,6 +26,6 @@ void ProductionElement::debug() {
 
 //TODO Magho
 bool ProductionElement::hasEpsilon() {
-    return true;
+    return gotEpsilon;
 }
 //

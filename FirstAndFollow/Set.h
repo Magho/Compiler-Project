@@ -19,7 +19,11 @@ class Set {
         unordered_map<string ,ProductionElement*> SetTerminals;
         unordered_map<string ,Production*> SetTerminalsProductions;
         unordered_map<string ,Set*> SetNonTerminals;
-        void finishMyFirstSet (bool isFollow); //call after iterating on all the map of the CFG
+        unordered_map<string ,Production*> SetNonTerminalsProductions;
+    void finishMyFirstSet (bool isFollow); //call after iterating on all the map of the CFG
+        void printSetTerminals();
+        void printSetNonTerminals();
+        void printSetTerminalsProductions();
 };
 
 

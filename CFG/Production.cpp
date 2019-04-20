@@ -25,21 +25,19 @@ void Production::appendNewProductionElement(ProductionElement* newProductionElem
 vector<ProductionElement*> Production::getProductionValue() {
     return productionValue;
 }
+// TODO Magho
 void Production::debugProduction() {
-    if(DEBUG) {
-        cout << "value of production is ";
-        for (auto i : productionValue) {
-            cout << i->getSymbolValue();
-        }
-        cout << endl;
+    cout << "value of production is ";
+    for (auto i : productionValue) {
+        cout << i->getSymbolValue() << " " ;
     }
+    cout << endl;
 }
 
+// TODO Magho
 void Production::debugProductionCFG() {
-    if(DEBUG) {
-        for (auto i : productionValue) {
-            cout << i->getSymbolValue();
-        }
-        cout << endl;
+    for (auto i : productionValue) {
+        cout << i->getSymbolValue() << " ";
     }
+    cout << endl;
 }
