@@ -68,14 +68,14 @@ bool leftFac::preformLF(bool debug){
                 }
                 ruleHelper * newRule = new ruleHelper(newName,ps);
                 rules->push_back(newRule);
-                for(int v=0;maxFac+v<rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->size();v++) {
+                for(;maxFac<rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->size();) {
                     rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->erase(
                             rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->begin() +
-                            maxFac + v);
+                            maxFac );
                 }
                 rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->push_back(e);
                 for (int x = 1; x < prodsWithMaxFac->size(); x++) {
-                    rules->at(i)->rhs->erase(rules->at(i)->rhs->begin() + prodsWithMaxFac->at(x) - x);
+                    rules->at(i)->rhs->erase(rules->at(i)->rhs->begin() + prodsWithMaxFac->at(x) -x+1);
                 }
             }
                 }
