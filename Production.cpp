@@ -1,8 +1,24 @@
 //
 // Created by ecc on 19/04/2019.
 //
-
+#include <iostream>
+#include <string>
 #include "Production.h"
+void Production::printProduction() {
+
+    for(ProductionElement *e : productionValue){
+        std::cout<<e->getSymbolValue()<<"{"<<(e->isTerminal() ? "T} ":"N} ");
+    }
+    std::cout<<endl;
+
+}
+
+vector<ProductionElement*> *Production::getProductionVals(){
+    return  &productionValue;
+
+
+}
+
 void Production::appendNewProductionElement(ProductionElement* newProductionElement) {
     productionValue.push_back(newProductionElement);
 }
