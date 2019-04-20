@@ -18,15 +18,15 @@ GrammarParser::GrammarParser(string inputFile) {
             ProductionElement* newProductionElement;
             if(!startingDetected) {
                 startingDetected = 1;
-                grammer.createStartingSymbol(currentNonTerminal);
+                grammar.createStartingSymbol(currentNonTerminal);
             } else {
-                grammer.createNewNonTerminal(currentNonTerminal);
+                grammar.createNewNonTerminal(currentNonTerminal);
             }
             while(line.length() != 0) {
                 string production = getStringUntil(line,"|");
                 trim(production, "|");
                 Production* newP = handleProductionString(production);
-                grammer.assignProductionToNonTerminal(newP, currentNonTerminal);
+                grammar.assignProductionToNonTerminal(newP, currentNonTerminal);
             }
         } else if(line[0] == '|') {
             getStringUntil(line, "|");
@@ -34,7 +34,7 @@ GrammarParser::GrammarParser(string inputFile) {
                 string production = getStringUntil(line,"|");
                 trim(production, "|");
                 Production* newP = handleProductionString(production);
-                grammer.assignProductionToNonTerminal(newP, currentNonTerminal);
+                grammar.assignProductionToNonTerminal(newP, currentNonTerminal);
             }
         } else {
             if(DEBUG) {
@@ -42,7 +42,7 @@ GrammarParser::GrammarParser(string inputFile) {
             }
         }
     }
-    grammer.debug();
+    grammar.debug();
 }
 
 Production* GrammarParser::handleProductionString(string p) {
@@ -56,9 +56,9 @@ Production* GrammarParser::handleProductionString(string p) {
         ProductionElement* newPE;
         if(newProductionElementStr.find('\'') != string::npos) {
             trim(newProductionElementStr, "'");
-            newPE = grammer.createNewTerminal(newProductionElementStr);
+            newPE = grammar.createNewTerminal(newProductionElementStr);
         } else {
-            newPE = grammer.createNewNonTerminal(newProductionElementStr);
+            newPE = grammar.createNewNonTerminal(newProductionElementStr);
         }
         production->appendNewProductionElement(newPE);
     }
@@ -105,4 +105,8 @@ string GrammarParser::trim(string &str, string deli)
         cout << "Result of trimming is " << str << "." <<endl;
     }
     return str;
+}
+
+CFG GrammarParser::getGrammar() {
+    return grammar;
 }

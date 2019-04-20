@@ -11,10 +11,10 @@ class GrammarParser {
 private:
     int DEBUG = 1;
     int startingDetected = 0;
-    CFG grammer;
+    CFG grammar;
 public:
     GrammarParser(string inputFile);
-    CFG getGrammer();
+    CFG getGrammar();
 
 private:
     string getStringUntil(string &str, string x);

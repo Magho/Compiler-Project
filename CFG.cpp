@@ -168,6 +168,6 @@ void CFG::debug() {
             }
             cout << endl;
         }
+        cout << "End of CFG...." << endl;
     }
-    cout << "End of CFG...." << endl;
 }
