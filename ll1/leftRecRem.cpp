@@ -5,44 +5,6 @@
 
 
 
-int main(){
-    CFG * test = new CFG();
-    test->createNewTerminal("a");
-    test->createNewTerminal("b");
-    test->createNewTerminal("c");
-    test->createNewTerminal("d");
-    test->createNewTerminal("f");
-    test->createNewNonTerminal("A");
-    test->createStartingSymbol("S");
-    Production *p1 =new Production();
-    Production *p2 =new Production();
-    Production *p3 =new Production();
-    Production *p4 =new Production();
-    Production *p5 =new Production();
-
-    p1->appendNewProductionElement(new ProductionElement(0,"A"));
-    p1->appendNewProductionElement(new ProductionElement(1,"a"));
-    p2->appendNewProductionElement(new ProductionElement(1,"b"));
-    p3->appendNewProductionElement(new ProductionElement(0,"A"));
-    p3->appendNewProductionElement(new ProductionElement(1,"c"));
-    p4->appendNewProductionElement(new ProductionElement(0,"S"));
-    p4->appendNewProductionElement(new ProductionElement(1,"d"));
-    p5->appendNewProductionElement(new ProductionElement(1,"f"));
-
-    test->assignProductionToNonTerminal(p1,"S");
-    test->assignProductionToNonTerminal(p2,"S");
-    test->assignProductionToNonTerminal(p3,"A");
-    test->assignProductionToNonTerminal(p4,"A");
-    test->assignProductionToNonTerminal(p5,"A");
-
-
-
-
-    leftRecursionRemover* lrr = new  leftRecursionRemover(test);
-    lrr->preformLRR(true);
-
-    return 0;
-};
 using namespace std;
 leftRecursionRemover::leftRecursionRemover(CFG *cfg){
     //keep the cfg to later use
@@ -55,7 +17,9 @@ leftRecursionRemover::leftRecursionRemover(CFG *cfg){
     }
 
 }
-
+vector<ruleHelper*> * leftRecursionRemover::getHelper(){
+    return &rules;
+}
 
 bool leftRecursionRemover::isLeftRec(int index){
     for(int i=0;i<rules.at(index)->rhs->size();i++) {

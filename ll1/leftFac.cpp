@@ -8,13 +8,21 @@ leftFac::leftFac(CFG *cfg,    vector<ruleHelper*> *ruless){
 }
 bool leftFac::preformLF(bool debug){
     for(int i=0;i<rules->size();i++){
+        if(debug){
+            cout<<"new RULE ----> \n";
+            rules->at(i)->printRule();
+        }
         for(int j=0;j<rules->at(i)->rhs->size();j++){
+            if(debug){
+                cout<<"base production:";
+            }
             bool entered= true;
             while (entered){
                 entered=false;
             int maxFac=0;
             vector<int> *prodsWithMaxFac=new vector<int>();
-            for(int l=j+1;l<rules->at(i)->rhs->size();l++){
+                prodsWithMaxFac->push_back(i);
+                for(int l=j+1;l<rules->at(i)->rhs->size();l++){
                 int num =0;
                 while(num<rules->at(i)->rhs->at(j)->getProductionVals()->size()&&num<rules->at(i)->rhs->at(l)->getProductionVals()->size()
                        && rules->at(i)->rhs->at(j)->getProductionVals()->at(num)->getSymbolValue()
@@ -24,6 +32,7 @@ bool leftFac::preformLF(bool debug){
                 if(num>maxFac){
                     maxFac=num;
                     prodsWithMaxFac=new vector<int>();
+                    prodsWithMaxFac->push_back(i);
                     prodsWithMaxFac->push_back(l);
                 }else if(num==maxFac){
                     prodsWithMaxFac->push_back(l);
@@ -51,20 +60,23 @@ bool leftFac::preformLF(bool debug){
                         c->assignProductionToNonTerminal(p, newName);
                     }
                 }
-                for (int x = 0; x < prodsWithMaxFac->size(); x++) {
+                rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->erase(
+                        rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->begin()+
+                        maxFac,rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->end());
+                rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->push_back(c->getProductionElement(newName));
+                for (int x = 1; x < prodsWithMaxFac->size(); x++) {
                     rules->at(i)->rhs->erase(rules->at(i)->rhs->begin() + prodsWithMaxFac->at(x) - x);
                 }
-
-
             }
                 }
         }
     }
+    if(debug){
+        cout<<"AND FINALLT that's the result\n BATTLE CONTROL TERMINATED..\n";
+        for(ruleHelper*r: *rules){
+            r->printRule();
+        }
+    }
 
-
-
+return true;
 }
-
-/*
- * p->appendNewProductionElement(elem);
-                    p->appendNewProductionElement(e);*/
