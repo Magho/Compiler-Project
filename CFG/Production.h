@@ -10,9 +10,14 @@
 #include "ProductionElement.h"
 
 class Production {
-public://TODO
+private:
     int DEBUG = 1;
+public:
+    void printProduction();
+    // TODO Magho
     vector<ProductionElement*> productionValue;
+    //
+    vector<ProductionElement*> *getProductionVals();
     void appendNewProductionElement(ProductionElement* newProductionElement);
     vector<ProductionElement*> getProductionValue();
     void debugProduction();

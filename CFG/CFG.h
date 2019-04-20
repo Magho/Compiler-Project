@@ -22,19 +22,25 @@
     grammar.debug();
  */
 class CFG {
-public://TODO
-    int DEBUG = 1;
-    unordered_map<string, vector<Production*>*> rules;
+private:
+    int DEBUG = 0;
     vector<ProductionElement*> terminals;
     vector<ProductionElement*> nonTerminals;
+public:
+    // TODO Magho
+    unordered_map<string, vector<Production*>*> rules;
     ProductionElement* startingProductionElement;
+    //
+    unordered_map<string, vector<Production*>*> *getCFGRules();
     ProductionElement* createNewTerminal(string symbolValue);
     ProductionElement* createNewNonTerminal(string symbolValue);
     ProductionElement* createStartingSymbol(string symbolValue);
     int doesExist(string symbolValue, int isTerminal);
     ProductionElement* getProductionElement(string symbolValue);
     ProductionElement* getProductionElement(string symbolValue, int isTerminal);
+    void assignProductionToNonTerminal(Production* p, string nt,int pos);
     void assignProductionToNonTerminal(Production* p, string nt);
+
     void debug();
 };
 

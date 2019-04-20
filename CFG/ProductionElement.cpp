@@ -12,9 +12,11 @@ string ProductionElement::getSymbolValue() {
     return symbolValue;
 }
 
+//TODO Magho
 bool ProductionElement::isTerminal() {
     return terminal != 0;
 }
+//
 
 void ProductionElement::debug() {
     if(DEBUG) {
@@ -22,7 +24,8 @@ void ProductionElement::debug() {
     }
 }
 
-//TODO
+//TODO Magho
 bool ProductionElement::hasEpsilon() {
     return true;
 }
+//

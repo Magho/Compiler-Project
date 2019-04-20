@@ -6,14 +6,19 @@
 #ifndef COMPILER2_FIRSTSET_H
 #define COMPILER2_FIRSTSET_H
 
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include "../CFG/CFG.h"
 
 class Set {
     public:
-        map<string ,ProductionElement*> SetTerminals;
-        map<string ,Set*> SetNonTerminals;
+        string name;
+        Set (string name){
+            this->name = name;
+        }
+        unordered_map<string ,ProductionElement*> SetTerminals;
+        unordered_map<string ,Production*> SetTerminalsProductions;
+        unordered_map<string ,Set*> SetNonTerminals;
         void finishMyFirstSet (bool isFollow); //call after iterating on all the map of the CFG
 };
 

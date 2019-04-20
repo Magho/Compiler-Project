@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "Set.h"
 
 void Set::finishMyFirstSet(bool isFollow) {
@@ -5,24 +7,34 @@ void Set::finishMyFirstSet(bool isFollow) {
         if (this->SetNonTerminals.empty()){
             break;
         }
-        for(auto SetNonTerminal : SetNonTerminals){
-            for (auto terminal : SetNonTerminal.second->SetTerminals){
+        for (auto setNonTerminal = this->SetNonTerminals.cbegin(); setNonTerminal != this->SetNonTerminals.cend() ; ) {
+
+            for (auto terminal : setNonTerminal->second->SetTerminals){
                 // if exist before just rewrite it
+                // add terminal
                 this->SetTerminals.insert(pair<string ,ProductionElement*> (terminal.first, terminal.second));
+                // add its production if finishing first set
+                if (!isFollow) {
+                    this->SetTerminalsProductions.insert(
+                            pair<string ,Production*>(terminal.first,
+                                    setNonTerminal->second->SetTerminalsProductions[terminal.first]));
+                }
             }
-            for (auto terminal : SetNonTerminal.second->SetNonTerminals){
+            for (auto nonTerminal : setNonTerminal->second->SetNonTerminals){
                 // if exist before just rewrite it
-                this->SetNonTerminals.insert(pair<string ,Set*> (terminal.first, terminal.second));
+                if(nonTerminal.first != this->name) {
+                    this->SetNonTerminals.insert(pair<string ,Set*> (nonTerminal.first, nonTerminal.second));
+                }
             }
             // erase the first set we has just checked
-            this->SetNonTerminals.erase(SetNonTerminal.first);
+            this->SetNonTerminals.erase(setNonTerminal++);
         }
     }
     //remove epsilon added to follow set
     if (isFollow){
-        for(auto termianl : this->SetTerminals){
-            if(termianl.first == "~"){
-                this->SetNonTerminals.erase(termianl.first);
+        for (auto terminal = this->SetTerminals.cbegin(); terminal != this->SetTerminals.cend() ; ) {
+            if(terminal->first == "~"){
+                this->SetTerminals.erase(terminal++);
             }
         }
     }

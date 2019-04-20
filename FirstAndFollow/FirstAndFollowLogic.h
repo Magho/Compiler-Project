@@ -12,15 +12,17 @@ class FirstAndFollowLogic {
         CFG *grammer;
         FirstAndFollowLogic(CFG *cfg){
             this->grammer = cfg;
+            calcFirstSet();
+            calcFollowtSet();
         }
-        map<string, vector<ProductionElement>> firstSet;
-        map<string, vector<ProductionElement>> followSet;
-        map<string, Set*> firstSets;
-        map<string, Set*> followSets;
+        unordered_map<string, vector<ProductionElement>> firstSet;
+        unordered_map<string, vector<ProductionElement>> followSet;
+        unordered_map<string, Set*> firstSets;
+        unordered_map<string, Set*> followSets;
         void calcFirstSet();
         void calcFollowtSet();
-        map<string, vector<ProductionElement>> getFirsttSet();
-        map<string, vector<ProductionElement>> getFollowtSet();
+//        map<string, vector<ProductionElement>> getFirsttSet();
+//        map<string, vector<ProductionElement>> getFollowtSet();
 
 };
 

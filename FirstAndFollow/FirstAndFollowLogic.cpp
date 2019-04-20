@@ -3,7 +3,7 @@
 void FirstAndFollowLogic::calcFirstSet() {
     // create firstSets one for each non terminal
     for (auto rule : this->grammer->rules){
-        Set *fs = new Set();
+        Set *fs = new Set(rule.first);
         firstSets.insert(pair<string, Set*>(rule.first, fs));
     }
     // filling first set for each non terminal
@@ -16,9 +16,12 @@ void FirstAndFollowLogic::calcFirstSet() {
             for(auto &productionElem : production->productionValue){
                 // if first elem is terminal add it and break;
                 if(productionElem->isTerminal()){
+                    // add terminal
                     firstSets.at(rule.first)->SetTerminals.insert(
                             pair<string, ProductionElement*>(productionElem->getSymbolValue(),productionElem));
-                    break;
+                    // add its production
+                    firstSets.at(rule.first)->SetTerminalsProductions.insert(
+                    pair<string, Production*>(productionElem->getSymbolValue(),production));
                 } else  {
                     // if non terminal add its first set to mine
                     // don't insert yourself
@@ -36,6 +39,7 @@ void FirstAndFollowLogic::calcFirstSet() {
                         ProductionElement *productionElement = new ProductionElement (0, "~");
                         firstSets.at(rule.first)->SetTerminals.insert(
                                 pair<string, ProductionElement*>(productionElem->getSymbolValue(),productionElement));
+                        // no production for epsilon in case came from other non terminals
                     }
                 }
                 counter++;
@@ -52,7 +56,7 @@ void FirstAndFollowLogic::calcFollowtSet() {
 
     // create followSets one for each non terminal
     for (auto rule : this->grammer->rules){
-        Set *fs = new Set();
+        Set *fs = new Set(rule.first);
         // add $ to start non terminals
         if(rule.first == this->grammer->startingProductionElement->getSymbolValue()){
             ProductionElement *productionElement = new ProductionElement (0, "$");
@@ -126,26 +130,26 @@ void FirstAndFollowLogic::calcFollowtSet() {
     }
 }
 
-map<string, vector<ProductionElement>> FirstAndFollowLogic::getFirsttSet() {
-    map<string, vector<ProductionElement>> result;
-    for(auto firstSet : firstSets){
-        vector<ProductionElement> productionElements;
-        for (auto terminal : firstSet.second->SetTerminals){
-            productionElements.push_back(*terminal.second);
-        }
-        result.insert(pair<string, vector<ProductionElement>> (firstSet.first, productionElements));
-    }
-    return result;
-}
-
-map<string, vector<ProductionElement>> FirstAndFollowLogic::getFollowtSet() {
-    map<string, vector<ProductionElement>> result;
-    for(auto followSet : followSets){
-        vector<ProductionElement> productionElements;
-        for (auto terminal : followSet.second->SetTerminals){
-            productionElements.push_back(*terminal.second);
-        }
-        result.insert(pair<string, vector<ProductionElement>> (followSet.first, productionElements));
-    }
-    return result;
-}
+//map<string, vector<ProductionElement>> FirstAndFollowLogic::getFirsttSet() {
+//    map<string, vector<ProductionElement>> result;
+//    for(auto firstSet : firstSets){
+//        vector<ProductionElement> productionElements;
+//        for (auto terminal : firstSet.second->SetTerminals){
+//            productionElements.push_back(*terminal.second);
+//        }
+//        result.insert(pair<string, vector<ProductionElement>> (firstSet.first, productionElements));
+//    }
+//    return result;
+//}
+//
+//map<string, vector<ProductionElement>> FirstAndFollowLogic::getFollowtSet() {
+//    map<string, vector<ProductionElement>> result;
+//    for(auto followSet : followSets){
+//        vector<ProductionElement> productionElements;
+//        for (auto terminal : followSet.second->SetTerminals){
+//            productionElements.push_back(*terminal.second);
+//        }
+//        result.insert(pair<string, vector<ProductionElement>> (followSet.first, productionElements));
+//    }
+//    return result;
+//}

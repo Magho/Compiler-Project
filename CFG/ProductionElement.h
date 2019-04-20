@@ -15,8 +15,10 @@ private:
 public:
     ProductionElement(int isTerminal, string symbolValue);
     string getSymbolValue();
+    // TODO Magho
     bool isTerminal();
     bool hasEpsilon();//just if non terminal//TODO
+    //
     void debug();
 };
 

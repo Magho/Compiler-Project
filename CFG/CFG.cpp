@@ -1,4 +1,21 @@
+//
+// Created by ecc on 19/04/2019.
+//
+#include <iostream>
+#include <string>
 #include "CFG.h"
+
+/*
+ * added by abdo ..
+ * to preform ll1 directly on the rules
+ * don't worry about encapsulation , rules will be fine lol
+ * */
+unordered_map<string, vector<Production*>*> * CFG::getCFGRules(){
+    return &rules;
+}
+
+
+
 ProductionElement* CFG::createNewTerminal(string symbolValue) {
     if(doesExist(symbolValue, 1)) {
         return getProductionElement(symbolValue, 1);
@@ -107,6 +124,18 @@ ProductionElement* CFG::getProductionElement(string symbolValue,int isTerminal) 
     }
     return NULL;
 }
+void CFG::assignProductionToNonTerminal(Production* p, string nt,int pos) {
+    if(DEBUG) {
+        cout << "Assigning Production to " << nt << ": ";
+        p->debugProduction();
+    }
+    if(!doesExist(nt, 0)) {
+        cout << "ERROR: " << nt << " doesn't exist!!" << endl;
+        return;
+    }
+    vector<Production*>* productions = rules[nt];
+    productions->insert(productions->begin()+pos,p);
+}
 void CFG::assignProductionToNonTerminal(Production* p, string nt) {
     if(DEBUG) {
         cout << "Assigning Production to " << nt << ": ";
@@ -119,7 +148,6 @@ void CFG::assignProductionToNonTerminal(Production* p, string nt) {
     vector<Production*>* productions = rules[nt];
     productions->push_back(p);
 }
-
 void CFG::debug() {
     if(DEBUG) {
         cout << "Debugging CFG..." << endl;
@@ -140,6 +168,6 @@ void CFG::debug() {
             }
             cout << endl;
         }
+        cout << "End of CFG...." << endl;
     }
-    cout << "End of CFG...." << endl;
 }
