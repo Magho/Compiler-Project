@@ -85,7 +85,7 @@ int main(){
 
 
     leftRecursionRemover* lrr = new  leftRecursionRemover(test);
-    lrr->preformLRR(true);
+    lrr->preformLRR(false);
     leftFac * lf = new leftFac(test,lrr->getHelper());
     lf->preformLF(true);
     return 0;
