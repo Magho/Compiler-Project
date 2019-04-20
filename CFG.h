@@ -22,13 +22,13 @@
     grammar.debug();
  */
 class CFG {
-private:
+public:
     int DEBUG = 0;
     unordered_map<string, vector<Production*>*> rules;
     vector<ProductionElement*> terminals;
     vector<ProductionElement*> nonTerminals;
     ProductionElement* startingProductionElement;
-public:
+
     unordered_map<string, vector<Production*>*> *getCFGRules();
     ProductionElement* createNewTerminal(string symbolValue);
     ProductionElement* createNewNonTerminal(string symbolValue);
