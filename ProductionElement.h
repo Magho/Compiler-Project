@@ -8,11 +8,11 @@
 
 using namespace std;
 class ProductionElement {
-private:
+public:
     int DEBUG = 1;
     int terminal = 0;
     string symbolValue;
-public:
+
     ProductionElement(int isTerminal, string symbolValue);
     string getSymbolValue();
     int isTerminal();
