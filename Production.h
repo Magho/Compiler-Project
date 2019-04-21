@@ -10,10 +10,11 @@
 #include "ProductionElement.h"
 
 class Production {
-private:
+public:
     int DEBUG = 1;
     vector<ProductionElement*> productionValue;
-public:
+    bool isSync = false;
+
     void printProduction();
     vector<ProductionElement*> *getProductionVals();
     void appendNewProductionElement(ProductionElement* newProductionElement);
