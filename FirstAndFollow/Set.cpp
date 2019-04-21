@@ -2,7 +2,7 @@
 
 #include "Set.h"
 
-void Set::finishMyFirstSet(bool isFollow) {
+void Set::finishMySet(bool isFollow) {
     while (true){
         if (this->SetNonTerminals.empty()){
             break;
@@ -22,8 +22,18 @@ void Set::finishMyFirstSet(bool isFollow) {
             }
             for (auto nonTerminal : setNonTerminal->second->SetNonTerminals){
                 // if exist before just rewrite it
-                if(nonTerminal.first != this->name) {
+                // don't enter yourself
+                bool found = false;
+                for(auto NonTerminalName: this->NonTerminalNamesInFollowSet){
+                    if (NonTerminalName == nonTerminal.first){
+                        found = true;
+                        break;
+                    }
+                }
+                if(nonTerminal.first != this->name && !found) {
                     this->SetNonTerminals.insert(pair<string ,Set*> (nonTerminal.first, nonTerminal.second));
+                    this->NonTerminalNamesInFollowSet.push_back(nonTerminal.first);
+
                     if (!isFollow) {
                         this->SetNonTerminalsProductions.insert(
                                 pair<string ,Production*>(nonTerminal.first,
@@ -40,6 +50,8 @@ void Set::finishMyFirstSet(bool isFollow) {
         for (auto terminal = this->SetTerminals.cbegin(); terminal != this->SetTerminals.cend() ; ) {
             if(terminal->first == "~"){
                 this->SetTerminals.erase(terminal++);
+            } else {
+                terminal++;
             }
         }
     }

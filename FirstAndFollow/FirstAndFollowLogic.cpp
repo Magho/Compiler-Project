@@ -51,8 +51,9 @@ void FirstAndFollowLogic::calcFirstSet() {
         }
     }
     // make each first set finish it self --> convert each first set it has to terminals
+    cout << "-------------------------------------- First sets ----------------------------------------------------- ";
     for(auto firstSet : firstSets){
-        firstSet.second->finishMyFirstSet(false);
+        firstSet.second->finishMySet(false);
         cout << endl;
         cout << "terminal set ";
         cout << firstSet.first << " : ";
@@ -66,6 +67,7 @@ void FirstAndFollowLogic::calcFirstSet() {
         firstSet.second->printSetNonTerminals();
         cout << endl;
     }
+    cout << "-------------------------------------- First sets ----------------------------------------------------- ";
 }
 
 void FirstAndFollowLogic::calcFollowtSet() {
@@ -99,16 +101,18 @@ void FirstAndFollowLogic::calcFollowtSet() {
                                         (production->productionValue[i+1]->getSymbolValue(),production->productionValue[i+1]));
                             } else {
                                 // element after it is non terminal add its firstSet
-                                // don't add yourself
-                                if (outerRule.first != production->productionValue[i + 1]->getSymbolValue()) {
-                                    followSets.at(outerRule.first)->SetNonTerminals.insert(pair<string, Set *>
-                                            (production->productionValue[i + 1]->getSymbolValue(),
-                                                    firstSets.at(production->productionValue[i + 1]->getSymbolValue())));
+                                // TODO 1.1
+                                for (auto terminal : firstSets.at(production->productionValue[i + 1]->getSymbolValue())->SetTerminals){
+                                    // if exist before just rewrite it
+                                    // add terminal
+                                    followSets.at(outerRule.first)->SetTerminals.insert(pair<string ,ProductionElement*> (terminal.first, terminal.second));
+                                    // add its production if finishing first set
                                 }
                                 // if element after me is non terminal, last element and go to epsilon
                                 if (production->productionValue[i + 1]->hasEpsilon() && i + 1 == production->productionValue.size()-1) {
                                     followSets.at(outerRule.first)->SetNonTerminals.insert(
                                             pair<string, Set *>(rule.first, followSets.at(rule.first)));
+                                    followSets.at(outerRule.first)->NonTerminalNamesInFollowSet.push_back(rule.first);
                                     break;
                                 } else {
                                     // element after it is non terminal, has epsilon production and not last element
@@ -116,15 +120,18 @@ void FirstAndFollowLogic::calcFollowtSet() {
                                            production->productionValue[i + 1]->hasEpsilon()) {
                                         i++;
                                         // don't add yourself
-                                        if (outerRule.first != production->productionValue[i + 1]->getSymbolValue()) {
-                                            followSets.at(outerRule.first)->SetNonTerminals.insert(pair<string, Set *>
-                                                    (production->productionValue[i + 1]->getSymbolValue(),
-                                                            firstSets.at(production->productionValue[i + 1]->getSymbolValue())));
+                                        //TODO 1.2
+                                        for (auto terminal : firstSets.at(production->productionValue[i + 1]->getSymbolValue())->SetTerminals){
+                                            // if exist before just rewrite it
+                                            // add terminal
+                                            followSets.at(outerRule.first)->SetTerminals.insert(pair<string ,ProductionElement*> (terminal.first, terminal.second));
+                                            // add its production if finishing first set
                                         }
                                         // same check as before
                                         if (production->productionValue[i + 1]->hasEpsilon() && i + 1 == production->productionValue.size()-1) {
                                             followSets.at(outerRule.first)->SetNonTerminals.insert(
                                                     pair<string, Set *>(rule.first, followSets.at(rule.first)));
+                                            followSets.at(outerRule.first)->NonTerminalNamesInFollowSet.push_back(rule.first);
                                             break;
                                         }
                                     }
@@ -140,12 +147,23 @@ void FirstAndFollowLogic::calcFollowtSet() {
             }
         }
     }
-    // make each first set finish it self --> convert each first set it has to terminals
-    for(auto firstSet : firstSets){
-        firstSet.second->finishMyFirstSet(true);
+    // make each follow set finish it self --> convert each first set it has to terminals
+    cout << endl;
+    cout << "-------------------------------------- Follow sets ----------------------------------------------------- ";
+    for(auto followSet : this->followSets){
+        followSet.second->finishMySet(true);
+        cout << endl;
+        cout << "terminal set ";
+        cout << followSet.first << " : ";
+        followSet.second->printSetTerminals();
+        cout << endl;
+        cout << "non terminal set ";
+        cout << followSet.first << " : ";
+        followSet.second->printSetNonTerminals();
+        cout << endl;
     }
+    cout << "-------------------------------------- Follow sets ----------------------------------------------------- ";
 }
-
 //map<string, vector<ProductionElement>> FirstAndFollowLogic::getFirsttSet() {
 //    map<string, vector<ProductionElement>> result;
 //    for(auto firstSet : firstSets){

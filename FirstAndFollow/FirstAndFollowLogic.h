@@ -13,10 +13,10 @@ class FirstAndFollowLogic {
         FirstAndFollowLogic(CFG *cfg){
             this->grammer = cfg;
             calcFirstSet();
-            //calcFollowtSet();
+            calcFollowtSet();
         }
-        unordered_map<string, vector<ProductionElement>> firstSet;
-        unordered_map<string, vector<ProductionElement>> followSet;
+//        unordered_map<string, vector<ProductionElement>> firstSet;
+//        unordered_map<string, vector<ProductionElement>> followSet;
         unordered_map<string, Set*> firstSets;
         unordered_map<string, Set*> followSets;
         void calcFirstSet();

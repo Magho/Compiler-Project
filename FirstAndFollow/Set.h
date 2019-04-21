@@ -20,7 +20,8 @@ class Set {
         unordered_map<string ,Production*> SetTerminalsProductions;
         unordered_map<string ,Set*> SetNonTerminals;
         unordered_map<string ,Production*> SetNonTerminalsProductions;
-    void finishMyFirstSet (bool isFollow); //call after iterating on all the map of the CFG
+        vector<string> NonTerminalNamesInFollowSet;
+    void finishMySet(bool isFollow); //call after iterating on all the map of the CFG
         void printSetTerminals();
         void printSetNonTerminals();
         void printSetTerminalsProductions();
