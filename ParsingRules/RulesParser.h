@@ -12,7 +12,7 @@ using namespace std;
 #define OR (char)202
 class RulesParser {
 private:
-    int debug = 1;
+    int debug = 0;
     unordered_map<string, string> definitions;
     unordered_map<string, string> expressions;
     unordered_map<string, string> keywords;

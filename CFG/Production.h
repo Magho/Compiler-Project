@@ -7,8 +7,9 @@
 
 class Production {
 private:
-    int DEBUG = 1;
+    int DEBUG = 0;
 public:
+    bool isSync = false;
     void printProduction();
     vector<ProductionElement*> productionValue;
     vector<ProductionElement*> *getProductionVals();

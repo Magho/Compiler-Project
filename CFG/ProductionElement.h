@@ -6,11 +6,11 @@
 
 using namespace std;
 class ProductionElement {
-private:
-    int DEBUG = 1;
+public:
+    int DEBUG = 0;
     int terminal = 0;
     string symbolValue;
-public:
+
     ProductionElement(int isTerminal, string symbolValue);
     string getSymbolValue();
     int isTerminal();

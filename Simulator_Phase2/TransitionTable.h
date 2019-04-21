@@ -8,8 +8,8 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "../ProductionElement.h"
-#include "../Production.h"
+#include "../CFG/ProductionElement.h"
+#include "../CFG/Production.h"
 
 using namespace std;
 

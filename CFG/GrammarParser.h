@@ -9,7 +9,7 @@
 #define EPSILON "\L"
 class GrammarParser {
 private:
-    int DEBUG = 1;
+    int DEBUG = 0;
     int startingDetected = 0;
     CFG grammar;
 public:

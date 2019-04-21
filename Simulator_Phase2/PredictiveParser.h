@@ -6,9 +6,9 @@
 #define COMPILER_PHASE2_PREDICTIVEPARSER_H
 
 #include <stack>
-#include "../ProductionElement.h"
+#include "../CFG/ProductionElement.h"
 #include "../Simulator/Simulator.h"
-#include "../Production.h"
+#include "../CFG/Production.h"
 #include "TransitionTable.h"
 #include <fstream>
 

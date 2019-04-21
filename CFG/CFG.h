@@ -18,11 +18,11 @@
     grammar.debug();
  */
 class CFG {
-private:
+public:
     int DEBUG = 0;
     vector<ProductionElement*> terminals;
     vector<ProductionElement*> nonTerminals;
-public:
+
     ProductionElement* startingProductionElement;
     unordered_map<string, vector<Production*>*> rules;
     unordered_map<string, vector<Production*>*> *getCFGRules();
