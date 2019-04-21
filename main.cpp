@@ -21,8 +21,9 @@ int main(){
     Minimization *minimization = new Minimization(&res);
     vector<Node*> v = minimization->getMinimizedTable();
     Simulator* simulator = new Simulator(v);
-    simulator->resetInputFile("/home/sajed/CLionProjects/Compilers_Phase2/testInput.txt");
+    simulator->resetInputFile("/home/sajed/CLionProjects/Compiler_Phase2/testInput.txt");
     string nextToken = "";
+
     simulator->generateTokensFileAndSymbolTable();
     return 0;
 }
