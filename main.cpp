@@ -1,11 +1,12 @@
 #include <iostream>
 #include<vector>
 #include<string>
-#include "NFAtoDFA.h"
-#include "Minimization.h"
-#include "RulesParser.h"
-#include "Converter.h"
+
 #include "Simulator/Simulator.h"
+#include "ParsingRules/RulesParser.h"
+#include "GeneratingNFA/Converter.h"
+#include "MinimizedDFA/NFAtoDFA.h"
+#include "MinimizedDFA/Minimization.h"
 
 using namespace std;
 int main(){
@@ -19,9 +20,8 @@ int main(){
     vector<Node *> res = cnvrt->getResult();
     Minimization *minimization = new Minimization(&res);
     vector<Node*> v = minimization->getMinimizedTable();
-
     Simulator* simulator = new Simulator(v);
-    simulator->resetInputFile("/home/sajed/CLionProjects/Compilers_Phase1/testInput.txt");
+    simulator->resetInputFile("/home/sajed/CLionProjects/Compilers_Phase2/testInput.txt");
     string nextToken = "";
     simulator->generateTokensFileAndSymbolTable();
     return 0;

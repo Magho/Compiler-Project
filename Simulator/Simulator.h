@@ -6,7 +6,7 @@
 
 #include <vector>
 #include <fstream>
-#include "../Node.h"
+#include "../GeneratingNFA/Node.h"
 
 using namespace std;
 
