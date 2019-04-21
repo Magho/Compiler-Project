@@ -101,7 +101,6 @@ void FirstAndFollowLogic::calcFollowtSet() {
                                         (production->productionValue[i+1]->getSymbolValue(),production->productionValue[i+1]));
                             } else {
                                 // element after it is non terminal add its firstSet
-                                // TODO 1.1
                                 for (auto terminal : firstSets.at(production->productionValue[i + 1]->getSymbolValue())->SetTerminals){
                                     // if exist before just rewrite it
                                     // add terminal
@@ -119,13 +118,18 @@ void FirstAndFollowLogic::calcFollowtSet() {
                                     while (i + 2 < production->productionValue.size() &&
                                            production->productionValue[i + 1]->hasEpsilon()) {
                                         i++;
-                                        // don't add yourself
-                                        //TODO 1.2
-                                        for (auto terminal : firstSets.at(production->productionValue[i + 1]->getSymbolValue())->SetTerminals){
-                                            // if exist before just rewrite it
-                                            // add terminal
-                                            followSets.at(outerRule.first)->SetTerminals.insert(pair<string ,ProductionElement*> (terminal.first, terminal.second));
-                                            // add its production if finishing first set
+                                        if(production->productionValue[i+1]->isTerminal()){
+                                            followSets.at(outerRule.first)->SetTerminals.insert(
+                                                    pair<string, ProductionElement*>(production->productionValue[i+1]->getSymbolValue(),production->productionValue[i+1]));
+                                            break;
+                                        } else {
+                                            // element after it is non terminal add its firstSet
+                                            for (auto terminal : firstSets.at(production->productionValue[i + 1]->getSymbolValue())->SetTerminals){
+                                                // if exist before just rewrite it
+                                                // add terminal
+                                                followSets.at(outerRule.first)->SetTerminals.insert(pair<string ,ProductionElement*> (terminal.first, terminal.second));
+                                                // add its production if finishing first set
+                                            }
                                         }
                                         // same check as before
                                         if (production->productionValue[i + 1]->hasEpsilon() && i + 1 == production->productionValue.size()-1) {
@@ -139,8 +143,10 @@ void FirstAndFollowLogic::calcFollowtSet() {
                             }
                             // last element add follow of the left hand side to my follow
                         } else {
-                            followSets.at(outerRule.first)->SetNonTerminals.insert(
-                                    pair<string, Set*>(rule.first, followSets.at(rule.first)));
+                            if (outerRule.first != rule.first) {
+                                followSets.at(outerRule.first)->SetNonTerminals.insert(
+                                        pair<string, Set *>(rule.first, followSets.at(rule.first)));
+                            }
                         }
                     }
                 }
