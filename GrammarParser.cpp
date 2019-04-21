@@ -27,6 +27,7 @@ GrammarParser::GrammarParser(string inputFile) {
                 trim(production, "|");
                 Production* newP = handleProductionString(production);
                 grammar.assignProductionToNonTerminal(newP, currentNonTerminal);
+                handleEpsilonProduction(newP, currentNonTerminal);
             }
         } else if(line[0] == '|') {
             getStringUntil(line, "|");
@@ -35,6 +36,7 @@ GrammarParser::GrammarParser(string inputFile) {
                 trim(production, "|");
                 Production* newP = handleProductionString(production);
                 grammar.assignProductionToNonTerminal(newP, currentNonTerminal);
+                handleEpsilonProduction(newP, currentNonTerminal);
             }
         } else {
             if(DEBUG) {
@@ -109,4 +111,24 @@ string GrammarParser::trim(string &str, string deli)
 
 CFG GrammarParser::getGrammar() {
     return grammar;
+}
+
+void GrammarParser::handleEpsilonProduction(Production *p, string nonTerminal) {
+    if(DEBUG) {
+        cout << "Handling epsilon transition of " << nonTerminal << " for production: ";
+        p->debugProductionCFG();
+    }
+    for(auto i : p->getProductionValue()) {
+        if(i->getSymbolValue() == CFGEPSILON) {
+            if(DEBUG) {
+                cout << "The non-terminal " << nonTerminal << " has epsilon production." << endl;
+            }
+            ProductionElement* productionElementHasEpsilon = grammar.getProductionElement(nonTerminal, 0);
+            productionElementHasEpsilon->gotEpsilon = true;
+            return;
+        }
+    }
+    if(DEBUG) {
+        cout << "The non-terminal " << nonTerminal << " doesn't have epsilon production." << endl;
+    }
 }

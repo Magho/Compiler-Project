@@ -19,7 +19,7 @@
  */
 class CFG {
 private:
-    int DEBUG = 0;
+    int DEBUG = 1;
     vector<ProductionElement*> terminals;
     vector<ProductionElement*> nonTerminals;
 public:
