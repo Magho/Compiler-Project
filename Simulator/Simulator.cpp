@@ -19,7 +19,9 @@ bool Simulator::getNextToken(string& nextToken) {
     } else {
         inputFile.seekg(this->posOfCursor);
     }
-    if (endOfFile(inputFile)) {
+    if (eof || endOfFile(inputFile)) {
+        this->eof = true;
+        nextToken = "$";
         return false;
     }
     this->currentNode = this->DFATable[0];
@@ -70,6 +72,8 @@ bool Simulator::getNextToken(string& nextToken) {
                 nextToken = errMsg;
                 this->posOfCursor = inputFile.tellg();
                 inputFile.close();                // close file
+                this->eof = true;
+                nextToken = "$";
                 return false;
             } else {
                 string errMsg = handleErrorRemoveChar(inputFile);
@@ -89,6 +93,7 @@ void Simulator::resetInputFile(string inputFilePath) {
     this->posOfCursor = 0;
     this->posOflastInputToChangeStartState = 0;
     this->panicMode = false;
+    this->eof = false;
 }
 
 bool Simulator::endOfFile(ifstream &inputFile) {
@@ -139,6 +144,9 @@ void Simulator::generateTokensFileAndSymbolTable() {
             cout << this->maximalMunchAcceptedLexeme << endl;
         }
     }
+
+
+
     symbolTable.close();
     outputFile.close();
 }
