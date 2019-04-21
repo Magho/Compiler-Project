@@ -170,26 +170,4 @@ void FirstAndFollowLogic::calcFollowtSet() {
     }
     cout << "-------------------------------------- Follow sets ----------------------------------------------------- ";
 }
-//map<string, vector<ProductionElement>> FirstAndFollowLogic::getFirsttSet() {
-//    map<string, vector<ProductionElement>> result;
-//    for(auto firstSet : firstSets){
-//        vector<ProductionElement> productionElements;
-//        for (auto terminal : firstSet.second->SetTerminals){
-//            productionElements.push_back(*terminal.second);
-//        }
-//        result.insert(pair<string, vector<ProductionElement>> (firstSet.first, productionElements));
-//    }
-//    return result;
-//}
-//
-//map<string, vector<ProductionElement>> FirstAndFollowLogic::getFollowtSet() {
-//    map<string, vector<ProductionElement>> result;
-//    for(auto followSet : followSets){
-//        vector<ProductionElement> productionElements;
-//        for (auto terminal : followSet.second->SetTerminals){
-//            productionElements.push_back(*terminal.second);
-//        }
-//        result.insert(pair<string, vector<ProductionElement>> (followSet.first, productionElements));
-//    }
-//    return result;
-//}
+

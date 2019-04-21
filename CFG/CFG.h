@@ -1,7 +1,3 @@
-//
-// Created by ecc on 19/04/2019.
-//
-
 #ifndef COMPILERPROJECT_CFG_H
 #define COMPILERPROJECT_CFG_H
 #include <unordered_map>
@@ -27,10 +23,8 @@ private:
     vector<ProductionElement*> terminals;
     vector<ProductionElement*> nonTerminals;
 public:
-    // TODO Magho
-    unordered_map<string, vector<Production*>*> rules;
     ProductionElement* startingProductionElement;
-    //
+    unordered_map<string, vector<Production*>*> rules;
     unordered_map<string, vector<Production*>*> *getCFGRules();
     ProductionElement* createNewTerminal(string symbolValue);
     ProductionElement* createNewNonTerminal(string symbolValue);

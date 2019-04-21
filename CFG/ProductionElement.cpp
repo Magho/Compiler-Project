@@ -1,6 +1,5 @@
-//
-// Created by ecc on 19/04/2019.
-//
+#include <iostream>
+#include <string>
 
 #include "ProductionElement.h"
 ProductionElement::ProductionElement(int isTerminal, string symbolValue) {
@@ -12,12 +11,13 @@ string ProductionElement::getSymbolValue() {
     return symbolValue;
 }
 
-//TODO Magho
-bool ProductionElement::isTerminal() {
-    return terminal != 0;
+int ProductionElement::isTerminal() {
+    return  terminal;
 }
-//
 
+int ProductionElement::isNonTerminal() {
+    return !terminal;
+}
 void ProductionElement::debug() {
     if(DEBUG) {
         cout << symbolValue << endl;
@@ -28,4 +28,3 @@ void ProductionElement::debug() {
 bool ProductionElement::hasEpsilon() {
     return gotEpsilon;
 }
-//

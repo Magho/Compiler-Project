@@ -1,6 +1,3 @@
-//
-// Created by ecc on 19/04/2019.
-//
 #include <iostream>
 #include <string>
 #include "CFG.h"
@@ -13,6 +10,8 @@
 unordered_map<string, vector<Production*>*> * CFG::getCFGRules(){
     return &rules;
 }
+
+
 
 ProductionElement* CFG::createNewTerminal(string symbolValue) {
     if(doesExist(symbolValue, 1)) {
@@ -146,25 +145,26 @@ void CFG::assignProductionToNonTerminal(Production* p, string nt) {
     vector<Production*>* productions = rules[nt];
     productions->push_back(p);
 }
-// TODO Magho
 void CFG::debug() {
-    cout << "Debugging CFG..." << endl;
-    cout << startingProductionElement->getSymbolValue() << " -> ";
-    for(auto i : *rules[startingProductionElement->getSymbolValue()]) {
-        i->debugProductionCFG();
-        cout << "|";
-    }
-    cout << endl;
-    for(auto i : rules) {
-        if(i.first == startingProductionElement->getSymbolValue()) {
-            continue;
-        }
-        cout << i.first << " -> ";
-        for(auto j : *i.second) {
-            j->debugProductionCFG();
+    if(DEBUG) {
+        cout << "Debugging CFG..." << endl;
+        cout << startingProductionElement->getSymbolValue() << " -> ";
+        for(auto i : *rules[startingProductionElement->getSymbolValue()]) {
+            i->debugProductionCFG();
             cout << "|";
         }
         cout << endl;
+        for(auto i : rules) {
+            if(i.first == startingProductionElement->getSymbolValue()) {
+                continue;
+            }
+            cout << i.first << " -> ";
+            for(auto j : *i.second) {
+                j->debugProductionCFG();
+                cout << "|";
+            }
+            cout << endl;
+        }
+        cout << "End of CFG...." << endl;
     }
-    cout << "End of CFG...." << endl;
 }

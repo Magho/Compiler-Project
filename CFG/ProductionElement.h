@@ -1,6 +1,4 @@
-//
-// Created by  on 19/04/2019.
-//
+
 
 #ifndef COMPILERPROJECT_PRODUCTIONELEMENT_H
 #define COMPILERPROJECT_PRODUCTIONELEMENT_H
@@ -15,12 +13,12 @@ private:
 public:
     ProductionElement(int isTerminal, string symbolValue);
     string getSymbolValue();
+    int isTerminal();
+    int isNonTerminal();
+    void debug();
     // TODO Magho
-    bool isTerminal();
     bool gotEpsilon;
     bool hasEpsilon();//just if non terminal//TODO
-    //
-    void debug();
 };
 
 

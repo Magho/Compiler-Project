@@ -75,14 +75,14 @@ int main() {
     production19->appendNewProductionElement(epsilon1);
     grammar1.assignProductionToNonTerminal(production19, C->getSymbolValue());
 
-//    cout << endl;
-//    cout << "---------------------------------------First Test --------------------------------------------" << endl;
-//    grammar1.debug();
-//    FirstAndFollowLogic firstAndFollowLogic1(&grammar1);
-//
-//
-//    cout << endl;
-//    cout << "---------------------------------------First Test --------------------------------------------" << endl;
+    cout << endl;
+    cout << "---------------------------------------First Test --------------------------------------------" << endl;
+    grammar1.debug();
+    FirstAndFollowLogic firstAndFollowLogic1(&grammar1);
+
+
+    cout << endl;
+    cout << "---------------------------------------First Test --------------------------------------------" << endl;
 
     // ---------------------------------------------------------- TEST 2 ----------------------------------------------
     // Ex1 sheet 5
@@ -163,13 +163,13 @@ int main() {
     grammar2.assignProductionToNonTerminal(production210, bfactor->getSymbolValue());
 
 
-//    cout << endl;
-//    cout << "---------------------------------------Second Test --------------------------------------------" << endl;
-//    grammar2.debug();
-//    FirstAndFollowLogic firstAndFollowLogic2(&grammar2);
-//    cout << endl;
-//    cout << "---------------------------------------Second Test --------------------------------------------" << endl;
-//
+    cout << endl;
+    cout << "---------------------------------------Second Test --------------------------------------------" << endl;
+    grammar2.debug();
+    FirstAndFollowLogic firstAndFollowLogic2(&grammar2);
+    cout << endl;
+    cout << "---------------------------------------Second Test --------------------------------------------" << endl;
+
 
     // ------------------------------------------- TEST 3 ---------------------------------------------
     // Ex2 sheet 5
@@ -267,12 +267,12 @@ int main() {
     grammar3.assignProductionToNonTerminal(production313, P->getSymbolValue());
 
 
-//    cout << endl;
-//    cout << "---------------------------------------Third Test --------------------------------------------" << endl;
-//    grammar3.debug();
-//    FirstAndFollowLogic firstAndFollowLogic3(&grammar3);
-//    cout << endl;
-//    cout << "---------------------------------------Third Test --------------------------------------------" << endl;
+    cout << endl;
+    cout << "---------------------------------------Third Test --------------------------------------------" << endl;
+    grammar3.debug();
+    FirstAndFollowLogic firstAndFollowLogic3(&grammar3);
+    cout << endl;
+    cout << "---------------------------------------Third Test --------------------------------------------" << endl;
 
     // ------------------------------------------- TEST 4 ---------------------------------------------
 
@@ -340,14 +340,14 @@ int main() {
     production48->appendNewProductionElement(id);
     grammar4.assignProductionToNonTerminal(production48, F11->getSymbolValue());
 
-//    cout << endl;
-//    cout << "---------------------------------------Fourth Test --------------------------------------------" << endl;
-//    grammar4.debug();
-//    FirstAndFollowLogic firstAndFollowLogic4(&grammar4);
-//
-//
-//    cout << endl;
-//    cout << "---------------------------------------Fourth Test --------------------------------------------" << endl;
+    cout << endl;
+    cout << "---------------------------------------Fourth Test --------------------------------------------" << endl;
+    grammar4.debug();
+    FirstAndFollowLogic firstAndFollowLogic4(&grammar4);
+
+
+    cout << endl;
+    cout << "---------------------------------------Fourth Test --------------------------------------------" << endl;
 
     // ------------------------------------------- TEST 5 ---------------------------------------------
 

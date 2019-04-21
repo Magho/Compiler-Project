@@ -1,6 +1,3 @@
-//
-// Created by ecc on 19/04/2019.
-//
 #include <iostream>
 #include <string>
 #include "Production.h"
@@ -25,19 +22,21 @@ void Production::appendNewProductionElement(ProductionElement* newProductionElem
 vector<ProductionElement*> Production::getProductionValue() {
     return productionValue;
 }
-// TODO Magho
 void Production::debugProduction() {
-    cout << "value of production is ";
-    for (auto i : productionValue) {
-        cout << i->getSymbolValue() << " " ;
+    if(DEBUG) {
+        cout << "value of production is ";
+        for (auto i : productionValue) {
+            cout << i->getSymbolValue();
+        }
+        cout << endl;
     }
-    cout << endl;
 }
 
-// TODO Magho
 void Production::debugProductionCFG() {
-    for (auto i : productionValue) {
-        cout << i->getSymbolValue() << " ";
+    if(DEBUG) {
+        for (auto i : productionValue) {
+            cout << i->getSymbolValue();
+        }
+        cout << endl;
     }
-    cout << endl;
 }

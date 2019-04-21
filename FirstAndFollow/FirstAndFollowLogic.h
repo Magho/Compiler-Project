@@ -15,14 +15,11 @@ class FirstAndFollowLogic {
             calcFirstSet();
             calcFollowtSet();
         }
-//        unordered_map<string, vector<ProductionElement>> firstSet;
-//        unordered_map<string, vector<ProductionElement>> followSet;
+
         unordered_map<string, Set*> firstSets;
         unordered_map<string, Set*> followSets;
         void calcFirstSet();
         void calcFollowtSet();
-//        map<string, vector<ProductionElement>> getFirsttSet();
-//        map<string, vector<ProductionElement>> getFollowtSet();
 
 };
 
