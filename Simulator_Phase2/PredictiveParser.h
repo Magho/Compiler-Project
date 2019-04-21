@@ -1,0 +1,27 @@
+//
+// Created by sajed on 20/04/19.
+//
+
+#ifndef COMPILER_PHASE2_PREDICTIVEPARSER_H
+#define COMPILER_PHASE2_PREDICTIVEPARSER_H
+
+#include <stack>
+#include "../ProductionElement.h"
+#include "../Simulator/Simulator.h"
+#include "../Production.h"
+#include "TransitionTable.h"
+#include <fstream>
+
+
+class PredictiveParser {
+public:
+    TransitionTable * transitionTable;
+    stack<ProductionElement*> stk;
+    PredictiveParser(ProductionElement* start, TransitionTable * tb);
+    void getIntoPanicMode();
+    void generateLeftMostDerivation(Simulator * simulator);
+
+};
+
+
+#endif //COMPILER_PHASE2_PREDICTIVEPARSER_H
