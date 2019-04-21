@@ -1,7 +1,3 @@
-//
-// Created by ecc on 19/04/2019.
-//
-
 #ifndef COMPILERPROJECT_CFG_H
 #define COMPILERPROJECT_CFG_H
 #include <unordered_map>
@@ -22,19 +18,23 @@
     grammar.debug();
  */
 class CFG {
-public://TODO
-    int DEBUG = 1;
-    unordered_map<string, vector<Production*>*> rules;
+private:
+    int DEBUG = 0;
     vector<ProductionElement*> terminals;
     vector<ProductionElement*> nonTerminals;
+public:
     ProductionElement* startingProductionElement;
+    unordered_map<string, vector<Production*>*> rules;
+    unordered_map<string, vector<Production*>*> *getCFGRules();
     ProductionElement* createNewTerminal(string symbolValue);
     ProductionElement* createNewNonTerminal(string symbolValue);
     ProductionElement* createStartingSymbol(string symbolValue);
     int doesExist(string symbolValue, int isTerminal);
     ProductionElement* getProductionElement(string symbolValue);
     ProductionElement* getProductionElement(string symbolValue, int isTerminal);
+    void assignProductionToNonTerminal(Production* p, string nt,int pos);
     void assignProductionToNonTerminal(Production* p, string nt);
+
     void debug();
 };
 
