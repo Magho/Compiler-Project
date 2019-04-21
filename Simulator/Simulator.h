@@ -29,6 +29,7 @@ private:
     string handleErrorRemoveChar(ifstream &inputFile);
     bool endOfFile(ifstream &inputFile);
 public:
+    bool eof;
     Simulator(vector<Node*> DFATable);
     bool getNextToken(string& nextToken);
     void resetInputFile(string inputFilePath);

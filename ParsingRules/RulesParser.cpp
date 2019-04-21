@@ -1,3 +1,6 @@
+
+#include <iostream>
+#include <string>
 #include "RulesParser.h"
 int RulesParser::getIndexOf(string str, char x) {
     for (int i = 0; i < str.length(); ++i) {

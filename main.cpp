@@ -3,6 +3,10 @@
 #include<string>
 
 #include "Simulator/Simulator.h"
+#include "CFG.h"
+#include "GrammarParser.h"
+#include "Simulator_Phase2/TransitionTable.h"
+#include "Simulator_Phase2/PredictiveParser.h"
 #include "ParsingRules/RulesParser.h"
 #include "GeneratingNFA/Converter.h"
 #include "MinimizedDFA/NFAtoDFA.h"
@@ -20,10 +24,10 @@ int main(){
     vector<Node *> res = cnvrt->getResult();
     Minimization *minimization = new Minimization(&res);
     vector<Node*> v = minimization->getMinimizedTable();
-    Simulator* simulator = new Simulator(v);
-    simulator->resetInputFile("/home/sajed/CLionProjects/Compiler_Phase2/testInput.txt");
-    string nextToken = "";
 
+    Simulator* simulator = new Simulator(v);
+    simulator->resetInputFile("/home/sajed/CLionProjects/Compilers_Phase1/testInput.txt");
+    string nextToken = "";
     simulator->generateTokensFileAndSymbolTable();
     return 0;
 }
