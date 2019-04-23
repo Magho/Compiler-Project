@@ -7,7 +7,7 @@
 using namespace std;
 class ProductionElement {
 public:
-    int DEBUG = 0;
+    int DEBUG = 1;
     int terminal = 0;
     string symbolValue;
 
