@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include "TransitionTable.h"
+#include "../CFG/GrammarParser.h"
 
 TransitionTable::TransitionTable(vector<ProductionElement*> terminals,
                                  vector<ProductionElement*> nonTerminals,
@@ -11,7 +12,7 @@ TransitionTable::TransitionTable(vector<ProductionElement*> terminals,
                                  unordered_map<string, Set*> followSet) {
     // Remove epsilon
     terminals.erase(std::remove_if(terminals.begin(), terminals.end(),
-                           [](ProductionElement *i) { return i->symbolValue.compare("~") == 0; }), terminals.end());
+                           [](ProductionElement *i) { return i->symbolValue.compare(CFGEPSILON) == 0; }), terminals.end());
     // Insert $ if not exist
     bool $exist = false;
     for (int j = 0; j < terminals.size(); ++j) {
@@ -26,6 +27,7 @@ TransitionTable::TransitionTable(vector<ProductionElement*> terminals,
 
     this->terminals = terminals;
     this->nonTerminals = nonTerminals;
+
 
     this->transitionTable = new Production**[nonTerminals.size()];
     for (int i = 0; i < terminals.size(); i++) {
@@ -53,7 +55,7 @@ TransitionTable::TransitionTable(vector<ProductionElement*> terminals,
         Set * tempFirstSet = firstSet[nonTerminals[i]->getSymbolValue()];
         Set * tempFollowSet = followSet[nonTerminals[i]->getSymbolValue()];
         for (auto j: tempFirstSet->SetTerminals) {
-            if (j.first.compare("~") == 0) {
+            if (j.first.compare(CFGEPSILON) == 0) {
                 Production * epsilon = new Production;
                 epsilon->isEpsilon = true;
                 ProductionElement * pe = new ProductionElement(true, "Epsilon");
@@ -87,29 +89,29 @@ string TransitionTable::getLeftHandSide(int rowIndex) {
 
 void TransitionTable::printTransitionTable() {
     cout << endl << endl;
-    cout << "";
+    cout << "\t\t\t\t\t\t\t\t\t";
     for (auto ter: this->terminals)
-        printf("\t\t%10s", ter->symbolValue.c_str());
-    cout << endl;
+        printf("%60s", ter->symbolValue.c_str());
+    cout << endl << endl;
     for (int i = 0; i < nonTerminals.size(); ++i) {
-        cout << nonTerminals[i]->symbolValue << ":  \t";
+        printf("%30s\t", (nonTerminals[i]->symbolValue).c_str());
         for (int j = 0; j < terminals.size(); ++j) {
 
             if (this->transitionTable[i][j] != nullptr) {
                 if (this->transitionTable[i][j]->isSync) {
-                    printf("%10s", "Syn");
+                    printf("%60s", "Syn");
                 } else if (this->transitionTable[i][j]->isEpsilon) {
-                    printf("%10s", "Eps");
+                    printf("%60s", "Eps");
                 } else {
                     string temp = "";
                     for (auto pe : this->transitionTable[i][j]->productionValue) {
                         temp = temp.append(pe->getSymbolValue());
                     }
-                    printf("%10s", temp.c_str());
+                    printf("%60s", temp.c_str());
                 }
                 cout << "\t\t";
             } else {
-                printf("%10s", "Err");
+                printf("%60s", "Err");
                 cout << "\t\t";
             }
         }
