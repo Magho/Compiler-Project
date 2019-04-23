@@ -16,7 +16,7 @@
 class PredictiveParser {
 public:
     TransitionTable * transitionTable;
-    stack<ProductionElement*> stk;
+    vector<ProductionElement*> stk;
     PredictiveParser(ProductionElement* start, TransitionTable * tb);
     void getIntoPanicMode();
     void generateLeftMostDerivation(Simulator * simulator);
