@@ -9,7 +9,9 @@ PredictiveParser::PredictiveParser(ProductionElement* start, TransitionTable* tb
     this->stk.push_back(start);
     this->transitionTable = tb;
 }
-//TODO 5li al input text (id+(*id)$ ==> (idaddop(*id)$
+// TODO 5li al input text (id+(*id)$ ==> (idaddop(*id)$
+// TODO ambiguity
+// TODO undefiened token
 
 void PredictiveParser::generateLeftMostDerivation(Simulator * simulator) {
     string nextToken = "";
@@ -21,7 +23,7 @@ void PredictiveParser::generateLeftMostDerivation(Simulator * simulator) {
         string tempStr = "";
         for (int i = this->stk.size() - 1; i >= 0 ;--i)
             tempStr += this->stk[i]->symbolValue + " ";
-        printf("%50s", tempStr.c_str());
+        printf("%30s", tempStr.c_str());
         cout << "\t\t";
         printf("%20s", nextToken.c_str());
         cout << "\t\t\t\t\t\t\t\t";
@@ -85,11 +87,17 @@ void PredictiveParser::generateLeftMostDerivation(Simulator * simulator) {
             } else {
                 cout << "[ERROR] Extra tokens starting with '" << nextToken << "'\n";
                 simulator->getNextToken(nextToken);
+                if (nextToken.compare("$") == 0) {
+                    break;
+                }
                 bool unrecognized = false;
                 while(!simulator->eof) {
                     int column = this->transitionTable->getColumnIndex(new ProductionElement(true, nextToken));
                     if (column == -1) {
                         cout << "\n\n [ERROR] Unrecognized token";
+                        unrecognized = true;
+                        break;
+                    } else if (nextToken.compare("$") == 0) {
                         unrecognized = true;
                         break;
                     }
