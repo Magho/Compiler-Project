@@ -1,4 +1,5 @@
 #include "FirstAndFollowLogic.h"
+#include "../CFG/GrammarParser.h"
 
 void FirstAndFollowLogic::calcFirstSet() {
     // create firstSets one for each non terminal
@@ -40,7 +41,7 @@ void FirstAndFollowLogic::calcFirstSet() {
                     }
                     // non terminal, has epsilon and last elem in the production so add epsilon to my first set
                     if (counter == production->productionValue.size()){
-                        ProductionElement *productionElement = new ProductionElement (0, "~");
+                        ProductionElement *productionElement = new ProductionElement (0, CFGEPSILON);
                         firstSets.at(rule.first)->SetTerminals.insert(
                                 pair<string, ProductionElement*>(productionElement->getSymbolValue(),productionElement));
                         // no production for epsilon in case came from other non terminals
