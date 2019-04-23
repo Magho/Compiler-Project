@@ -1,6 +1,7 @@
 #include <utility>
 
 #include "Set.h"
+#include "../CFG/GrammarParser.h"
 
 void Set::finishMySet(bool isFollow) {
     while (true){
@@ -48,7 +49,7 @@ void Set::finishMySet(bool isFollow) {
     //remove epsilon added to follow set
     if (isFollow){
         for (auto terminal = this->SetTerminals.cbegin(); terminal != this->SetTerminals.cend() ; ) {
-            if(terminal->first == "~"){
+            if(terminal->first == CFGEPSILON){
                 this->SetTerminals.erase(terminal++);
             } else {
                 terminal++;
