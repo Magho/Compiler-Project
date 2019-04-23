@@ -29,7 +29,10 @@ bool leftRecursionRemover::isLeftRec(int index){
     return false;
 }
 bool leftRecursionRemover::directRemoveLR(int index,bool debug){
-        string newPotentialName =rules.at(index)->lhs+'`';
+        string newPotentialName =rules.at(index)->lhs;
+    while (c->doesExist(newPotentialName, 0)) {
+        newPotentialName = newPotentialName + "'";
+    }
         vector<Production*> *prods = new vector<Production*>();
     if(debug) {
         cout << "let's see if we can find any left recusion here in in index "<<index<<endl;
