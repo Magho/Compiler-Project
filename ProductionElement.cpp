@@ -1,8 +1,3 @@
-//
-// Created by ecc on 19/04/2019.
-//
-
-
 #include <iostream>
 #include <string>
 
@@ -21,10 +16,15 @@ int ProductionElement::isTerminal() {
 }
 
 int ProductionElement::isNonTerminal() {
-return !terminal;
+    return !terminal;
 }
 void ProductionElement::debug() {
     if(DEBUG) {
         cout << symbolValue << endl;
     }
+}
+
+//TODO Magho
+bool ProductionElement::hasEpsilon() {
+    return gotEpsilon;
 }

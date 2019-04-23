@@ -151,6 +151,16 @@ void CFG::assignProductionToNonTerminal(Production* p, string nt) {
 void CFG::debug() {
     if(DEBUG) {
         cout << "Debugging CFG..." << endl;
+        cout << "Terminals:" << endl;
+        for(auto i : terminals) {
+            cout << i->getSymbolValue() << endl;
+        }
+        cout << "End of terminals..." << endl;
+        cout << "Non-terminals:" << endl;
+        for(auto i : nonTerminals) {
+            cout << i->getSymbolValue() << endl;
+        }
+        cout << "End of non-terminals..." << endl;
         cout << startingProductionElement->getSymbolValue() << " -> ";
         for(auto i : *rules[startingProductionElement->getSymbolValue()]) {
             i->debugProductionCFG();
@@ -168,6 +178,6 @@ void CFG::debug() {
             }
             cout << endl;
         }
+        cout << "End of CFG...." << endl;
     }
-    cout << "End of CFG...." << endl;
 }

@@ -1,6 +1,4 @@
-//
-// Created by  on 19/04/2019.
-//
+
 
 #ifndef COMPILERPROJECT_PRODUCTIONELEMENT_H
 #define COMPILERPROJECT_PRODUCTIONELEMENT_H
@@ -18,6 +16,9 @@ public:
     int isTerminal();
     int isNonTerminal();
     void debug();
+    // TODO Magho
+    bool gotEpsilon;
+    bool hasEpsilon();//just if non terminal//TODO
 };
 
 
