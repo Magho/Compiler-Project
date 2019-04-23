@@ -132,6 +132,12 @@ void CFG::assignProductionToNonTerminal(Production* p, string nt,int pos) {
     }
     vector<Production*>* productions = rules[nt];
     productions->insert(productions->begin()+pos,p);
+    for(auto i : p->productionValue)  {
+        if(i->getSymbolValue() == "\\L") {
+            ProductionElement* p = getProductionElement(nt, 0);
+            p->gotEpsilon = true;
+        }
+    }
 }
 void CFG::assignProductionToNonTerminal(Production* p, string nt) {
     if(DEBUG) {
@@ -144,6 +150,12 @@ void CFG::assignProductionToNonTerminal(Production* p, string nt) {
     }
     vector<Production*>* productions = rules[nt];
     productions->push_back(p);
+    for(auto i : p->productionValue)  {
+        if(i->getSymbolValue() == "\\L") {
+            ProductionElement* p = getProductionElement(nt, 0);
+            p->gotEpsilon = true;
+        }
+    }
 }
 void CFG::debug() {
     if(DEBUG) {
