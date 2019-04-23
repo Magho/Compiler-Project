@@ -6,7 +6,7 @@
 #define COMPILERPROJECT_GRAMMERPARSER_H
 #include <fstream>
 #include "CFG.h"
-#define EPSILON "\L"
+#define CFGEPSILON "\\L"
 class GrammarParser {
 private:
     int DEBUG = 0;
@@ -20,6 +20,7 @@ private:
     string getStringUntil(string &str, string x);
     string trim(string &str, string deli);
     Production* handleProductionString(string p);
+    void handleEpsilonProduction(Production *p, string nonTerminal);
 };
 
 
