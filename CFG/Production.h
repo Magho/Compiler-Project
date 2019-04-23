@@ -7,9 +7,10 @@
 
 class Production {
 private:
-    int DEBUG = 0;
+    int DEBUG = 1;
 public:
     bool isSync = false;
+    bool isEpsilon = false;
     void printProduction();
     vector<ProductionElement*> productionValue;
     vector<ProductionElement*> *getProductionVals();
