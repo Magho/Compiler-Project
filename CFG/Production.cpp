@@ -24,11 +24,11 @@ vector<ProductionElement*> Production::getProductionValue() {
 }
 void Production::debugProduction() {
     if(DEBUG) {
-        cout << "value of production is ";
+//        cout << "value of production is ";
         for (auto i : productionValue) {
             cout << i->getSymbolValue();
         }
-        cout << endl;
+//        cout << endl;
     }
 }
 
