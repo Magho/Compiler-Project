@@ -369,10 +369,13 @@ int main() {
 
     GrammarParser x("C:\\Users\\ABDO\\Desktop\\compp\\Compiler-Project\\ip.txt");
     CFG grammar4 = x.getGrammar();
+    cout<<"\n\n\n\n\n====================================================================================\n";
+
     leftRecursionRemover* lrr = new  leftRecursionRemover(&grammar4);
     lrr->preformLRR(true);
     leftFac * lf = new leftFac(&grammar4,lrr->getHelper());
     lf->preformLF(true);
+    cout<<"\n\n\n\n\n====================================================================================\n";
 
     FirstAndFollowLogic firstAndFollowLogic4(&grammar4);
 
