@@ -4,9 +4,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "../CFG.h"
-#include "../Production.h"
-#include "../ProductionElement.h"
+#include "../CFG/CFG.h"
+#include "../CFG/Production.h"
+#include "../CFG/ProductionElement.h"
 #ifndef COMPILER_PROJECT_LEFTRECREM_H
 #define COMPILER_PROJECT_LEFTRECREM_H
 class ruleHelper{
