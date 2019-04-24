@@ -20,65 +20,65 @@ bool leftFac::preformLF(bool debug){
                     cout<<"------------base production: \n";rules->at(i)->rhs->at(j)->printProduction();
                 }
                 entered=false;
-            int maxFac=0;
-            vector<int> *prodsWithMaxFac=new vector<int>();
+                int maxFac=0;
+                vector<int> *prodsWithMaxFac=new vector<int>();
                 prodsWithMaxFac->push_back(j);
                 for(int l=j+1;l<rules->at(i)->rhs->size();l++){
-                int num =0;
-                while(num<rules->at(i)->rhs->at(j)->getProductionVals()->size()&&num<rules->at(i)->rhs->at(l)->getProductionVals()->size()
-                       && rules->at(i)->rhs->at(j)->getProductionVals()->at(num)->getSymbolValue()
-                        ==rules->at(i)->rhs->at(l)->getProductionVals()->at(num)->getSymbolValue()){
-                    num++;
-                }
-                if(num>maxFac){
-                    maxFac=num;
-                    prodsWithMaxFac=new vector<int>();
-                    prodsWithMaxFac->push_back(j);
-                    prodsWithMaxFac->push_back(l);
-                }else if(num==maxFac){
-                    prodsWithMaxFac->push_back(l);
-                }
+                    int num =0;
+                    while(num<rules->at(i)->rhs->at(j)->getProductionVals()->size()&&num<rules->at(i)->rhs->at(l)->getProductionVals()->size()
+                          && rules->at(i)->rhs->at(j)->getProductionVals()->at(num)->getSymbolValue()
+                             ==rules->at(i)->rhs->at(l)->getProductionVals()->at(num)->getSymbolValue()){
+                        num++;
+                    }
+                    if(num>maxFac){
+                        maxFac=num;
+                        prodsWithMaxFac=new vector<int>();
+                        prodsWithMaxFac->push_back(j);
+                        prodsWithMaxFac->push_back(l);
+                    }else if(num==maxFac){
+                        prodsWithMaxFac->push_back(l);
+                    }
 
-            }
+                }
                 if(debug){
                     cout<<"-----------maxFac"<<maxFac<<endl;
                 }
-            if(maxFac!=0) {
-                entered=true;
-                string newName = rules->at(i)->lhs;
-                while (c->doesExist(newName, 0)) {
-                    newName = newName + "'";
-                }
-                ProductionElement *e = c->createNewNonTerminal(newName);
-                vector<Production*>*ps = new vector<Production*>();
-                for (int x = 0; x < prodsWithMaxFac->size(); x++) {
-                    Production *p = new Production();
-                    Production *t = rules->at(i)->rhs->at(prodsWithMaxFac->at(x));
-                    for (int z = maxFac; z < t->getProductionVals()->size(); z++) {
-                        p->appendNewProductionElement(t->getProductionVals()->at(z));
+                if(maxFac!=0) {
+                    entered=true;
+                    string newName = rules->at(i)->lhs;
+                    while (c->doesExist(newName, 0)) {
+                        newName = newName + "'";
                     }
-                    if (maxFac == t->getProductionVals()->size()) {
-                        p->appendNewProductionElement(c->getProductionElement("\\L"));
-                        c->assignProductionToNonTerminal(p, newName);
-                    } else {
-                        c->assignProductionToNonTerminal(p, newName);
-                    }
-                    ps->push_back(p);
+                    ProductionElement *e = c->createNewNonTerminal(newName);
+                    vector<Production*>*ps = new vector<Production*>();
+                    for (int x = 0; x < prodsWithMaxFac->size(); x++) {
+                        Production *p = new Production();
+                        Production *t = rules->at(i)->rhs->at(prodsWithMaxFac->at(x));
+                        for (int z = maxFac; z < t->getProductionVals()->size(); z++) {
+                            p->appendNewProductionElement(t->getProductionVals()->at(z));
+                        }
+                        if (maxFac == t->getProductionVals()->size()) {
+                            p->appendNewProductionElement(c->getProductionElement("\\L"));
+                            c->assignProductionToNonTerminal(p, newName);
+                        } else {
+                            c->assignProductionToNonTerminal(p, newName);
+                        }
+                        ps->push_back(p);
 
-                }
-                ruleHelper * newRule = new ruleHelper(newName,ps);
-                rules->push_back(newRule);
-                for(;maxFac<rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->size();) {
-                    rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->erase(
-                            rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->begin() +
-                            maxFac );
-                }
-                rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->push_back(e);
-                for (int x = 1; x < prodsWithMaxFac->size(); x++) {
-                    rules->at(i)->rhs->erase(rules->at(i)->rhs->begin() + prodsWithMaxFac->at(x) -x+1);
+                    }
+                    ruleHelper * newRule = new ruleHelper(newName,ps);
+                    rules->push_back(newRule);
+                    for(;maxFac<rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->size();) {
+                        rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->erase(
+                                rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->begin() +
+                                maxFac );
+                    }
+                    rules->at(i)->rhs->at(prodsWithMaxFac->at(0))->getProductionVals()->push_back(e);
+                    for (int x = 1; x < prodsWithMaxFac->size(); x++) {
+                        rules->at(i)->rhs->erase(rules->at(i)->rhs->begin() + prodsWithMaxFac->at(x) -x+1);
+                    }
                 }
             }
-                }
         }
     }
     if(debug){
@@ -93,5 +93,5 @@ bool leftFac::preformLF(bool debug){
         }
     }
 
-return true;
+    return true;
 }

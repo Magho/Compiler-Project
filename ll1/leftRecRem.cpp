@@ -25,63 +25,66 @@ bool leftRecursionRemover::isLeftRec(int index){
     for(int i=0;i<rules.at(index)->rhs->size();i++) {
         if(rules.at(index)->rhs->at(i)->getProductionVals()->at(0)->getSymbolValue()==rules.at(index)->lhs)
             return true;
-        }
+    }
     return false;
 }
 bool leftRecursionRemover::directRemoveLR(int index,bool debug){
-        string newPotentialName =rules.at(index)->lhs+'`';
-        vector<Production*> *prods = new vector<Production*>();
+    string newPotentialName =rules.at(index)->lhs;
+    while (c->doesExist(newPotentialName, 0)) {
+        newPotentialName = newPotentialName + "'";
+    }
+    vector<Production*> *prods = new vector<Production*>();
     if(debug) {
         cout << "let's see if we can find any left recusion here in in index "<<index<<endl;
     }
-        if(!isLeftRec(index)){
-            if(debug) {
-                cout << "Nooo getting out of here\n";
-            }
-            return false;
+    if(!isLeftRec(index)){
+        if(debug) {
+            cout << "Nooo getting out of here\n";
         }
+        return false;
+    }
     if(debug) {
         cout << "there is some here :) ";
         rules.at(index)->printRule();
         cout<<"CREATING THE DASH ELEM "<<newPotentialName<<"\n";
     }
 
-        ProductionElement * newElem =c->createNewNonTerminal(newPotentialName);
-        for(int i=0;i<rules.at(index)->rhs->size();i++){
-            if(rules.at(index)->rhs->at(i)->getProductionVals()->at(0)->getSymbolValue()==rules.at(index)->lhs){
-                Production *p = new Production();
-                int size = rules.at(index)->rhs->at(i)->getProductionVals()->size();
-                if(size==1){
-                    cout<<"error .. A->A can't be turned to ll (1)";
-                    return false;
-                }
-                for(int k=1;k<size;k++){
-                    p->appendNewProductionElement(rules.at(index)->rhs->at(i)->getProductionVals()->at(k));
-                }
-                p->appendNewProductionElement(newElem);
-                prods->push_back(p);
-                c->assignProductionToNonTerminal(p,newPotentialName); //TODO
-                rules.at(index)->rhs->erase(rules.at(index)->rhs->begin()+i);
-                i--;
-            }else{
-                rules.at(index)->rhs->at(i)->getProductionVals()->push_back(newElem);
+    ProductionElement * newElem =c->createNewNonTerminal(newPotentialName);
+    for(int i=0;i<rules.at(index)->rhs->size();i++){
+        if(rules.at(index)->rhs->at(i)->getProductionVals()->at(0)->getSymbolValue()==rules.at(index)->lhs){
+            Production *p = new Production();
+            int size = rules.at(index)->rhs->at(i)->getProductionVals()->size();
+            if(size==1){
+                cout<<"error .. A->A can't be turned to ll (1)";
+                return false;
             }
+            for(int k=1;k<size;k++){
+                p->appendNewProductionElement(rules.at(index)->rhs->at(i)->getProductionVals()->at(k));
+            }
+            p->appendNewProductionElement(newElem);
+            prods->push_back(p);
+            c->assignProductionToNonTerminal(p,newPotentialName); //TODO
+            rules.at(index)->rhs->erase(rules.at(index)->rhs->begin()+i);
+            i--;
+        }else{
+            rules.at(index)->rhs->at(i)->getProductionVals()->push_back(newElem);
         }
-        Production * epsProd = new Production();
-        epsProd->appendNewProductionElement(c->createNewTerminal("\\L"));
-        c->assignProductionToNonTerminal(epsProd,newPotentialName); //TODO
-        prods->push_back(epsProd);
-        ruleHelper * newRule = new ruleHelper(newPotentialName,prods);
-        rules.push_back(newRule);
+    }
+    Production * epsProd = new Production();
+    epsProd->appendNewProductionElement(c->createNewTerminal("\\L"));
+    c->assignProductionToNonTerminal(epsProd,newPotentialName); //TODO
+    prods->push_back(epsProd);
+    ruleHelper * newRule = new ruleHelper(newPotentialName,prods);
+    rules.push_back(newRule);
     if(debug) {
         cout << "lets print the old and new rules\n";
         cout<< rules.at(index)->lhs <<"---------> ";
         for(Production * p :*rules.at(index)->rhs) p->printProduction();
         cout<< newRule->lhs <<"---------> ";
-       for(Production * p :*newRule->rhs) p->printProduction();
+        for(Production * p :*newRule->rhs) p->printProduction();
 
     }
-        return true;
+    return true;
 }
 bool  leftRecursionRemover::preformLRR(bool debug){
 
@@ -98,54 +101,54 @@ bool  leftRecursionRemover::preformLRR(bool debug){
             cout<<"loop no"<<i<<" in rules-------------------------------------------\n";
         }
 
-            for(int k=0;k<rules.at(i)->rhs->size()-1;k++){
+        for(int k=0;k<rules.at(i)->rhs->size();k++){//TODO
 
-                Production *p = rules.at(i)->rhs->at(k);
-                ProductionElement  *e  =p->getProductionVals()->at(0);
-                if(debug){
-                    cout<<"looking at production no "<<k<< " which is ";
-                    p->printProduction();
-                    cout<<"it's veeeery obvious that first elemnt "<<e->getSymbolValue()<<
+            Production *p = rules.at(i)->rhs->at(k);
+            ProductionElement  *e  =p->getProductionVals()->at(0);
+            if(debug){
+                cout<<"looking at production no "<<k<< " which is ";
+                p->printProduction();
+                cout<<"it's veeeery obvious that first elemnt "<<e->getSymbolValue()<<
                     " is "<<(e->isNonTerminal() ? "nonTerminal\n" : "Terminal\n");
+            }
+            if(e->isNonTerminal()) {
+                if(debug) {
+                    cout << "so we loop in the previous rules to substitute in current nonterminal\n";
                 }
-                if(e->isNonTerminal()) {
-                    if(debug) {
-                        cout << "so we loop in the previous rules to substitute in current nonterminal\n";
-                    }
-                    for (int j = 0; j < i; j++) {
-                        if(rules.at(j)->lhs == e->getSymbolValue()){
-                            if(debug) {
-                                cout << "WOOOOW at rule number "<<j<<"the LHS is the same as the nonTerminal\n lets sub\n";
-                            }
-                            //remove e from prod, distribute the rest of prod to rules.at j as new prods for each , add these prods to rules at i and remove org prod
-                            rules.at(i)->rhs->erase(rules.at(i)->rhs->begin()+k); // remove current prod
-                            p->getProductionVals()->erase( p->getProductionVals()->begin() ); // remove first elem from the prod
-                            if(debug) {
-                                cout << "old production is removed XxDANGEROUSxX which is \n";p->printProduction();
-                            }
-                            int OSize=rules.at(j)->rhs->size();
-                            for(int x =0;x<OSize;x++){         //for each elem in rhs of j
-                                Production *newP = new Production();
-                                c->assignProductionToNonTerminal(newP,rules.at(i)->lhs,k+x );
-                                for(int z=0;z<rules.at(j)->rhs->at(x)->getProductionVals()->size();z++) {   //add jth xth() elems
-                                    newP->appendNewProductionElement(rules.at(j)->rhs->at(x)->getProductionVals()->at(z));
-                                }
-                                for(int z=0;z<p->getProductionVals()->size();z++) {                         //then add the removed prod elems
-                                    newP->appendNewProductionElement(p->getProductionVals()->at(z));
-                                }
-                                if(debug) {
-                                    cout << " this prod is added  TO the rule\n";
-                                    newP->printProduction();
-                                }
-                            }
-                            break;
+                for (int j = 0; j < i; j++) {
+                    if(rules.at(j)->lhs == e->getSymbolValue()){
+                        if(debug) {
+                            cout << "WOOOOW at rule number "<<j<<"the LHS is the same as the nonTerminal\n lets sub\n";
                         }
+                        //remove e from prod, distribute the rest of prod to rules.at j as new prods for each , add these prods to rules at i and remove org prod
+                        rules.at(i)->rhs->erase(rules.at(i)->rhs->begin()+k); // remove current prod
+                        p->getProductionVals()->erase( p->getProductionVals()->begin() ); // remove first elem from the prod
+                        if(debug) {
+                            cout << "old production is removed XxDANGEROUSxX which is \n";p->printProduction();
+                        }
+                        int OSize=rules.at(j)->rhs->size();
+                        for(int x =0;x<OSize;x++){         //for each elem in rhs of j
+                            Production *newP = new Production();
+                            c->assignProductionToNonTerminal(newP,rules.at(i)->lhs,k+x );
+                            for(int z=0;z<rules.at(j)->rhs->at(x)->getProductionVals()->size();z++) {   //add jth xth() elems
+                                newP->appendNewProductionElement(rules.at(j)->rhs->at(x)->getProductionVals()->at(z));
+                            }
+                            for(int z=0;z<p->getProductionVals()->size();z++) {                         //then add the removed prod elems
+                                newP->appendNewProductionElement(p->getProductionVals()->at(z));
+                            }
+                            if(debug) {
+                                cout << " this prod is added  TO the rule\n";
+                                newP->printProduction();
+                            }
+                        }
+                        break;
                     }
                 }
             }
+        }
 
-            bool t=directRemoveLR(i,debug);
-            notLL1 = notLL1||t;
+        bool t=directRemoveLR(i,debug);
+        notLL1 = notLL1||t;
     }
 
     if(debug){
@@ -153,6 +156,7 @@ bool  leftRecursionRemover::preformLRR(bool debug){
         for(ruleHelper*r: rules){
             r->printRule();
         }
+        cout<<"=========================================RECURSION CLEARED\n\n\n\n";
     }
 
     return notLL1;
