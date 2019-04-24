@@ -367,12 +367,12 @@ int main() {
     cout << endl;
     cout << "---------------------------------------Fourth Test --------------------------------------------" << endl;
 
-    GrammarParser x("grammarInput.txt");
+    GrammarParser x("C:\\Users\\ABDO\\Desktop\\compp\\Compiler-Project\\ip.txt");
     CFG grammar4 = x.getGrammar();
-//    leftRecursionRemover* lrr = new  leftRecursionRemover(&grammar4);
-//    lrr->preformLRR(true);
-//    leftFac * lf = new leftFac(&grammar4,lrr->getHelper());
-//    lf->preformLF(true);
+    leftRecursionRemover* lrr = new  leftRecursionRemover(&grammar4);
+    lrr->preformLRR(true);
+    leftFac * lf = new leftFac(&grammar4,lrr->getHelper());
+    lf->preformLF(true);
 
     FirstAndFollowLogic firstAndFollowLogic4(&grammar4);
 
