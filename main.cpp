@@ -7,6 +7,9 @@
 #include "GeneratingNFA/Converter.h"
 #include "MinimizedDFA/NFAtoDFA.h"
 #include "MinimizedDFA/Minimization.h"
+#include "CFG/GrammarParser.h"
+#include "ll1/leftRecRem.h"
+#include "ll1/leftFac.h"
 
 
 using namespace std;
@@ -292,78 +295,87 @@ int main() {
 
     // ------------------------------------------- TEST 4 ---------------------------------------------
 
+//
+//    CFG grammar4;
+//    ProductionElement* E11 = grammar4.createStartingSymbol("E");
+//    ProductionElement* E111 = grammar4.createNewNonTerminal("E1");
+//    E111->gotEpsilon = true;
+//    ProductionElement* T11 = grammar4.createNewNonTerminal("T");
+//    ProductionElement* T111 = grammar4.createNewNonTerminal("T1");
+//    T111->gotEpsilon = true;
+//    ProductionElement* F11 = grammar4.createNewNonTerminal("F");
+//    ProductionElement* plus1 = grammar4.createNewTerminal("addop");
+//    ProductionElement* mul1 = grammar4.createNewTerminal("mulop");
+//    ProductionElement* quoteRightOpen11 = grammar4.createNewTerminal("(");
+//    ProductionElement* quoteLeftOpen11 = grammar4.createNewTerminal(")");
+//    ProductionElement* id = grammar4.createNewTerminal("id");
+//    ProductionElement* epsilon11 = grammar4.createNewTerminal("\\L");
+//
+//    // E11 --> T11 E111
+//    Production* production41 = new Production();
+//    production41->appendNewProductionElement(T11);
+//    production41->appendNewProductionElement(E111);
+//    grammar4.assignProductionToNonTerminal(production41, E11->getSymbolValue());
+//
+//    // E111 --> + T11 E111
+//    Production* production42 = new Production();
+//    production42->appendNewProductionElement(plus1);
+//    production42->appendNewProductionElement(T11);
+//    production42->appendNewProductionElement(E111);
+//    grammar4.assignProductionToNonTerminal(production42, E111->getSymbolValue());
+//
+//    // E111 --> epsilon11
+//    Production* production43 = new Production();
+//    production43->appendNewProductionElement(epsilon11);
+//    grammar4.assignProductionToNonTerminal(production43, E111->getSymbolValue());
+//
+//    // T11 --> F11 T111
+//    Production* production44 = new Production();
+//    production44->appendNewProductionElement(F11);
+//    production44->appendNewProductionElement(T111);
+//    grammar4.assignProductionToNonTerminal(production44, T11->getSymbolValue());
+//
+//    // T111 --> * F11 T111
+//    Production* production45 = new Production();
+//    production45->appendNewProductionElement(mul1);
+//    production45->appendNewProductionElement(F11);
+//    production45->appendNewProductionElement(T111);
+//    grammar4.assignProductionToNonTerminal(production45, T111->getSymbolValue());
+//
+//    // T111 --> epsilon11
+//    Production* production46 = new Production();
+//    production46->appendNewProductionElement(epsilon11);
+//    grammar4.assignProductionToNonTerminal(production46, T111->getSymbolValue());
+//
+//    // F11 --> ( E11 )
+//    Production* production47 = new Production();
+//    production47->appendNewProductionElement(quoteRightOpen11);
+//    production47->appendNewProductionElement(E11);
+//    production47->appendNewProductionElement(quoteLeftOpen11);
+//    grammar4.assignProductionToNonTerminal(production47, F11->getSymbolValue());
+//
+//    // F11 --> id
+//    Production* production48 = new Production();
+//    production48->appendNewProductionElement(id);
+//    grammar4.assignProductionToNonTerminal(production48, F11->getSymbolValue());
+//
+//    cout << endl;
+//    cout << "---------------------------------------Fourth Test --------------------------------------------" << endl;
+//    grammar4.debug();
 
-    CFG grammar4;
-    ProductionElement* E11 = grammar4.createStartingSymbol("E");
-    ProductionElement* E111 = grammar4.createNewNonTerminal("E1");
-    E111->gotEpsilon = true;
-    ProductionElement* T11 = grammar4.createNewNonTerminal("T");
-    ProductionElement* T111 = grammar4.createNewNonTerminal("T1");
-    T111->gotEpsilon = true;
-    ProductionElement* F11 = grammar4.createNewNonTerminal("F");
-    ProductionElement* plus1 = grammar4.createNewTerminal("addop");
-    ProductionElement* mul1 = grammar4.createNewTerminal("mulop");
-    ProductionElement* quoteRightOpen11 = grammar4.createNewTerminal("(");
-    ProductionElement* quoteLeftOpen11 = grammar4.createNewTerminal(")");
-    ProductionElement* id = grammar4.createNewTerminal("id");
-    ProductionElement* epsilon11 = grammar4.createNewTerminal("~");
-
-    // E11 --> T11 E111
-    Production* production41 = new Production();
-    production41->appendNewProductionElement(T11);
-    production41->appendNewProductionElement(E111);
-    grammar4.assignProductionToNonTerminal(production41, E11->getSymbolValue());
-
-    // E111 --> + T11 E111
-    Production* production42 = new Production();
-    production42->appendNewProductionElement(plus1);
-    production42->appendNewProductionElement(T11);
-    production42->appendNewProductionElement(E111);
-    grammar4.assignProductionToNonTerminal(production42, E111->getSymbolValue());
-
-    // E111 --> epsilon11
-    Production* production43 = new Production();
-    production43->appendNewProductionElement(epsilon11);
-    grammar4.assignProductionToNonTerminal(production43, E111->getSymbolValue());
-
-    // T11 --> F11 T111
-    Production* production44 = new Production();
-    production44->appendNewProductionElement(F11);
-    production44->appendNewProductionElement(T111);
-    grammar4.assignProductionToNonTerminal(production44, T11->getSymbolValue());
-
-    // T111 --> * F11 T111
-    Production* production45 = new Production();
-    production45->appendNewProductionElement(mul1);
-    production45->appendNewProductionElement(F11);
-    production45->appendNewProductionElement(T111);
-    grammar4.assignProductionToNonTerminal(production45, T111->getSymbolValue());
-
-    // T111 --> epsilon11
-    Production* production46 = new Production();
-    production46->appendNewProductionElement(epsilon11);
-    grammar4.assignProductionToNonTerminal(production46, T111->getSymbolValue());
-
-    // F11 --> ( E11 )
-    Production* production47 = new Production();
-    production47->appendNewProductionElement(quoteRightOpen11);
-    production47->appendNewProductionElement(E11);
-    production47->appendNewProductionElement(quoteLeftOpen11);
-    grammar4.assignProductionToNonTerminal(production47, F11->getSymbolValue());
-
-    // F11 --> id
-    Production* production48 = new Production();
-    production48->appendNewProductionElement(id);
-    grammar4.assignProductionToNonTerminal(production48, F11->getSymbolValue());
 
     cout << endl;
     cout << "---------------------------------------Fourth Test --------------------------------------------" << endl;
-    grammar4.debug();
+
+    GrammarParser x("grammarInput.txt");
+    CFG grammar4 = x.getGrammar();
+//    leftRecursionRemover* lrr = new  leftRecursionRemover(&grammar4);
+//    lrr->preformLRR(true);
+//    leftFac * lf = new leftFac(&grammar4,lrr->getHelper());
+//    lf->preformLF(true);
+
     FirstAndFollowLogic firstAndFollowLogic4(&grammar4);
 
-
-    cout << endl;
-    cout << "---------------------------------------Fourth Test --------------------------------------------" << endl;
 
     RulesParser *rulesParser= new RulesParser();
     unordered_map <string, stack<char>> map = rulesParser->getRegularExpressionPostfixes("input.txt");
@@ -379,9 +391,11 @@ int main() {
     cout << "sajed";
 
     Simulator* simulator = new Simulator(v);
-    simulator->resetInputFile("/home/sajed/CLionProjects/Compiler_Phase2/testInput.txt");
+    simulator->resetInputFile("testInput.txt");
     string nextToken = "";
 //    simulator->generateTokensFileAndSymbolTable();
+
+
 
     vector<ProductionElement*> terminals = grammar4.terminals;
     vector<ProductionElement*> nonTerminals = grammar4.nonTerminals;
