@@ -17,7 +17,8 @@ public:
     }
     void printRule(){
         cout<< lhs <<"---------> ";
-        for(Production * p :*rhs) p->printProduction();
+        for(Production * p :*rhs){ p->printProduction() ;cout<<" | ";}
+        cout<<endl;
     }
     string lhs;
     vector<Production*> * rhs;
@@ -31,7 +32,7 @@ private:
     bool directRemoveLR(int index,bool debug);
     bool isLeftRec(int index);
 
-        public:
+public:
     vector<ruleHelper*> * getHelper();
     /*
      * the constructor accepts cfg to get rules and modify its rules
